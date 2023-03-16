@@ -1,38 +1,344 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+.bg-brand {
+  background: #F5F5F5;
   min-height: 100vh;
+}
+
+.font-ibm {
+  font-family: 'IBM Plex Sans';
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+.sidebar-logo-container {
+  width: 80px;
+  height: 40px;
+  background-color: #DF3737;
+  border-radius: 5px;
+}
+
+.sidebar-logo-divider {
+  margin: 30px 1rem 0 1rem;
+  background: #000000;
+  opacity: 0.2;
+  border-radius: 71.5px;
+  height: 1px;
+}
+
+.sidebar-title {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  font-family: 'Inter', sans-serif;
+}
+
+.home-hero-search {
+  width: 630px;
+  height: 58px;
+  padding: 1rem;
+  background-color: #F7F6EE;
+  box-shadow: 0px 4px 4px rgba(119, 119, 119, 0.25);
+  border-radius: 4px;
+  border: none;
+  /* background: url('./images/search.svg') no-repeat; */
+  font-family: 'DM Sans';
+}
+
+.home-hero-search:focus {
+  outline: none;
+}
+
+.home-hero-container-title {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  color: #1B1818;
+  mix-blend-mode: normal;
+  opacity: 0.4;
+}
+
+.home-hero-details-container {
+  background: #FFFFFF;
+  border-radius: 10px;
+  height: 80px;
+}
+
+.outlet-code {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: #457B9D;
+}
+
+.details-content {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  color: #000000;
+}
+
+.sto-number {
+  margin: 5px;
+  padding-top: 5px;
+  width: 40px;
+  height: 23px;
+  background: #F7F6EE;
+  text-align: center;
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+  color: #848181;
+}
+
+.own-vehicle {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 13px;
+  color: #E7671F;
+}
+
+.not-started {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  color: #8E8888;
+}
+
+.vendor-vehicle {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 13px;
+  color: #277939;
+}
+
+.ticket-title {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #463F3F;
+  mix-blend-mode: normal;
+  opacity: 0.8;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.ticket-status-title {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 23px;
+  letter-spacing: 0.4px;
+  color: #252733;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.view-details {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: right;
+  letter-spacing: 0.2px;
+  color: #3751FF;
 }
+
+.ticket-status-content-title {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  color: #252733;
+}
+
+.ticket-status-content-number {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: right;
+  letter-spacing: 0.2px;
+  color: #9FA2B4;
+}
+
+.create-new-task {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  color: #C5C7CD;
+}
+
+.by-today,
+.urgent,
+.new,
+.default {
+  background: #DAA800;
+  border-radius: 8px;
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.2px;
+  color: #FFFFFF;
+  height: 24px;
+  width: 74px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.urgent {
+  background-color: #E63946;
+  ;
+}
+
+.finish-ticket-update {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  color: #252733;
+}
+
+.new {
+  background: #29CC97;
+  width: 54px;
+}
+
+.default {
+  background: #F0F1F7;
+  width: 76px;
+  color: #9FA2B4;
+}
+
+.ticket-modal-header {
+  background-color: #1D3557;
+}
+
+.ticket-modal-title {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #FFFFFF;
+}
+
+.ticket-modal-body {
+  background: #F5F5F5;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  /* height: 866px; */
+  max-width: 1378px;
+  border-radius: 4px;
+}
+
+.ticket-modal-body-title {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
+#person-assign,
+#ticket-category {
+  background: #F1F3F4;
+  width: 400px;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.ticket-modal-body-checker {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+input[type="date"] {
+  background: #F1F3F4;
+  height: 40px;
+  width: 523px;
+  border: none;
+  padding: 10px;
+}
+
+input[type="date"]:focus,
+.number-input:focus,.time-input:focus {
+  outline: none;
+}
+
+.number-input,.time-input {
+  background: #F1F3F4;
+  height: 40px;
+  width: 400px;
+  border: none;
+  padding: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.copy-to-clipboard {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #457B9D;
+  cursor: pointer;
+}
+
+/* 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a3b3bc;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a3b3bc;
+} */
