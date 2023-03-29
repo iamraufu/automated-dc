@@ -50,7 +50,8 @@
   outline: none;
 }
 
-.home-hero-container-title {
+.home-hero-container-title,
+.home-hero-container-title-sm {
   font-family: 'IBM Plex Sans';
   font-style: normal;
   font-weight: 600;
@@ -58,13 +59,22 @@
   line-height: 26px;
   color: #1B1818;
   mix-blend-mode: normal;
-  opacity: 0.4;
+  opacity: 0.7;
+}
+
+.home-hero-container-title-sm {
+  font-size: 15px;
+  line-height: 23px;
 }
 
 .home-hero-details-container {
   background: #FFFFFF;
   border-radius: 10px;
-  height: 80px;
+  min-height: 80px;
+}
+
+.details-content-sm {
+  font-size: 14px;
 }
 
 .outlet-code {
@@ -83,6 +93,10 @@
   font-size: 16px;
   line-height: 21px;
   color: #000000;
+}
+
+.details-content-sm {
+  font-size: 13px;
 }
 
 .sto-number {
@@ -195,7 +209,8 @@
 .by-today,
 .urgent,
 .new,
-.default {
+.default,
+.deadline {
   background: #DAA800;
   border-radius: 8px;
   font-family: 'IBM Plex Sans';
@@ -213,10 +228,11 @@
   border-radius: 8px;
   cursor: pointer;
 }
-
+.deadline{
+  background: #DD7373;
+}
 .urgent {
   background-color: #E63946;
-  ;
 }
 
 .finish-ticket-update {
@@ -270,14 +286,23 @@
   color: #000000;
 }
 
-#person-assign,
-#ticket-category {
+.select {
   background: #F1F3F4;
-  width: 400px;
+  width: 250px;
   border: none;
   padding: 10px;
   border-radius: 10px;
   cursor: pointer;
+  outline: none;
+}
+
+.custom-input {
+  background-color: #F1F3F4;
+  outline: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 250px;
 }
 
 .ticket-modal-body-checker {
@@ -291,17 +316,19 @@
 input[type="date"] {
   background: #F1F3F4;
   height: 40px;
-  width: 523px;
+  width: 250px;
   border: none;
   padding: 10px;
 }
 
 input[type="date"]:focus,
-.number-input:focus,.time-input:focus {
+.number-input:focus,
+.time-input:focus {
   outline: none;
 }
 
-.number-input,.time-input {
+.number-input,
+.time-input {
   background: #F1F3F4;
   height: 40px;
   width: 400px;
@@ -323,6 +350,17 @@ input::-webkit-inner-spin-button {
   line-height: 19px;
   color: #457B9D;
   cursor: pointer;
+}
+
+.ticket-slot-btn {
+  background: #F1F3F4;
+  width: 146px;
+  height: 40px;
+  border: none;
+  font-family: 'Inter';
+  font-size: 14px;
+  line-height: 17px;
+  color: #757575;
 }
 
 /* 

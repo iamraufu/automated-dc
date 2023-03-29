@@ -9,7 +9,7 @@ const HomeHeroDetails = () => {
 
     return (
         <div className="">
-            <section className='home-hero-details-container mt-3 p-3'>
+            <section className='home-hero-details-container mt-3 p-3 d-none d-lg-block'>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="col-md-2">
                         <div className="outlet-code">DO58</div>
@@ -27,8 +27,77 @@ const HomeHeroDetails = () => {
                 </div>
             </section>
 
+            <section className='home-hero-details-container mt-3 p-3 d-lg-none'>
+                <div className="d-flex justify-content-between align-items-center">
+                    <div className="col-md-6">
+                        <div className="outlet-code">DO58</div>
+                        <div className="details-content-sm">Uttara Sector 03</div>
+                        <div className="details-content-sm d-flex align-items-center">
+                            <div className="fw-bold">STO</div>
+                            <div className="sto-number">{part1}</div>
+                            <div className="sto-number">{part2}</div>
+                            <div className="sto-number">{part3}</div>
+                        </div>
+                        <div className="details-content-sm"><b>SKU</b> 40</div>
+                        <div className="details-content-sm">In Progress</div>
+                    </div>
+                    
+                    <div className="col-md-6 details-content-sm">
+                        GHA 340 3890 <br /><span className='own-vehicle'><small>Own</small></span>
+                        <br />
+                        Assigned
+                    </div>
+                </div>
+            </section>
+
+            <section className='home-hero-details-container mt-3 p-3 d-lg-none'>
+                <div className="d-flex justify-content-between align-items-center">
+                    <div className="col-md-6">
+                        <div className="outlet-code">DO58</div>
+                        <div className="details-content-sm">Uttara Sector 03</div>
+                        <div className="details-content-sm d-flex align-items-center">
+                            <div className="fw-bold">STO</div>
+                            <div className="sto-number">{part1}</div>
+                            <div className="sto-number">{part2}</div>
+                            <div className="sto-number">{part3}</div>
+                        </div>
+                        <div className="details-content-sm"><b>SKU</b> 40</div>
+                        <div className="details-content-sm">In Progress</div>
+                    </div>
+
+                    <div className="col-md-6 details-content-sm">
+                        GHA 340 3890 <br /><span className='own-vehicle'><small>Own</small></span>
+                        <br />
+                        Assigned
+                    </div>
+                </div>
+            </section>
+            
+            <section className='home-hero-details-container mt-3 p-3 d-lg-none'>
+                <div className="d-flex justify-content-between align-items-center">
+                    <div className="col-md-6">
+                        <div className="outlet-code">DO58</div>
+                        <div className="details-content-sm">Uttara Sector 03</div>
+                        <div className="details-content-sm d-flex align-items-center">
+                            <div className="fw-bold">STO</div>
+                            <div className="sto-number">{part1}</div>
+                            <div className="sto-number">{part2}</div>
+                            <div className="sto-number">{part3}</div>
+                        </div>
+                        <div className="details-content-sm"><b>SKU</b> 40</div>
+                        <div className="details-content-sm">In Progress</div>
+                    </div>
+
+                    <div className="col-md-6 details-content-sm">
+                        GHA 340 3890 <br /><span className='own-vehicle'><small>Own</small></span>
+                        <br />
+                        Assigned
+                    </div>
+                </div>
+            </section>
+
             {/* ---------------------------------------------------------------------- */}
-            <section className='home-hero-details-container mt-3 p-3'>
+            <section className='home-hero-details-container mt-3 p-3 d-none d-lg-block'>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="col-md-2">
                         <div className="outlet-code">F229</div>
@@ -47,7 +116,7 @@ const HomeHeroDetails = () => {
             </section>
 
             {/* ---------------------------------------------------------------------- */}
-            <section className='home-hero-details-container mt-3 p-3'>
+            <section className='home-hero-details-container mt-3 p-3 d-none d-lg-block'>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="col-md-2">
                         <div className="outlet-code">F229</div>
@@ -66,7 +135,7 @@ const HomeHeroDetails = () => {
             </section>
 
             {/* ---------------------------------------------------------------------- */}
-            <section className='home-hero-details-container mt-3 p-3'>
+            <section className='home-hero-details-container mt-3 p-3 d-none d-lg-block'>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="col-md-2">
                         <div className="outlet-code">F229</div>

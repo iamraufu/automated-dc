@@ -15,9 +15,9 @@ const Home = () => {
 
                 <div className="col-md-10 px-4 py-3 mx-auto d-block">
                     <HomeHero />
-                    <div className="d-flex justify-content-between align-items-center">
-                        <div className="col-md-5"><HomeTicket /></div>
-                        <div className="col-md-6"><HomeTicketStatus /></div>
+                    <div className="row justify-content-between align-items-center">
+                        <div className="col-lg-5"><HomeTicket /></div>
+                        <div className="col-lg-6"><HomeTicketStatus /></div>
                     </div>
                 </div>
             </div>

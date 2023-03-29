@@ -9,7 +9,7 @@ const AttendanceHeroDetails = () => {
 
     return (
         <div className="">
-            <section className='home-hero-details-container mt-3 p-3'>
+            <section className='home-hero-details-container mt-3 p-3 d-none d-lg-block'>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="col-md-2">
                         <div className="outlet-code">DO58</div>
@@ -17,7 +17,7 @@ const AttendanceHeroDetails = () => {
                     </div>
                     <div className="col-md-2 details-content">08.00 AM</div>
                     <div className="col-md-2 ">
-                        <div style={{width:'150px'}} className="details-content text-center">40</div>
+                        <div style={{ width: '150px' }} className="details-content text-center">40</div>
                         <div className="details-content d-flex align-items-center">
                             <div className="sto-number">{part1}</div>
                             <div className="sto-number">{part2}</div>
@@ -30,8 +30,29 @@ const AttendanceHeroDetails = () => {
                 </div>
             </section>
 
+            <section className='home-hero-details-container mt-3 p-3 d-lg-none'>
+                <div className="d-flex justify-content-between align-items-center">
+                    <div className="col-md-4">
+                        <div className="outlet-code">DO58</div>
+                        <div className="details-content-sm">Uttara Sector 03</div>
+                        <div className="details-content-sm d-flex align-items-center">
+                            <div className="fw-bold">STO</div>
+                            <div className="sto-number">{part1}</div>
+                            <div className="sto-number">{part2}</div>
+                            <div className="sto-number">{part3}</div>
+                        </div>
+                        <div className="details-content-sm"><b>SKU</b> 40</div>
+                        <div className="details-content-sm">In Progress</div>
+                    </div>
+
+                    <div className="col-md-4 details-content-sm">08.00 AM<br />Salam<br />09:40 AM</div>
+
+                    <div className="col-md-4 details-content-sm">Arif</div>
+                </div>
+            </section>
+
             {/* ---------------------------------------------------------------------- */}
-            <section className='home-hero-details-container mt-3 p-3'>
+            <section className='home-hero-details-container mt-3 p-3 d-none d-lg-block'>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="col-md-2">
                         <div className="outlet-code">F229</div>
@@ -39,7 +60,7 @@ const AttendanceHeroDetails = () => {
                     </div>
                     <div className="col-md-2 details-content">08.00 AM</div>
                     <div className="col-md-2 ">
-                        <div style={{width:'150px'}} className="details-content text-center">40</div>
+                        <div style={{ width: '150px' }} className="details-content text-center">40</div>
                         <div className="details-content d-flex align-items-center">
                             <div className="sto-number">{part1}</div>
                             <div className="sto-number">{part2}</div>
@@ -53,7 +74,7 @@ const AttendanceHeroDetails = () => {
             </section>
 
             {/* ---------------------------------------------------------------------- */}
-            <section className='home-hero-details-container mt-3 p-3'>
+            <section className='home-hero-details-container mt-3 p-3 d-none d-lg-block'>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="col-md-2">
                         <div className="outlet-code">F229</div>
@@ -61,7 +82,7 @@ const AttendanceHeroDetails = () => {
                     </div>
                     <div className="col-md-2 details-content">08.00 AM</div>
                     <div className="col-md-2 ">
-                        <div style={{width:'150px'}} className="details-content text-center">40</div>
+                        <div style={{ width: '150px' }} className="details-content text-center">40</div>
                         <div className="details-content d-flex align-items-center">
                             <div className="sto-number">{part1}</div>
                             <div className="sto-number">{part2}</div>
@@ -75,7 +96,7 @@ const AttendanceHeroDetails = () => {
             </section>
 
             {/* ---------------------------------------------------------------------- */}
-            <section className='home-hero-details-container mt-3 p-3'>
+            <section className='home-hero-details-container mt-3 p-3 d-none d-lg-block'>
                 <div className="d-flex justify-content-center align-items-center">
                     <div className="col-md-2">
                         <div className="outlet-code">F229</div>
@@ -83,7 +104,7 @@ const AttendanceHeroDetails = () => {
                     </div>
                     <div className="col-md-2 details-content">08.00 AM</div>
                     <div className="col-md-2 ">
-                        <div style={{width:'150px'}} className="details-content text-center">40</div>
+                        <div style={{ width: '150px' }} className="details-content text-center">40</div>
                         <div className="details-content d-flex align-items-center">
                             <div className="sto-number">{part1}</div>
                             <div className="sto-number">{part2}</div>
