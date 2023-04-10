@@ -1,13 +1,13 @@
 import React from 'react';
+import Modal from '../components/Modal';
 import Sidebar from '../components/Sidebar';
 import TicketDetails from '../components/Ticket/TicketDetails';
 import TicketTitle from '../components/Ticket/TicketTitle';
 import useAuth from '../hooks/useAuth';
 
-const VehicleAssign = () => {
+const Tickets = () => {
 
-    const {vehicleTickets} = useAuth()
-    const tickets = vehicleTickets
+    const { tickets } = useAuth()
 
     return (
         <section className='bg-brand container-fluid p-0'>
@@ -16,7 +16,7 @@ const VehicleAssign = () => {
                     <Sidebar />
                 </div>
 
-                <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block">
+                <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block ticket-container">
                     <TicketTitle />
                     {
                         tickets.length > 0 ?
@@ -39,8 +39,9 @@ const VehicleAssign = () => {
                     }
                 </div>
             </div>
+            <Modal />
         </section>
     );
 };
 
-export default VehicleAssign;
+export default Tickets;

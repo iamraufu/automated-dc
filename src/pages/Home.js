@@ -1,11 +1,13 @@
 import React from 'react';
-import HomeHero from '../components/HomeHero';
-import HomeTicket from '../components/HomeTicket';
-import HomeTicketStatus from '../components/HomeTicketStatus';
+import HomeHero from '../components/Home/HomeHero';
+import HomeTicketStatus from '../components/Home/HomeTicketStatus';
 import Modal from '../components/Modal';
 import Sidebar from '../components/Sidebar';
+import HomeNotice from '../components/Home/HomeNotice';
+import CreateTicketBtn from '../components/CreateTicketBtn';
 
 const Home = () => {
+
     return (
         <section className='bg-brand container-fluid p-0'>
             <div className="d-flex">
@@ -14,9 +16,10 @@ const Home = () => {
                 </div>
 
                 <div className="col-md-10 px-4 py-3 mx-auto d-block">
+                    <div className="float-end"><CreateTicketBtn /></div>
                     <HomeHero />
                     <div className="row justify-content-between align-items-center">
-                        <div className="col-lg-5"><HomeTicket /></div>
+                        <div className="col-lg-6"><HomeNotice /></div>
                         <div className="col-lg-6"><HomeTicketStatus /></div>
                     </div>
                 </div>

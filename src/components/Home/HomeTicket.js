@@ -1,15 +1,17 @@
 import React from 'react';
-import ticket from '../images/ticket.svg'
-import circle from '../images/circle.svg'
-import active from '../images/active.svg'
+import ticket from '../../images/ticket.svg'
+import circle from '../../images/circle.svg'
+import active from '../../images/active.svg'
 import { Link } from 'react-router-dom';
+import CreateTicketBtn from '../CreateTicketBtn';
 
 const HomeTicket = () => {
     return (
         <section className='bg-white p-3 mt-4'>
             <div className="d-flex justify-content-between align-items-center">
                 <h2 className='ticket-title'>Assigned <img className='ms-2' src={ticket} alt="" /></h2>
-                <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" className='btn btn-sm btn-danger'>Create a Ticket</button>
+                {/* <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" className='btn btn-sm btn-danger'>Create a Ticket</button> */}
+                <CreateTicketBtn />
             </div>
 
             <div className="d-flex justify-content-between align-items-center">

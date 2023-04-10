@@ -34,6 +34,36 @@
   font-family: 'Inter', sans-serif;
 }
 
+.ticket-description-title {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 17px;
+  letter-spacing: 0.2px;
+  color: #4C88AD;
+}
+
+.ticket-description-heading {
+  background-color: #1D3557;
+  /* height: 40px; */
+}
+
+.ticket-description-container {
+  border: 1px solid #10BBC2;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.ticket-description-content {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #393C49;
+  text-align: center;
+}
+
 .home-hero-search {
   width: 630px;
   height: 58px;
@@ -224,13 +254,15 @@
   letter-spacing: 0.2px;
   color: #FFFFFF;
   height: 24px;
-  width: 74px;
+  width: 80px;
   border-radius: 8px;
   cursor: pointer;
 }
-.deadline{
+
+.deadline {
   background: #DD7373;
 }
+
 .urgent {
   background-color: #E63946;
 }
@@ -313,13 +345,13 @@
   line-height: 19px;
 }
 
-input[type="date"] {
+/* input[type="date"] {
   background: #F1F3F4;
   height: 40px;
   width: 250px;
   border: none;
   padding: 10px;
-}
+} */
 
 input[type="date"]:focus,
 .number-input:focus,
@@ -361,6 +393,109 @@ input::-webkit-inner-spin-button {
   font-size: 14px;
   line-height: 17px;
   color: #757575;
+}
+
+.btn-action {
+  /* width: 506px; */
+  /* height: 58px; */
+  background-color: #2A6BCC;
+  border-radius: 5px;
+  border: none;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  color: #FFFFFF;
+}
+
+
+.ticket-container::-webkit-scrollbar,
+.sto-list-viewer::-webkit-scrollbar {
+  width: 10px;
+}
+
+.ticket-container::-webkit-scrollbar-thumb,
+.sto-list-viewer::-webkit-scrollbar-thumb {
+  /* background: #463F3F; */
+  /* border-radius: 0px; */
+  /* background: #a3b3bc; */
+  background: #DFE0EB;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 7px;
+  height: 120px;
+  width: 12px;
+}
+
+.ticket-container::-webkit-scrollbar-track,
+.sto-list-viewer::-webkit-scrollbar-track {
+  /* background: #F7F6EE; */
+  background: #C7C7C7;
+}
+
+.ticket-container::-webkit-scrollbar-thumb:hover,
+.sto-list-viewer::-webkit-scrollbar-thumb:hover {
+  background: #4a555b;
+}
+
+.border-dashed {
+  /* width: 400px; */
+  /* height: 80px; */
+  border: 2px dashed #2A6BCC;
+  border-radius: 2rem;
+  /* padding-top: 10rem */
+  font-family: 'Inter';
+}
+
+.view-sto-list-header {
+  background-color: #fff;
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #0C4C9C;
+  padding: 10px;
+  text-align: center;
+}
+
+.outlet-code {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  color: #0C4C9C;
+}
+
+.outlet-name {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+  color: #8E8888;
+}
+
+.sku-count {
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #393C49;
+}
+
+.btn-view-sto-list{
+width: 250px;
+height: 63px;
+background: #10BBC2;
+font-family: 'IBM Plex Sans';
+font-style: normal;
+font-weight: 600;
+font-size: 18px;
+line-height: 23px;
+color: #000000;
+border: none;
+outline: none;
 }
 
 /* 

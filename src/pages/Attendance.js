@@ -1,5 +1,5 @@
 import React from 'react';
-import AttendanceHero from '../components/AttendanceHero';
+import AttendanceHero from '../components/Attendance/AttendanceHero';
 import Modal from '../components/Modal';
 import Sidebar from '../components/Sidebar';
 
