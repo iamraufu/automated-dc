@@ -484,18 +484,51 @@ input::-webkit-inner-spin-button {
   color: #393C49;
 }
 
-.btn-view-sto-list{
-width: 250px;
-height: 63px;
-background: #10BBC2;
-font-family: 'IBM Plex Sans';
-font-style: normal;
-font-weight: 600;
-font-size: 18px;
-line-height: 23px;
-color: #000000;
-border: none;
-outline: none;
+.btn-view-sto-list {
+  width: 250px;
+  height: 63px;
+  background: #10BBC2;
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #000000;
+  border: none;
+  outline: none;
+}
+
+.sorter-assign {
+  /* width: 178px; */
+  height: 48px;
+  background: #A8DADC;
+  border: none;
+  outline: none;
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #000000;
+}
+
+.select-picker {
+  background: #DFE0EB;
+  border: none;
+  width: 176px;
+  height: 40px;
+  text-align: center;
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #393C49;
+
+}
+
+.select-picker:focus {
+  outline: none;
 }
 
 /* 

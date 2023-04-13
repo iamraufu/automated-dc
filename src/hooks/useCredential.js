@@ -9,6 +9,7 @@ const useCredential = () => {
     const [sorterTickets, setSorterTickets] = useState([])
     const [vehicleTickets, setVehicleTickets] = useState([])
     const [notice, setNotice] = useState([])
+    const [sto, setSto] = useState([])
 
     // getting userInfo from localStorage id and backend API
     const userData = () => {
@@ -99,6 +100,14 @@ const useCredential = () => {
         fetchData();
     },[])
 
+    useEffect(()=> {
+        if(user.email) {
+            fetch(`http://localhost:5000/sto-email/${user.email}`)
+            .then(res => res.json())
+            .then(data => data.status === true && setSto(data.sto))
+        }
+    },[user.email])
+
     const logOut = () => {
         localStorage.removeItem('uId')
         setUser({})
@@ -111,6 +120,7 @@ const useCredential = () => {
         setTickets,
         notice,
         setNotice,
+        sto,
         pickerTickets,
         sorterTickets,
         vehicleTickets,

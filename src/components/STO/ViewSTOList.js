@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 
 let priority
@@ -10,12 +10,12 @@ const ViewSTOList = ({ stoData }) => {
 
     const handleStoSubmit = () => {
         !priority && setError("Click on any priority")
-        // priority && console.log("Submit", priority)
         if (priority) {
             const details = {
                 email: user.email,
                 name: user.name,
                 data: stoData,
+                priority,
                 date: new Date().toISOString().split('T')[0]
 
             }
@@ -78,12 +78,20 @@ const ViewSTOList = ({ stoData }) => {
                 {
                     stoData.map((data, index) =>
                         <div key={index} className="d-flex justify-content-between align-items-center my-3">
-                            <div className="d-flex justify-content-center align-items-center col-md-4">
-                                <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
-                                <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
-                                <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
+                            <div className="d-flex justify-content-center align-items-center col-md-4 font-ibm fw-bold">
+                                {
+                                    data.sto === undefined ? data.sto
+                                        :
+                                        <>
+                                            <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
+                                            <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
+                                            <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
+                                        </>
+                                }
                             </div>
-                            <div className="col-md-5"><span className='outlet-code'>{!data.code ? stoData[index - 1].code : data.code}</span><br /><span className='outlet-name'>{!data.name ? stoData[index - 1].name : data.name}</span></div>
+                            {
+                                data.sku !== 0 && <div className="col-md-5"><span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span></div>
+                            }
                             <div className="col-md-3 text-center sku-count">{data.sku}</div>
                         </div>
                     )
@@ -97,7 +105,7 @@ const ViewSTOList = ({ stoData }) => {
                     <p onClick={(e) => handleClick(e)} className='urgent d-flex justify-content-center align-items-center mx-auto d-block mb-1 me-2'>Urgent</p>
                 }
                 {
-                    <p onClick={(e) => handleClick(e)} className='by-today d-flex justify-content-center align-items-center mx-auto d-block mb-1 me-2'>Today</p>
+                    <p onClick={(e) => handleClick(e)} className='by-today d-flex justify-content-center align-items-center mx-auto d-block mb-1 me-2'>By Today</p>
                 }
                 {
                     <p onClick={(e) => handleClick(e)} className='deadline d-flex justify-content-center align-items-center mx-auto d-block mb-1'>Deadline</p>

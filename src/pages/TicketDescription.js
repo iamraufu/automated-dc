@@ -27,8 +27,6 @@ const TicketDescription = () => {
         fetchData();
     }, [id, navigate])
 
-    console.log(ticket)
-
     return (
         <section className='bg-brand container-fluid p-0'>
             <div className="d-flex">

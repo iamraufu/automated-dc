@@ -11,6 +11,7 @@ import Picker from './pages/Picker';
 import TicketDescription from './pages/TicketDescription';
 import Tickets from './pages/Tickets';
 import VehicleAssign from './pages/VehicleAssign';
+import PickerDetails from './pages/PickerDetails';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/attendance' element={<Attendance />} />
           <Route path='/picker' element={<Picker />} />
+          <Route path='/picker-details/:id' element={<PickerDetails />} />
           <Route path='/vehicle-assign' element={<VehicleAssign />} />
           <Route path='/tickets' element={<Tickets />} />
           <Route path='/notice' element={<Notice />} />
