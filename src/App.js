@@ -12,12 +12,14 @@ import TicketDescription from './pages/TicketDescription';
 import Tickets from './pages/Tickets';
 import VehicleAssign from './pages/VehicleAssign';
 import PickerDetails from './pages/PickerDetails';
+import PoData from './components/PoData';
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path='/login' element={<Login />} />
+        <Route path='/podata' element={<PoData />} />
         <Route path='*' element={<NotFound />} />
 
         <Route path='/' element={<PrivateOutlet />}>

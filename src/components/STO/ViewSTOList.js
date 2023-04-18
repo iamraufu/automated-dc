@@ -19,7 +19,7 @@ const ViewSTOList = ({ stoData }) => {
                 date: new Date().toISOString().split('T')[0]
 
             }
-            fetch('http://localhost:5000/sto', {
+            fetch('https://shwapnodc.onrender.com/sto', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(details)
@@ -77,23 +77,23 @@ const ViewSTOList = ({ stoData }) => {
 
                 {
                     stoData.map((data, index) =>
-                        <div key={index} className="d-flex justify-content-between align-items-center my-3">
-                            <div className="d-flex justify-content-center align-items-center col-md-4 font-ibm fw-bold">
-                                {
-                                    data.sto === undefined ? data.sto
-                                        :
-                                        <>
-                                            <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
-                                            <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
-                                            <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
-                                        </>
-                                }
-                            </div>
+                        data.sku !== 0 && <div key={index} className="d-flex justify-content-between align-items-center my-3">
+                        <div className="d-flex justify-content-center align-items-center col-md-4 font-ibm fw-bold">
                             {
-                                data.sku !== 0 && <div className="col-md-5"><span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span></div>
+                                data.sto === undefined ? data.sto
+                                    :
+                                    <>
+                                        <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
+                                        <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
+                                        <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
+                                    </>
                             }
-                            <div className="col-md-3 text-center sku-count">{data.sku}</div>
                         </div>
+                        {
+                            data.sku !== 0 && <div className="col-md-5"><span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span></div>
+                        }
+                        <div className="col-md-3 text-center sku-count">{data.sku}</div>
+                    </div>
                     )
                 }
             </div>

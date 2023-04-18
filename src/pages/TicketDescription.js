@@ -15,7 +15,7 @@ const TicketDescription = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`http://localhost:5000/ticket/${id}`);
+            const response = await fetch(`https://shwapnodc.onrender.com/ticket/${id}`);
             const data = await response.json();
             if (data.status === true) {
                 setTicket(data.ticket);

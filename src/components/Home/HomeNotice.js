@@ -14,7 +14,7 @@ const HomeNotice = () => {
 
     const createNotice = data => {
 
-        fetch('http://localhost:5000/notice', {
+        fetch('https://shwapnodc.onrender.com/notice', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)

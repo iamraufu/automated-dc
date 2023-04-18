@@ -8,6 +8,7 @@ const useCredential = () => {
     const [pickerTickets, setPickerTickets] = useState([])
     const [sorterTickets, setSorterTickets] = useState([])
     const [vehicleTickets, setVehicleTickets] = useState([])
+    const [stoData, setStoData] = useState([])
     const [notice, setNotice] = useState([])
     const [sto, setSto] = useState([])
 
@@ -15,7 +16,7 @@ const useCredential = () => {
     const userData = () => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/user/${id}`);
+                const response = await fetch(`https://shwapnodc.onrender.com/user/${id}`);
                 const result = await response.json();
                 setUser(result.user)
             } catch (error) {
@@ -25,6 +26,7 @@ const useCredential = () => {
         fetchData();
     }
 
+    // persist login
     useEffect(() => {
         if (id) {
             userData()
@@ -35,10 +37,11 @@ const useCredential = () => {
         //eslint-disable-next-line
     }, [])
 
-    useEffect(()=> {
+    // tickets
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/tickets`);
+                const response = await fetch(`https://shwapnodc.onrender.com/tickets`);
                 const data = await response.json();
                 setTickets(data.tickets);
             } catch (error) {
@@ -46,12 +49,13 @@ const useCredential = () => {
             }
         };
         fetchData();
-    },[])
+    }, [])
 
-    useEffect(()=> {
+    // notice
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/notice`);
+                const response = await fetch(`https://shwapnodc.onrender.com/notice`);
                 const data = await response.json();
                 setNotice(data.notice);
             } catch (error) {
@@ -59,12 +63,13 @@ const useCredential = () => {
             }
         };
         fetchData();
-    },[])
+    }, [])
 
-    useEffect(()=> {
+    // vehicle management
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/categorized-tickets/Vehicle Management`);
+                const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Vehicle Management`);
                 const data = await response.json();
                 setVehicleTickets(data.tickets);
             } catch (error) {
@@ -72,12 +77,13 @@ const useCredential = () => {
             }
         };
         fetchData();
-    },[])
+    }, [])
 
-    useEffect(()=> {
+    // picker management
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/categorized-tickets/Picker Management`);
+                const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Picker Management`);
                 const data = await response.json();
                 setPickerTickets(data.tickets);
             } catch (error) {
@@ -85,12 +91,13 @@ const useCredential = () => {
             }
         };
         fetchData();
-    },[])
+    }, [])
 
-    useEffect(()=> {
+    // sorter management
+    useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/categorized-tickets/Sorter Management`);
+                const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Sorter Management`);
                 const data = await response.json();
                 setSorterTickets(data.tickets);
             } catch (error) {
@@ -98,16 +105,18 @@ const useCredential = () => {
             }
         };
         fetchData();
-    },[])
+    }, [])
 
-    useEffect(()=> {
-        if(user.email) {
-            fetch(`http://localhost:5000/sto-email/${user.email}`)
-            .then(res => res.json())
-            .then(data => data.status === true && setSto(data.sto))
+    // sto by email
+    useEffect(() => {
+        if (user.email) {
+            fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}`)
+                .then(res => res.json())
+                .then(data => data.status === true && setSto(data.sto))
         }
-    },[user.email])
+    }, [user.email])
 
+    // email
     const logOut = () => {
         localStorage.removeItem('uId')
         setUser({})
@@ -124,6 +133,8 @@ const useCredential = () => {
         pickerTickets,
         sorterTickets,
         vehicleTickets,
+        stoData,
+        setStoData,
         logOut
     }
 };

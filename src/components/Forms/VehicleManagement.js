@@ -27,7 +27,7 @@ const VehicleManagement = () => {
             status: "Pending"
         }
 
-        fetch('http://localhost:5000/ticket', {
+        fetch('https://shwapnodc.onrender.com/ticket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
