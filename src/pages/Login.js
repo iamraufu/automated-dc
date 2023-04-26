@@ -29,7 +29,7 @@ const Login = () => {
 
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://shwapnodc.onrender.com/login`, {
+                const response = await fetch(`http://localhost:5000/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(details)
@@ -62,13 +62,13 @@ const Login = () => {
                 <div className="mt-5 px-5">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-group mb-3">
-                            <input placeholder='Enter Email' className='custom-input font-ibm' type='text' {...register("email", { required: true })} />
+                            <input placeholder='Enter Email' autoComplete={`username`} className='custom-input font-ibm' type='text' {...register("email", { required: true })} />
                             <br />
                             {errors.email && <span className='text-danger fw-bold font-ibm p-1'>*Email required</span>}
                         </div>
 
                         <div className="form-group mb-3">
-                            <input placeholder='Enter Password' className='custom-input font-ibm' type='password' {...register("password", { required: true })} />
+                            <input placeholder='Enter Password' autoComplete={`current-password`} className='custom-input font-ibm' type='password' {...register("password", { required: true })} />
                             <br />
                             {errors.password && <span className='text-danger fw-bold p-1 font-ibm'>*Password required</span>}
                         </div>

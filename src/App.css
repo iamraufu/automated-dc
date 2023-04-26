@@ -544,6 +544,13 @@ input::-webkit-inner-spin-button {
   color: #10BBC2;
   border:none;
 }
+.not-found{
+  background-image: url('./images/404.png');
+  min-height: 75vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 /* 
 ::-webkit-scrollbar {

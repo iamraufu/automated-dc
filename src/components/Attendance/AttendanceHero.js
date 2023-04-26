@@ -4,7 +4,6 @@ import AttendanceHeroDetails from './AttendanceHeroDetails';
 const AttendanceHero = () => {
     return (
         <section>
-            {/* <input type="text" className='home-hero-search' placeholder='Search' /> */}
             <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" className="btn btn-sm btn-danger px-3 mt-3 ms-auto d-block">Assign Pickers</button>
 
             <div className="d-none d-lg-block">

@@ -13,6 +13,7 @@ import Tickets from './pages/Tickets';
 import VehicleAssign from './pages/VehicleAssign';
 import PickerDetails from './pages/PickerDetails';
 import PoData from './components/PoData';
+import PickerDate from './pages/PickerDate';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/attendance' element={<Attendance />} />
           <Route path='/picker' element={<Picker />} />
           <Route path='/picker-details/:id' element={<PickerDetails />} />
+          <Route path='/picker-date/:date' element={<PickerDate />} />
           <Route path='/vehicle-assign' element={<VehicleAssign />} />
           <Route path='/tickets' element={<Tickets />} />
           <Route path='/notice' element={<Notice />} />

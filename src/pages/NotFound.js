@@ -10,9 +10,11 @@ const NotFound = () => {
                     <Sidebar />
                 </div>
 
-                <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block">
-                    <h1 className="text-center pt-5 text-danger fw-bold">404 <br />Not Found</h1>
-                    <Link to='/'><p className='text-center mt-5'>Go Home</p></Link>
+                <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 mx-auto d-block">
+                    <div className="not-found"></div>
+                    {/* <img src={NotFoundImage} alt="404 Not Found" /> */}
+                    {/* <h1 className="text-center pt-5 text-danger fw-bold font-ibm">404 <br />Not Found</h1> */}
+                    <Link to='/'><p className='text-center mt-5 font-ibm'>Go Home</p></Link>
                 </div>
             </div>
         </section>

@@ -12,7 +12,7 @@ const PickerDetails = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`https://shwapnodc.onrender.com/sto/${id}`);
+            const response = await fetch(`http://localhost:5000/sto/${id}`);
             const data = await response.json();
             if (data.status === true) {
                 setStoDetails(data.sto);
@@ -117,7 +117,7 @@ const PickerDetails = () => {
         const details = {
             data: stoData
         }
-        fetch(`https://shwapnodc.onrender.com/sto/${stoDetails._id}`, {
+        fetch(`http://localhost:5000/sto/${stoDetails._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
@@ -128,7 +128,7 @@ const PickerDetails = () => {
     }
 
     const updatePickerSorter = (person) => {
-        fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
+        fetch(`http://localhost:5000/user/${user._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(person)
@@ -137,8 +137,6 @@ const PickerDetails = () => {
             .then(result => console.log(result))
             .catch(err => console.log(err))
     }
-
-    console.log(stoData)
 
     return (
         <div className='container-fluid p-0'>
@@ -149,7 +147,7 @@ const PickerDetails = () => {
                 </div>
             </div>
             <div className="container">
-                <button onClick={() => updateSto()} className='btn btn-sm btn-danger px-3 my-2 ms-auto d-block'>Save and Submit</button>
+                <button onClick={() => updateSto()} className='btn btn-sm btn-danger px-3 my-2 ms-auto d-block font-ibm'>Save and Submit</button>
                 <div className='row justify-content-between align-items-center m-0'>
                     <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="col-md-1 view-sto-list-header">STO</div>
                     <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="col-md-2 view-sto-list-header">Outlet</div>
@@ -264,8 +262,8 @@ const PickerDetails = () => {
             </div>
 
             <div className="container mt-3">
-                <h2 className='font-ibm fs-6'>Pickers: {user.pickers.map(picker => picker.status === 0 ? <span className='px-2 text-success'>{picker.name}</span> : <span className='px-2 text-danger'>{picker.name}</span>)}</h2>
-                <h2 className='font-ibm fs-6'>Sorters: {user.sorters.map(sorter => sorter.status === 0 ? <span className='px-2 text-success'>{sorter.name}</span> : <span className='px-2 text-danger'>{sorter.name}</span>)}</h2>
+                <h2 className='font-ibm fs-6'>Pickers: {user.pickers.map(picker => picker.status === 0 ? <span key={picker.name} className='px-2 text-success'>{picker.name}</span> : <span key={picker.name} className='px-2 text-danger'>{picker.name}</span>)}</h2>
+                <h2 className='font-ibm fs-6'>Sorters: {user.sorters.map(sorter => sorter.status === 0 ? <span key={sorter.name} className='px-2 text-success'>{sorter.name}</span> : <span key={sorter.name} className='px-2 text-danger'>{sorter.name}</span>)}</h2>
             </div>
         </div>
     );

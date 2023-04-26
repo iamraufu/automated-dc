@@ -7,6 +7,7 @@ import outlet from '../images/outlet.svg'
 import person from '../images/person.svg'
 import sku from '../images/sku.svg'
 import sto from '../images/sto.svg'
+import Swal from 'sweetalert2';
 
 const TicketDescription = () => {
     const navigate = useNavigate()
@@ -15,7 +16,7 @@ const TicketDescription = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`https://shwapnodc.onrender.com/ticket/${id}`);
+            const response = await fetch(`http://localhost:5000/ticket/${id}`);
             const data = await response.json();
             if (data.status === true) {
                 setTicket(data.ticket);
@@ -26,6 +27,51 @@ const TicketDescription = () => {
         };
         fetchData();
     }, [id, navigate])
+
+    const closeTicket = () => {
+        const details = {
+            status: 'Solved'
+        }
+        fetch(`http://localhost:5000/ticket/${ticket._id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(details)
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === true) {
+                    let timerInterval
+                    Swal.fire({
+                        icon: 'success',
+                        title: `${result.message}`,
+                        timer: 1000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            timerInterval = setInterval(() => {
+                            }, 1000)
+                        },
+                        willClose: () => {
+                            window.location.replace('/tickets')
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            window.location.replace('/tickets')
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${result.message}`
+                    })
+                }
+            }
+            )
+            .catch(err => console.log(err))
+    }
 
     return (
         <section className='bg-brand container-fluid p-0'>
@@ -146,7 +192,7 @@ const TicketDescription = () => {
                                     </div>
                                 </div>
                                 <div className="col-md-2 mt-3 px-0">
-                                    <button style={{borderRadius:'10px'}} className='btn btn-sm btn-danger px-4 py-2 mx-auto d-block'>Close Ticket</button>
+                                    <button onClick={() => closeTicket()} style={{ borderRadius: '10px' }} className='btn btn-sm btn-danger px-4 py-2 mx-auto d-block font-ibm'>Close Ticket</button>
                                 </div>
                             </div>
                             :

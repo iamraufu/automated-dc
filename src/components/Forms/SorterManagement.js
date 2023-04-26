@@ -24,9 +24,10 @@ const SorterManagement = () => {
             opening_time: new Date().toLocaleTimeString(),
             opening_date: new Date().toISOString().split('T')[0],
             date: selectedDate,
-            status: "Pending"
+            status: "Pending",
+            comments: []
         }
-        fetch('https://shwapnodc.onrender.com/ticket', {
+        fetch('http://localhost:5000/ticket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)

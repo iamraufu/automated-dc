@@ -24,10 +24,11 @@ const VehicleManagement = () => {
             date: selectedDate,
             issues: data.issues,
             subject: data.subject,
-            status: "Pending"
+            status: "Pending",
+            comments: []
         }
 
-        fetch('https://shwapnodc.onrender.com/ticket', {
+        fetch('http://localhost:5000/ticket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)

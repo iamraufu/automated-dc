@@ -28,9 +28,10 @@ const PickerManagement = () => {
             subject: data.subject,
             category: 'Picker Management',
             opening_time: new Date().toLocaleTimeString(),
-            status: "Pending"
+            status: "Pending",
+            comments: []
         }
-        fetch('https://shwapnodc.onrender.com/ticket', {
+        fetch('http://localhost:5000/ticket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
