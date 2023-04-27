@@ -542,14 +542,29 @@ input::-webkit-inner-spin-button {
   font-size: 18px;
   line-height: 23px;
   color: #10BBC2;
-  border:none;
+  border: none;
 }
-.not-found{
+
+.not-found {
   background-image: url('./images/404.png');
   min-height: 75vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.comment-submit {
+  width: 187px;
+  height: 45px;
+  background: #10BBC2;
+  border: none;
+  border-radius: 10px;
+  font-family: 'IBM Plex Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 23px;
+  color: #FFFFFF;
 }
 
 /* 
