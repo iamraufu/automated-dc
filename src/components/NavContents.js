@@ -1,21 +1,20 @@
 import React from 'react';
 import logo from '../images/logo.svg'
-// import user from '../images/user.svg'
 import picker from '../images/picker.svg'
 import vehicle from '../images/vehicle.svg'
 import ticket from '../images/ticket.svg'
-import notice from '../images/notice_red.svg'
+import noticeIcon from '../images/notice_red.svg'
 import { NavLink } from 'react-router-dom';
 import logout from '../images/logout.svg'
 import useAuth from '../hooks/useAuth';
 
 const NavContents = () => {
 
-    const { logOut } = useAuth();
+    const { user, notice, logOut } = useAuth();
 
     const activeStyles = {
         color: "#10BBC2",
-        fontWeight:'700'
+        fontWeight: '700'
     }
 
     const defaultStyles = {
@@ -27,13 +26,6 @@ const NavContents = () => {
             <NavLink to='/'><div className="mx-auto d-block sidebar-logo-container mt-3"><img className='mx-auto d-block py-1' src={logo} alt="logo of Shwapno" /></div></NavLink>
 
             <div className="sidebar-logo-divider"></div>
-
-            {/* <NavLink to='/attendance' className='text-black text-decoration-none'>
-                <div className="mt-5 mx-auto d-block">
-                    <img src={user} className='mx-auto d-block' alt="attendance" />
-                    <h2 className='sidebar-title text-center'>Attendance</h2>
-                </div>
-            </NavLink> */}
 
             <NavLink to='/picker' className='text-decoration-none' style={({ isActive }) => (
                 isActive ? activeStyles : defaultStyles
@@ -49,7 +41,7 @@ const NavContents = () => {
             )}>
                 <div className="mt-5 mx-auto d-block">
                     <img width={34} src={vehicle} className='mx-auto d-block' alt="vehicle" />
-                    <h2 className='sidebar-title text-center pt-1'>Vehicle <br />Assign</h2>
+                    <h2 className='sidebar-title text-center pt-1'>Vehicle<br />Assign</h2>
                 </div>
             </NavLink>
 
@@ -62,14 +54,30 @@ const NavContents = () => {
                 </div>
             </NavLink>
 
-            <NavLink to='/notice' className='text-decoration-none' style={({ isActive }) => (
-                isActive ? activeStyles : defaultStyles
-            )}>
-                <div className="mt-5 mx-auto d-block">
-                    <img width={25} src={notice} className='mx-auto d-block' alt="notice" />
-                    <h2 className='sidebar-title text-center pt-1'>Notice</h2>
-                </div>
-            </NavLink>
+            {
+                user.role === 0 &&
+                <NavLink to='/notice' className='text-decoration-none' style={({ isActive }) => (
+                    isActive ? activeStyles : defaultStyles
+                )}>
+                    <div className="mt-5 mx-auto d-block">
+                        {
+                            notice.filter(item => item.status === 0).length === 0 ?
+                                <>
+                                    <img width={25} src={noticeIcon} className='mx-auto d-block' alt="notice" />
+                                    <h2 className='sidebar-title text-center pt-1'>Notice</h2>
+                                </>
+                                :
+                                <>
+                                    <div className="d-flex justify-content-center align-items-center">
+                                        <img width={25} src={noticeIcon} className='' alt="notice" />
+                                        <sup style={{ height: '20px', width: "20px", borderRadius: '50%' }} className='mb-2 bg-danger text-white fw-bold font-inter d-flex justify-content-center align-items-center'>{notice.filter(item => item.status === 0).length}</sup>
+                                    </div>
+                                    <h2 className='sidebar-title text-center pt-1 pe-2'>Notice</h2>
+                                </>
+                        }
+                    </div>
+                </NavLink>
+            }
 
             <div style={{ cursor: "pointer", position: "absolute", bottom: '0', padding: "1rem 2rem" }} onClick={() => logOut()} className="mt-5">
                 <img src={logout} alt="log out" className='mx-auto d-block' width={34} />

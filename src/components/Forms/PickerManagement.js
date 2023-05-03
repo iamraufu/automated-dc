@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Swal from 'sweetalert2';
 import outletsData from '../../data/outlets.json'
 import useAuth from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 const PickerManagement = () => {
 
@@ -39,33 +39,29 @@ const PickerManagement = () => {
             .then(response => response.json())
             .then(result => {
                 if (result.status === true) {
-                    let timerInterval
-                    Swal.fire({
-                        icon: 'success',
-                        title: `${result.message}`,
-                        timer: 2000,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            timerInterval = setInterval(() => {
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                            window.location.replace('/tickets')
-                        }
-                    }).then((result) => {
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            window.location.replace('/tickets')
-                        }
-                    })
+                    toast.success(`${result.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                    window.location.reload()
                 }
                 else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: `${result.message}`
-                    })
+                    toast.warn(`${result.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
                 }
             })
     }

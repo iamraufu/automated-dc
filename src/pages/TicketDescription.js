@@ -7,10 +7,10 @@ import outlet from '../images/outlet.svg'
 import person from '../images/person.svg'
 import sku from '../images/sku.svg'
 import sto from '../images/sto.svg'
-import Swal from 'sweetalert2';
 import useAuth from '../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import moment from 'moment/moment';
+import { toast } from 'react-toastify';
 
 const TicketDescription = () => {
 
@@ -45,33 +45,29 @@ const TicketDescription = () => {
             .then(response => response.json())
             .then(result => {
                 if (result.status === true) {
-                    let timerInterval
-                    Swal.fire({
-                        icon: 'success',
-                        title: `${result.message}`,
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            timerInterval = setInterval(() => {
-                            }, 1000)
-                        },
-                        willClose: () => {
-                            window.location.replace('/tickets')
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            window.location.replace('/tickets')
-                        }
-                    })
+                    toast.info(`${result.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                    window.location.reload()
                 }
                 else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: `${result.message}`
-                    })
+                    toast.warn(`${result.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
                 }
             }
             )
@@ -95,36 +91,41 @@ const TicketDescription = () => {
             .then(response => response.json())
             .then(result => {
                 if (result.status === true) {
-                    let timerInterval
-                    Swal.fire({
-                        icon: 'success',
-                        title: `${result.message}`,
-                        timer: 1000,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            timerInterval = setInterval(() => {
-                            }, 1000)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                            window.location.reload()
-                        }
-                    }).then((result) => {
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            window.location.reload()
-                        }
-                    })
+                    toast.success(`${result.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                    window.location.reload()
                 }
                 else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: `${result.message}`
-                    })
+                    toast.warn(`${result.message}`, {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => toast.warn(`${err}`, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            }))
     }
 
     return (
@@ -283,7 +284,7 @@ const TicketDescription = () => {
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <textarea className='select w-100 font-ibm' name="" id="" cols="35" rows="2" {...register('comment', { required: true })} />
                                         <p>{errors.comment && <span className='text-danger font-ibm'>This is required</span>}</p>
-                                        <input type="submit" value="Comment Submit" className='comment-submit mt-2' />
+                                        <input type="submit" value="Comment Submit" className='comment-submit my-2' />
                                     </form>
                                 </div>
 

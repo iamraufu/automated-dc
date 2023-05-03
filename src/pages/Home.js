@@ -5,6 +5,7 @@ import Modal from '../components/Modal';
 import Sidebar from '../components/Sidebar';
 import HomeNotice from '../components/Home/HomeNotice';
 import CreateTicketBtn from '../components/CreateTicketBtn';
+import { ToastContainer } from 'react-toastify';
 
 const Home = () => {
 
@@ -25,6 +26,7 @@ const Home = () => {
                 </div>
             </div>
             <Modal />
+            <ToastContainer />
         </section>
     );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import menuIcon from '../images/menu.png'
 import NavContents from './NavContents';
 
@@ -10,7 +9,7 @@ const Sidebar = () => {
             // boxShadow: '0 5px 15px #c4c4c44d' 
         }} className="py-2 bg-white">
             <div className="d-md-none">
-                <img style={{position:'fixed'}} width={30} className='img-fluid ms-2 mt-5 sticky-top' data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" src={menuIcon} alt="click to expand menu" />
+                <img style={{ position: 'fixed' }} width={30} className='img-fluid ms-2 mt-5 sticky-top' data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" src={menuIcon} alt="click to expand menu" />
             </div>
 
             <div className="d-none d-md-block">
