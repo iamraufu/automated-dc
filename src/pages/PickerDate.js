@@ -11,7 +11,7 @@ const PickerDate = () => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:5000/sto-email-date/${user.email}/${date}`)
+        fetch(`https://shwapnodc.onrender.com/sto-email-date/${user.email}/${date}`)
             .then(res => res.json())
             .then(data => {
                 data.status && setData(data.sto)

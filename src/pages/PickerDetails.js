@@ -13,7 +13,7 @@ const PickerDetails = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`http://localhost:5000/sto/${id}`);
+            const response = await fetch(`https://shwapnodc.onrender.com/sto/${id}`);
             const data = await response.json();
             if (data.status === true) {
                 setStoDetails(data.sto);
@@ -118,7 +118,7 @@ const PickerDetails = () => {
         const details = {
             data: stoData
         }
-        fetch(`http://localhost:5000/sto/${stoDetails._id}`, {
+        fetch(`https://shwapnodc.onrender.com/sto/${stoDetails._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
@@ -163,7 +163,7 @@ const PickerDetails = () => {
     }
 
     const updatePickerSorter = (person) => {
-        fetch(`http://localhost:5000/user/${user._id}`, {
+        fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(person)
@@ -224,7 +224,7 @@ const PickerDetails = () => {
 
         setUser({ ...user, pickers: resetPicker, sorters: resetSorter })
 
-        fetch(`http://localhost:5000/user/${user._id}`, {
+        fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatedUser)
