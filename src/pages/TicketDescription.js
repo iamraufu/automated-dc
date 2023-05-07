@@ -21,7 +21,7 @@ const TicketDescription = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`http://localhost:5000/ticket/${id}`);
+            const response = await fetch(`https://shwapnodc.onrender.com/ticket/${id}`);
             const data = await response.json();
             if (data.status === true) {
                 setTicket(data.ticket);
@@ -37,7 +37,7 @@ const TicketDescription = () => {
         const details = {
             status: 'Solved'
         }
-        fetch(`http://localhost:5000/ticket/${ticket._id}`, {
+        fetch(`https://shwapnodc.onrender.com/ticket/${ticket._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
@@ -83,7 +83,7 @@ const TicketDescription = () => {
             comment: data.comment.trim(),
         }
 
-        fetch(`http://localhost:5000/ticket-comment/${id}`, {
+        fetch(`https://shwapnodc.onrender.com/ticket-comment/${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)

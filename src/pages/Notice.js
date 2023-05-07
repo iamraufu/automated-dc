@@ -14,7 +14,7 @@ const Notice = () => {
             status: 1
         }
 
-        fetch(`http://localhost:5000/notice/${id}`, {
+        fetch(`https://shwapnodc.onrender.com/notice/${id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
