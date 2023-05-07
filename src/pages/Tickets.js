@@ -40,10 +40,15 @@ const Tickets = () => {
                         }
                     </ul>
                     <TicketSearch />
-                    <TicketTitle />
+                    {
+                        filteredTickets.length > 0 && <TicketTitle />
+                    }
                     {
                         tickets.length > 0 ?
-                            filteredTickets.map(ticket => <TicketDetails key={ticket._id} ticket={ticket} />)
+                            filteredTickets.length > 0 ?
+                                filteredTickets.map(ticket => <TicketDetails key={ticket._id} ticket={ticket} />)
+                                :
+                                <p className='text-center mt-5 font-ibm'>No Pending Tickets Available</p>
                             :
                             <div className="">
                                 <p className="placeholder-glow">

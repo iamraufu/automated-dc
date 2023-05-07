@@ -29,7 +29,7 @@ const Login = () => {
 
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://shwapnodc.onrender.com/login`, {
+                const response = await fetch(`http://localhost:5000/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(details)

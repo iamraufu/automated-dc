@@ -12,7 +12,7 @@ const TicketSearch = () => {
     useEffect(() => {
         const handler = setTimeout(() => {
             searchKey.length > 0 ?
-                fetch(`https://shwapnodc.onrender.com/search-tickets?search=${searchKey}`)
+                fetch(`http://localhost:5000/search-tickets?search=${searchKey}`)
                     .then(response => response.json())
                     .then(data => {
                         setSearchedTickets(data.tickets)

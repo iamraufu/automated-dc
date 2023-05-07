@@ -18,7 +18,7 @@ const HomeNotice = () => {
             status: 0
         }
 
-        fetch('https://shwapnodc.onrender.com/notice', {
+        fetch('http://localhost:5000/notice', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
@@ -73,14 +73,14 @@ const HomeNotice = () => {
                             <input type="text" placeholder='Notice Headline' className='select w-100 font-inter' name="" {...register("title", { required: true })} />
                             <p>{errors.title && <span className='text-danger font-inter'>*This is required</span>}</p>
 
-                            <textarea rows='2' type="text" placeholder='Our outlet delivery will  be finished by  11 am in morning. This rules applied for Dhaka zone only' className='select w-100 font-inter' name="" {...register("description", { required: true })} />
+                            <textarea rows='2' type="text" placeholder='Our outlet delivery will be finished by 11 am in morning. This rules applied for Dhaka zone only' className='select w-100 font-inter' name="" {...register("description", { required: true })} />
                             <p>{errors.description && <span className='text-danger font-inter'>*This is required</span>}</p>
                         </div> :
                         <div className="mt-3">
                             <input type="text" placeholder='Notice Headline' className='select w-100 font-inter' name="" {...register("title", { required: true })} disabled />
                             <p>{errors.title && <span className='text-danger font-inter'>*This is required</span>}</p>
 
-                            <textarea rows='2' type="text" placeholder='Our outlet delivery will  be finished by  11 am in morning. This rules applied for Dhaka zone only' className='select w-100 font-inter' name="" {...register("description", { required: true })} disabled />
+                            <textarea rows='2' type="text" placeholder='Our outlet delivery will be finished by 11 am in morning. This rules applied for Dhaka zone only' className='select w-100 font-inter' name="" {...register("description", { required: true })} disabled />
                             <p>{errors.description && <span className='text-danger font-inter'>*This is required</span>}</p>
                         </div>
                 }
