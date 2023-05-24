@@ -394,6 +394,12 @@ const PickerDetails = () => {
                 }
             </div>
 
+            <p className='ps-2 font-ibm'>Showing {filteredData.length.toLocaleString()} of {stoData.length.toLocaleString()}
+                {/* {parseInt(stoData.reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue.sku;
+                }, 0)).toLocaleString()} */}
+            </p>
+
             <div className="d-flex">
                 <div className="col-md-4 px-1">
                     {/* <button onClick={() => updateSto()} className='btn btn-sm btn-danger px-3 my-2 ms-auto d-block font-ibm'>Save and Submit</button> */}
