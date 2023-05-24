@@ -16,7 +16,6 @@ const PickerDetails = () => {
     const [filteredData, setFilteredData] = useState([])
     const [selectedZone, setSelectedZone] = useState([])
     const [flag, setFlag] = useState(0)
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -59,21 +58,21 @@ const PickerDetails = () => {
     //     setFilteredData(stoData.filter(data => String(data.article).slice(0, 2) === categoryCodeData.find(data => data.category === productCategory)?.code))
     // }, [productCategory, stoData])
 
-        useEffect(()=> {
-            const filterData = async () => {
-                const filteredCategoryData = categoryCodeData.filter(obj => productCategory.includes(obj.category));
-    
-                const filteredStoData = stoData.filter(data => {
-                    const categoryCode = data.article.toString().slice(0, 2);
-                    const matchingCategory = filteredCategoryData.find(obj => obj.code === categoryCode);
-                    return matchingCategory !== undefined;
-                })
-                setFilteredData(filteredStoData)
-            }
-            stoData.length > 0  && filterData()
-        },[productCategory, stoData])
+    useEffect(() => {
+        const filterData = async () => {
+            const filteredCategoryData = categoryCodeData.filter(obj => productCategory.includes(obj.category));
 
+            const filteredStoData = stoData.filter(data => {
+                const categoryCode = data.article.toString().slice(0, 2);
+                const matchingCategory = filteredCategoryData.find(obj => obj.code === categoryCode);
+                return matchingCategory !== undefined;
+            })
+            setFilteredData(filteredStoData)
+        }
+        stoData.length > 0 && filterData()
+    }, [productCategory, stoData])
 
+    // eslint-disable-next-line
     const handlePickerChange = (index, sto, picker) => {
         let thisStoData = stoData.find(data => data.sto === sto)
         thisStoData = { ...thisStoData, picker }
@@ -85,6 +84,7 @@ const PickerDetails = () => {
         updatePickerStatus(picker, 1)
     }
 
+    // eslint-disable-next-line
     const handleSorterChange = (index, sto, sorter) => {
         let thisStoData = stoData.find(data => data.sto === sto)
         thisStoData = { ...thisStoData, sorter }
@@ -96,6 +96,7 @@ const PickerDetails = () => {
         updateSorterStatus(sorter, 1)
     }
 
+    // eslint-disable-next-line
     const handleStartingTime = (index, sto) => {
         let thisStoData = stoData.find(data => data.sto === sto)
         thisStoData = { ...thisStoData, picking_starting_time: Date.now() }
@@ -106,6 +107,7 @@ const PickerDetails = () => {
         });
     }
 
+    // eslint-disable-next-line
     const handleEndingTime = (index, sto, picker) => {
         let thisStoData = stoData.find(data => data.sto === sto)
         thisStoData = { ...thisStoData, picking_ending_time: Date.now() }
@@ -118,6 +120,7 @@ const PickerDetails = () => {
         updatePickerStatus(picker, 0)
     }
 
+    // eslint-disable-next-line
     const sortingStart = (index, sto) => {
         let thisStoData = stoData.find(data => data.sto === sto)
         thisStoData = { ...thisStoData, sorting_starting_time: Date.now() }
@@ -128,6 +131,7 @@ const PickerDetails = () => {
         });
     }
 
+    // eslint-disable-next-line
     const sortingEnd = (index, sto, sorter) => {
         let thisStoData = stoData.find(data => data.sto === sto)
         thisStoData = { ...thisStoData, sorting_ending_time: Date.now() }
@@ -406,38 +410,38 @@ const PickerDetails = () => {
 
                         {
                             stoData.length > 0 ?
-                                    filteredData.map((data, index) =>
-                                        data.sku !== 0 && <div key={index} className="d-flex justify-content-between align-items-center my-3 px-2">
-                                            <div className="col-md-3 font-ibm fw-bold">
-                                                {
-                                                    data.sto === undefined ? data.sto
-                                                        :
-                                                        <div className="d-flex align-items-center">
-                                                            <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
-                                                            <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
-                                                            <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
-                                                        </div>
-                                                }
-                                                <div className="ps-2">
-                                                    <span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span>
-                                                </div>
+                                filteredData.map((data, index) =>
+                                    data.sku !== 0 && <div key={index} className="d-flex justify-content-between align-items-center my-3 px-2">
+                                        <div className="col-md-3 font-ibm fw-bold">
+                                            {
+                                                data.sto === undefined ? data.sto
+                                                    :
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
+                                                        <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
+                                                        <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
+                                                    </div>
+                                            }
+                                            <div className="ps-2">
+                                                <span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span>
                                             </div>
+                                        </div>
 
-                                            <div className="col-md-3 sku-count text-center">{data.sku}</div>
+                                        <div className="col-md-3 sku-count text-center">{data.sku}</div>
 
-                                            <div className="col-md-6 ps-2">
-                                                {
-                                                    flag === 0 ?
-                                                        <>
-                                                            <span className='outlet-code'>{data.article}</span><br /><span className='outlet-name'>{data.product}</span>
-                                                        </>
-                                                        :
-                                                        <button onClick={() => addToZone(data, index)} className='mx-auto d-block btn btn-sm btn-outline-secondary'>Add to Zone</button>
-                                                }
+                                        <div className="col-md-6 ps-2">
+                                            {
+                                                flag === 0 ?
+                                                    <>
+                                                        <span className='outlet-code'>{data.article}</span><br /><span className='outlet-name'>{data.product}</span>
+                                                    </>
+                                                    :
+                                                    <button onClick={() => addToZone(data, index)} className='mx-auto d-block btn btn-sm btn-outline-secondary'>Add to Zone</button>
+                                            }
 
-                                            </div>
+                                        </div>
 
-                                            {/* <div className="col-md-4 d-flex justify-content-around align-items-center">
+                                        {/* <div className="col-md-4 d-flex justify-content-around align-items-center">
                                                 <div className="text-center">
                                                     <select onChange={(e) => handlePickerChange(index, data.sto, e.target.value)} className='select-picker' name="" id={`picker-${index}`}>
                                                         <option className='font-ibm' value="" selected disabled>Select Picker</option>
@@ -496,8 +500,8 @@ const PickerDetails = () => {
                                                     }
                                                 </div>
                                             </div> */}
-                                        </div>
-                                    )
+                                    </div>
+                                )
                                 :
                                 skeletonLength.map(item =>
                                     <p key={item} className="placeholder-glow px-2">
