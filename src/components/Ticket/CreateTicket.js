@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import PickerManagement from './Forms/PickerManagement';
-import SorterManagement from './Forms/SorterManagement';
-import VehicleManagement from './Forms/VehicleManagement';
+import PickerManagement from '../Forms/PickerManagement';
+import SorterManagement from '../Forms/SorterManagement';
+import VehicleManagement from '../Forms/VehicleManagement';
 
 const CreateTicket = () => {
 

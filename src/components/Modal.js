@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateTicket from './CreateTicket';
+import CreateTicket from '../components/Ticket/CreateTicket';
 // import PersonAssign from './PersonAssign';
 
 const Modal = () => {

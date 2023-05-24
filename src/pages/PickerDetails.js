@@ -4,17 +4,17 @@ import useAuth from '../hooks/useAuth';
 import { ToastContainer, toast } from 'react-toastify';
 import categoryCodeData from '../data/catcode.json'
 import closeIcon from '../images/close.svg'
+import ZoneSelect from '../components/ZoneSelect';
 
 const PickerDetails = () => {
 
     const navigate = useNavigate()
     const { id } = useParams()
-    const { user, setUser, stoData, setStoData } = useAuth()
+    const { user, setUser, stoData, setStoData, selectedZone, setSelectedZone } = useAuth()
     const [stoDetails, setStoDetails] = useState({})
     const skeletonLength = Array.from(Array(9).keys())
     const [productCategory, setProductCategory] = useState([])
     const [filteredData, setFilteredData] = useState([])
-    const [selectedZone, setSelectedZone] = useState([])
     const [flag, setFlag] = useState(0)
 
     useEffect(() => {
@@ -345,7 +345,7 @@ const PickerDetails = () => {
             ...selectedZone,
             {
                 product,
-                category: productCategory
+                category: productCategory[0]
             }
         ])
     }
@@ -530,28 +530,7 @@ const PickerDetails = () => {
                     </div>
 
                     <div style={{ height: '600px', overflowY: 'auto', borderTop: '1px solid black', borderBottom: '1px solid black', borderLeft: '1px solid black' }} className="bg-white sto-list-viewer mt-1">
-                        <div className="d-flex justify-content-between align-items-center px-2">
-                            <div className="font-ibm">SL. No</div>
-                            <div className="font-ibm">Outlet</div>
-                            <div className="font-ibm">...</div>
-                            <div className="font-ibm">STO Number</div>
-                            <div className="font-ibm">SKUs</div>
-                            <div className="font-ibm">Sorter</div>
-                            <div className="font-ibm">Total</div>
-                        </div>
-                        {
-                            selectedZone.length > 0 &&
-                            selectedZone.map((item, index) =>
-                                <div key={index + 1} className="d-flex justify-content-between align-items-center px-2">
-                                    <div className="font-ibm">{index + 1}</div>
-                                    <div className="font-ibm"></div>
-                                    <div className="font-ibm">{item.category}</div>
-                                    <div className="font-ibm"></div>
-                                    <div className="font-ibm">{item.product.sku}</div>
-                                    <div className="font-ibm"></div>
-                                    <div className="font-ibm"></div>
-                                </div>
-                            )}
+                        <ZoneSelect />
                     </div>
 
                     <div className="d-flex justify-content-between align-items-center ms-1">

@@ -12,6 +12,7 @@ const useCredential = () => {
     const [stoDates, setStoDates] = useState([])
     const [notice, setNotice] = useState([])
     const [sto, setSto] = useState([])
+    const [selectedZone, setSelectedZone] = useState([])
 
     // getting userInfo from localStorage id and backend API
     const userData = () => {
@@ -143,6 +144,8 @@ const useCredential = () => {
         stoData,
         stoDates,
         setStoData,
+        selectedZone, 
+        setSelectedZone,
         logOut
     }
 };

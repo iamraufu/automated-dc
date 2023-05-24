@@ -5,7 +5,7 @@ import TicketDetails from '../components/Ticket/TicketDetails';
 import TicketTitle from '../components/Ticket/TicketTitle';
 import useAuth from '../hooks/useAuth';
 import TicketSearch from '../components/Ticket/TicketSearch';
-import CreateTicketBtn from '../components/CreateTicketBtn'
+import CreateTicketBtn from '../components/Ticket/CreateTicketBtn'
 
 const Tickets = () => {
 
