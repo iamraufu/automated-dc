@@ -39,33 +39,35 @@ const ZoneSelect = () => {
 
 
                   {
-                        zone && <div className="font-ibm ms-2">Selected: {zone} {outlet && outlet}</div>
+                        zone && <div className="font-ibm ms-2">Selected: <span className='text-primary'>{zone}</span> <span className='text-primary'>{outlet && outlet}</span></div>
                   }
 
-                  <div style={{ display: 'none' }}>
-                        <div className="d-flex justify-content-between align-items-center px-2">
-                              <div className="font-ibm">SL. No</div>
-                              <div className="font-ibm">Outlet</div>
-                              <div className="font-ibm">...</div>
-                              <div className="font-ibm">STO Number</div>
-                              <div className="font-ibm">SKUs</div>
-                              <div className="font-ibm">Sorter</div>
-                              <div className="font-ibm">Total</div>
+                  {
+                        selectedZone.length > 0 &&
+                        <div>
+                              <div className="d-flex justify-content-between align-items-center px-2">
+                                    <div className="font-ibm">SL. No</div>
+                                    <div className="font-ibm">Outlet</div>
+                                    <div className="font-ibm">...</div>
+                                    <div className="font-ibm">STO Number</div>
+                                    <div className="font-ibm">SKUs</div>
+                                    <div className="font-ibm">Sorter</div>
+                                    <div className="font-ibm">Total</div>
+                              </div>
+                              {
+                                    selectedZone.map((item, index) =>
+                                          <div key={index + 1} className="d-flex justify-content-between align-items-center px-2">
+                                                <div className="font-ibm">{index + 1}</div>
+                                                <div className="font-ibm"></div>
+                                                <div className="font-ibm">{item.category}</div>
+                                                <div className="font-ibm"></div>
+                                                <div className="font-ibm">{item.product.sku}</div>
+                                                <div className="font-ibm"></div>
+                                                <div className="font-ibm"></div>
+                                          </div>
+                                    )}
                         </div>
-                        {
-                              selectedZone.length > 0 &&
-                              selectedZone.map((item, index) =>
-                                    <div key={index + 1} className="d-flex justify-content-between align-items-center px-2">
-                                          <div className="font-ibm">{index + 1}</div>
-                                          <div className="font-ibm"></div>
-                                          <div className="font-ibm">{item.category}</div>
-                                          <div className="font-ibm"></div>
-                                          <div className="font-ibm">{item.product.sku}</div>
-                                          <div className="font-ibm"></div>
-                                          <div className="font-ibm"></div>
-                                    </div>
-                              )}
-                  </div>
+                  }
             </div>
       );
 };

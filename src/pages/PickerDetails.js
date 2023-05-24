@@ -394,11 +394,7 @@ const PickerDetails = () => {
                 }
             </div>
 
-            <p className='ps-2 font-ibm'>Showing {filteredData.length.toLocaleString()} of {stoData.length.toLocaleString()}
-                {/* {parseInt(stoData.reduce((accumulator, currentValue) => {
-                    return accumulator + currentValue.sku;
-                }, 0)).toLocaleString()} */}
-            </p>
+            <p className='ps-2 font-ibm'>Showing {filteredData.length.toLocaleString()} of {stoData.length.toLocaleString()}</p>
 
             <div className="d-flex">
                 <div className="col-md-4 px-1">
