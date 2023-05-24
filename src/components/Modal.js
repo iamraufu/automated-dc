@@ -1,10 +1,10 @@
 import React from 'react';
 import CreateTicket from './CreateTicket';
-import PersonAssign from './PersonAssign';
+// import PersonAssign from './PersonAssign';
 
 const Modal = () => {
 
-    const pathName = window.location.pathname
+    // const pathName = window.location.pathname
 
     // function getDayWithSuffix(date) {
     //     const day = date.getDate();
@@ -27,24 +27,26 @@ const Modal = () => {
                 <div className="modal-content">
                     <div className="modal-header ticket-modal-header">
                         <h2 className='text-white ticket-modal-title'>
-                            {
+                        Create Ticket
+                            {/* {
                                 pathName === '/' && 'Create Ticket'
                             }
                             {
                                 pathName === '/attendance' && 'Person Assign'
-                            }
+                            } */}
                         </h2>
                         {/* <h2 className='text-white ticket-modal-title'>{formattedDate}</h2> */}
                         <h2 className='text-white ticket-modal-title'>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</h2>
                     </div>
 
                     <div className="modal-body ticket-modal-body">
-                        {
+                    <CreateTicket />
+                        {/* {
                             pathName === '/' && <CreateTicket />
                         }
                         {
                             pathName === '/attendance' && <PersonAssign />
-                        }
+                        } */}
                     </div>
                 </div>
             </div>

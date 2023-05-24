@@ -4,7 +4,7 @@ import HomeTicketStatus from '../components/Home/HomeTicketStatus';
 import Modal from '../components/Modal';
 import Sidebar from '../components/Sidebar';
 import HomeNotice from '../components/Home/HomeNotice';
-import CreateTicketBtn from '../components/CreateTicketBtn';
+// import CreateTicketBtn from '../components/CreateTicketBtn';
 import { ToastContainer } from 'react-toastify';
 
 const Home = () => {
@@ -17,7 +17,7 @@ const Home = () => {
                 </div>
 
                 <div className="col-md-10 px-4 py-3 mx-auto d-block">
-                    <div className="float-end"><CreateTicketBtn /></div>
+                    {/* <div className="float-end"><CreateTicketBtn /></div> */}
                     <HomeHero />
                     <div className="row justify-content-between align-items-center">
                         <div className="col-lg-6"><HomeNotice /></div>

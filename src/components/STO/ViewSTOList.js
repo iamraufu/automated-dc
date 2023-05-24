@@ -1,69 +1,97 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 
-let priority
+// let priority
 const ViewSTOList = ({ stoData }) => {
 
     const { user } = useAuth()
-    const [error, setError] = useState("")
+    
+    // const [error, setError] = useState("")
 
-    const handleStoSubmit = () => {
-        !priority && setError("Click on any priority")
-        if (priority) {
-            const details = {
-                email: user.email,
-                name: user.name,
-                data: stoData,
-                priority,
-                date: new Date().toISOString().split('T')[0]
-
-            }
-            fetch('https://shwapnodc.onrender.com/sto', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(details)
-            })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.status === true) {
-                        let timerInterval
-                        Swal.fire({
-                            icon: 'success',
-                            title: `${result.message}`,
-                            timer: 2000,
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                Swal.showLoading()
-                                timerInterval = setInterval(() => {
-                                }, 100)
-                            },
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                                window.location.reload()
-                            }
-                        }).then((result) => {
-                            if (result.dismiss === Swal.DismissReason.timer) {
-                                window.location.reload()
-                            }
-                        })
-                    }
-                    else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: `${result.message}`,
-                            timer: 2000
-                        })
-                    }
-                })
+    const handleStoSubmit = (id) => {
+        // document.getElementById('submit-file-btn').style.display = 'none'
+        // document.getElementById('submit-file-spinner').style.display = 'block'
+        
+        // !priority && setError("Click on any priority")
+        // if (priority) {
+        const details = {
+            email: user.email,
+            name: user.name,
+            data: id,
+            status: 'Pending',
+            // priority,
+            date: new Date().toISOString().split('T')[0]
         }
-
+        fetch('https://shwapnodc.onrender.com/sto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(details)
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === true) {
+                    document.getElementById('submit-file-btn').style.display = 'block'
+                    document.getElementById('submit-file-spinner').style.display = 'none'
+                    let timerInterval
+                    Swal.fire({
+                        icon: 'success',
+                        title: `${result.message}`,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            timerInterval = setInterval(() => {
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                            window.location.reload()
+                        }
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            window.location.reload()
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `${result.message}`,
+                        timer: 2000
+                    })
+                }
+            })
     }
 
-    const handleClick = (e) => {
-        setError("")
-        priority = e.target.innerText
+    const handleFileSubmit = () => {
+        document.getElementById('submit-file-btn').style.display = 'none'
+        document.getElementById('submit-file-spinner').style.display = 'block'
+        
+        fetch('https://shwapnodc.onrender.com/file-upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({stoData})
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === true) {
+                    handleStoSubmit(result.id)
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `${result.message}`,
+                        timer: 2000
+                    })
+                }
+            })
     }
+
+    // const handleClick = (e) => {
+    //     setError("")
+    //     priority = e.target.innerText
+    // }
 
     return (
         <div className="mt-3 col-md-6">
@@ -78,27 +106,27 @@ const ViewSTOList = ({ stoData }) => {
                 {
                     stoData.map((data, index) =>
                         data.sku !== 0 && <div key={index} className="d-flex justify-content-between align-items-center my-3">
-                        <div className="d-flex justify-content-center align-items-center col-md-4 font-ibm fw-bold">
+                            <div className="d-flex justify-content-center align-items-center col-md-4 font-ibm fw-bold">
+                                {
+                                    data.sto === undefined ? data.sto
+                                        :
+                                        <>
+                                            <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
+                                            <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
+                                            <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
+                                        </>
+                                }
+                            </div>
                             {
-                                data.sto === undefined ? data.sto
-                                    :
-                                    <>
-                                        <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
-                                        <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
-                                        <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
-                                    </>
+                                data.sku !== 0 && <div className="col-md-5"><span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span></div>
                             }
+                            <div className="col-md-3 text-center sku-count">{data.sku}</div>
                         </div>
-                        {
-                            data.sku !== 0 && <div className="col-md-5"><span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span></div>
-                        }
-                        <div className="col-md-3 text-center sku-count">{data.sku}</div>
-                    </div>
                     )
                 }
             </div>
 
-            <p className='font-ibm p-0 mt-3'>Priority</p>
+            {/* <p className='font-ibm p-0 mt-3'>Priority</p>
 
             <div className="col-md-6 px-0 d-flex">
                 {
@@ -110,12 +138,15 @@ const ViewSTOList = ({ stoData }) => {
                 {
                     <p onClick={(e) => handleClick(e)} className='deadline d-flex justify-content-center align-items-center mx-auto d-block mb-1'>Deadline</p>
                 }
+            </div> */}
+
+            {/* {error && <p className='text-danger font-ibm p-0'>{error}</p>} */}
+
+            <button id='submit-file-btn' onClick={() => handleFileSubmit()} className='mt-3 btn-view-sto-list'>Submit File</button>
+            <br />
+            <div id='submit-file-spinner' style={{ display: 'none' }} className="">
+                <button className='mt-3 btn-view-sto-list d-flex justify-content-center align-items-center'><div style={{ width: '18px', height: '18px' }} className="spinner-border text-dark me-2" role="status"></div>Uploading...</button>
             </div>
-
-            {error && <p className='text-danger font-ibm p-0'>{error}</p>}
-
-            <button onClick={() => handleStoSubmit()} className='mt-3 btn-view-sto-list'>Submit File</button>
-
         </div>
     );
 };

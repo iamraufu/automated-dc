@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import useAuth from '../hooks/useAuth';
 import excelIcon from '../images/excel.png'
+import FolderSkeleton from '../components/Skeleton/FolderSkeleton'
 
 const PickerDate = () => {
 
@@ -28,15 +29,17 @@ const PickerDate = () => {
                 <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block">
                     <div className="row align-items-center">
                         {
-                            data.length > 0 &&
-                            data.map(data =>
-                                <div key={data._id} className="col-sm-1">
-                                    <Link to={`/picker-details/${data._id}`} className='text-decoration-none'>
-                                        <img width={45} className='img-fluid mx-auto d-block' src={excelIcon} alt={data.date} />
-                                        <p style={{ fontSize: '13px' }} className='font-ibm p-0 text-center mt-2 text-black'>{new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                                    </Link>
-                                </div>
-                            )
+                            data.length > 0 ?
+                                data.map(data =>
+                                    <div key={data._id} className="col-sm-1">
+                                        <Link to={`/picker-details/${data._id}`} className='text-decoration-none'>
+                                            <img width={45} className='img-fluid mx-auto d-block' src={excelIcon} alt={data.date} />
+                                            <p style={{ fontSize: '13px' }} className='font-ibm p-0 text-center mt-2 text-black'>{new Date(data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                                        </Link>
+                                    </div>
+                                )
+                                :
+                                <FolderSkeleton />
                         }
                     </div>
                 </div>

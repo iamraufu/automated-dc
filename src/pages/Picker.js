@@ -1,95 +1,41 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FileUploader } from "react-drag-drop-files";
-import * as CSV from 'xlsx';
-import ViewSTOList from '../components/STO/ViewSTOList';
-import UploadedSTO from '../components/STO/UploadedSTO';
-// import TicketDetails from '../components/Ticket/TicketDetails';
-// import TicketTitle from '../components/Ticket/TicketTitle';
-// import useAuth from '../hooks/useAuth';
-
-let valid
+import useAuth from '../hooks/useAuth';
+import userIcon from '../images/user2.svg'
+import moment from 'moment/moment';
+import STOAssign from '../components/STO/STOAssign'
 
 const Picker = () => {
 
-    // const { pickerTickets } = useAuth()
-    // const tickets = pickerTickets
-    const fileTypes = ["CSV", "XLSX"];
+    const { user, sto } = useAuth()
+    const tabNames = ['Picker', 'Sorter']
+    const [userRole, setUserRole] = useState("Picker")
+    const [filtered, setFiltered] = useState(user.pickers)
+    const [userDetails, setUserDetails] = useState([])
 
-    const [fileUploadError, setFileUploadError] = useState("")
-    // eslint-disable-next-line
-    const [file, setFile] = useState()
-    const [fileName, setFileName] = useState("")
-    const [fileSize, setFileSize] = useState("")
-    const [data, setData] = useState([])
-
-    const handleChange = (file) => {
-        setFileUploadError("")
-        setFile(file);
-        setFileName(file.name)
-        setFileSize(bytesToSize(file.size))
-        // document.getElementById('file-upload-container').style.display = 'none'
-        document.getElementById('file-uploaded-container').style.display = 'block'
-
-        const reader = new FileReader()
-        reader.onload = (e) => {
-            const workbook = CSV.read(e.target.result)
-            const sheetName = workbook.SheetNames[0]
-            const worksheet = workbook.Sheets[sheetName]
-            const json = CSV.utils.sheet_to_json(worksheet)
-
-            const stoData = json.map(obj => ({
-                code: obj.Site,
-                name: obj["Receiving Site Name"],
-                sto: obj["Purch.Doc."],
-                sku: obj.Quantity
-            }));
-
-            const uniqueStoArray = [...new Set(stoData.map(item => item.sto))];
-
-            const resultArray = uniqueStoArray.map(sto => {
-                return {
-                    sto: sto,
-                    // items: stoData.filter(item => item.sto === sto),
-                    code: stoData.filter(item => item.sto === sto)[0].code,
-                    name: stoData.filter(item => item.sto === sto)[0].name,
-                    sku: stoData.filter(item => item.sto === sto).reduce((accumulator, currentValue) => {
-                        const skuValue = typeof currentValue.sku === 'undefined' ? 0 : currentValue.sku;
-                        return accumulator + skuValue;
-                    }, 0)
-                };
-            });
-
-            setData(resultArray)
-
-            const labels = ['code', 'name', 'sto', 'sku']
-            const dataLabel = Object.keys(stoData[0])
-
-            valid = labels.every((item, index) => (item === dataLabel[index]) ? true : false)
-            valid === false && setFileUploadError("File Format Mismatch. Please Check again and upload")
+    const handlePickerSorter = (value) => {
+        setUserDetails([])
+        if (value === 'Picker') {
+            setUserRole('Picker')
+            setFiltered(user.pickers)
         }
-        reader.readAsArrayBuffer(file)
-    };
-
-    const bytesToSize = bytes => {
-        const KB = 1024;
-        const MB = KB * KB;
-
-        if (bytes < KB) {
-            return bytes + " bytes";
-        } else if (bytes < MB) {
-            return (bytes / KB).toFixed(2) + " KB";
-        } else {
-            return (bytes / MB).toFixed(2) + " MB";
+        else if (value === 'Sorter') {
+            setUserRole('Sorter')
+            setFiltered(user.sorters)
+        }
+        else {
+            setFiltered(user.pickers.concat(user.sorters))
         }
     }
 
-    const handleUndo = () => {
-        setFile(null)
-        setData([])
-        // document.getElementById('file-upload-container').style.display = 'block'
-        document.getElementById('file-uploaded-container').style.display = 'none'
+    const handleClick = (role, name) => {
+        role === 'picker' ?
+            setUserDetails(sto.flatMap(sto => sto.data).filter(sto => sto.picker === name))
+            :
+            setUserDetails(sto.flatMap(sto => sto.data).filter(sto => sto.sorter === name))
     }
+
+    console.log(userDetails)
 
     return (
         <section className='bg-brand container-fluid p-0'>
@@ -99,60 +45,79 @@ const Picker = () => {
                 </div>
 
                 <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block">
+                    <STOAssign />
+                    <ul className='d-flex p-0'>
+                        {
+                            tabNames.map((item, index) =>
+                                <li style={{
+                                    cursor: 'pointer',
+                                    listStyle: 'none', background: '#E2EEFD', width: '100px', color: '#1D3557',
+                                    fontFamily: 'IBM Plex Sans',
+                                    fontStyle: 'normal',
+                                    fontWeight: '600',
+                                    fontSize: '20px',
+                                    lineHeight: '26px'
+                                }} onClick={(e) => handlePickerSorter(e.target.innerText)} key={index} className='p-3 mx-1 text-center'>{item}</li>
+                            )
+                        }
+                    </ul>
 
-                    <div className='col-md-4'>
-                        <div id="file-upload-container">
-                            <FileUploader
-                                children={
-                                    <div className="mx-auto d-block p-2">
-                                        <p style={{ fontSize: '14px' }} className='text-center pt-2'>Click here to browse <br /> or drag and drop file here</p>
+                    <div className="row justify-content-between align-items-center">
+                        {
+                            filtered.map((user, index) =>
+                                <div onClick={() => handleClick(userRole.toLowerCase(), user.name)} key={index} className="col-lg-2 col-md-4 col-sm-6 pe-2 my-2">
+                                    <div className='d-flex align-items-center bg-white p-3 hover-box cursor-pointer'>
+                                        <div className="">
+                                            <img width={35} src={userIcon} alt={user.name} />
+                                        </div>
+                                        <div className="ms-2">
+                                            <h2 className='fs-6 outlet-code m-0'>{user.name}</h2>
+                                            <p className='stat-title m-0'>{userRole}</p>
+                                        </div>
                                     </div>
-                                }
-                                onTypeError={(err) => setFileUploadError(err)}
-                                classes='d-flex justify-content-center align-items-center border-dashed'
-                                multiple={false}
-                                handleChange={handleChange}
-                                name="file"
-                                types={fileTypes} />
-                        </div>
-
-                        {/* <div style={{ display: 'none', width: '15px', height: '15px' }} className="spinner-border" role="status"><p style={{ fontSize: '14px' }} id='convert-loading'>Converting </p></div> */}
-
-                        <div style={{ display: 'none' }} id="file-uploaded-container">
-                            {
-                                fileUploadError && <p className='fw-bold font-ibm text-danger m-0'>{fileUploadError}</p>
-                            }
-                            <div className="d-flex justify-content-between align-items-center px-1">
-                                <p style={{ fontSize: '14px' }} className='text-brand fw-bold pt-3 mx-3 font-ibm'>{fileName}</p>
-                                <p style={{ border: '1px solid #898A8D', fontSize: '13px' }} className='text-brand fw-bold rounded px-1 mt-3 mx-3 font-ibm'>{fileSize}</p>
-                                <p style={{ fontSize: '14px', cursor: 'pointer' }} onClick={() => handleUndo()} className='font-ibm pt-3 text-primary'>undo</p>
-                            </div>
-                        </div>
+                                </div>
+                            )
+                        }
                     </div>
 
-                    {data.length > 0 && <ViewSTOList stoData={data} />}
-
-                    {/* <TicketTitle />
                     {
-                        tickets.length > 0 ?
-                            tickets.map(ticket => <TicketDetails key={ticket._id} ticket={ticket} />)
-                            :
-                            <div className="">
-                                <p className="placeholder-glow">
-                                    <span className="placeholder col-12"></span>
-                                </p>
-                                <p className="placeholder-glow">
-                                    <span className="placeholder col-12"></span>
-                                </p>
-                                <p className="placeholder-glow">
-                                    <span className="placeholder col-12"></span>
-                                </p>
-                                <p className="placeholder-glow">
-                                    <span className="placeholder col-12"></span>
-                                </p>
+                        userDetails.length > 0 &&
+                        userDetails.map((data, index) =>
+                            <div className="d-flex align-items-center" key={index}>
+
+                                <div className="d-flex align-items-center font-ibm fw-bold">
+                                    <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
+                                    <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
+                                    <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
+                                </div>
+
+                                <div className="d-flex">
+                                    <div className="font-ibm">{(moment.duration(moment(data.picking_ending_time).diff(moment(data.picking_starting_time)))).hours()} Hours</div>
+                                    <div className="font-ibm px-3">{(moment.duration(moment(data.picking_ending_time).diff(moment(data.picking_starting_time)))).minutes()} Minutes</div>
+                                    <div className="font-ibm">{(moment.duration(moment(data.picking_ending_time).diff(moment(data.picking_starting_time)))).seconds()} Seconds</div>
+                                </div>
+
+                                {/* {
+                                    userRole === 'Picker' ?
+                                        <div className="">
+                                            {
+                                                userDetails.reduce((accumulator, currentValue) => {
+                                                    return accumulator + currentValue.picking_ending_time || 0 - currentValue.picking_starting_time || 0;
+                                                }, 0)
+                                            }
+                                        </div>
+                                        :
+                                        <div className="">
+                                            {
+                                                userDetails.reduce((accumulator, currentValue) => {
+                                                    return accumulator + currentValue.sorting_ending_time || 0 - currentValue.sorting_starting_time || 0;
+                                                }, 0)
+                                            }
+                                        </div>
+                                } */}
                             </div>
-                    } */}
-                    <UploadedSTO />
+                        )
+                    }
                 </div>
             </div>
         </section>

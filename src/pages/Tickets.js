@@ -5,6 +5,7 @@ import TicketDetails from '../components/Ticket/TicketDetails';
 import TicketTitle from '../components/Ticket/TicketTitle';
 import useAuth from '../hooks/useAuth';
 import TicketSearch from '../components/Ticket/TicketSearch';
+import CreateTicketBtn from '../components/CreateTicketBtn'
 
 const Tickets = () => {
 
@@ -24,6 +25,9 @@ const Tickets = () => {
                 </div>
 
                 <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block ticket-container">
+                    <div className="float-end">
+                        <CreateTicketBtn />
+                    </div>
                     <ul className='d-flex p-0'>
                         {
                             tabNames.map((item, index) =>

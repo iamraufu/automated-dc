@@ -14,6 +14,7 @@ import VehicleAssign from './pages/VehicleAssign';
 import PickerDetails from './pages/PickerDetails';
 import PoData from './components/PoData';
 import PickerDate from './pages/PickerDate';
+// import STOAssign from './pages/STOAssign';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/attendance' element={<Attendance />} />
           <Route path='/picker' element={<Picker />} />
+          {/* <Route path='/sto-assign' element={<STOAssign />} /> */}
           <Route path='/picker-details/:id' element={<PickerDetails />} />
           <Route path='/picker-date/:date' element={<PickerDate />} />
           <Route path='/vehicle-assign' element={<VehicleAssign />} />

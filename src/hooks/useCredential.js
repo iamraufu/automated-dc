@@ -15,7 +15,7 @@ const useCredential = () => {
 
     // getting userInfo from localStorage id and backend API
     const userData = () => {
-        const fetchData = async () => {
+        const fetchData = async() => {
             try {
                 const response = await fetch(`https://shwapnodc.onrender.com/user/${id}`);
                 const result = await response.json();
@@ -31,8 +31,7 @@ const useCredential = () => {
     useEffect(() => {
         if (id) {
             userData()
-        }
-        else {
+        } else {
             setUser({})
         }
         //eslint-disable-next-line
@@ -40,7 +39,7 @@ const useCredential = () => {
 
     // tickets
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async() => {
             try {
                 const response = await fetch(`https://shwapnodc.onrender.com/tickets`);
                 const data = await response.json();
@@ -54,7 +53,7 @@ const useCredential = () => {
 
     // notice
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async() => {
             try {
                 const response = await fetch(`https://shwapnodc.onrender.com/notice`);
                 const data = await response.json();
@@ -68,7 +67,7 @@ const useCredential = () => {
 
     // vehicle management
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async() => {
             try {
                 const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Vehicle Management`);
                 const data = await response.json();
@@ -82,7 +81,7 @@ const useCredential = () => {
 
     // picker management
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async() => {
             try {
                 const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Picker Management`);
                 const data = await response.json();
@@ -96,7 +95,7 @@ const useCredential = () => {
 
     // sorter management
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async() => {
             try {
                 const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Sorter Management`);
                 const data = await response.json();
@@ -109,18 +108,18 @@ const useCredential = () => {
     }, [])
 
     // sto by email
-    useEffect(() => {
-        if (user.email) {
-            fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status === true) {
-                        setStoDates([...new Set(data.sto.map(item => item.date))])
-                        setSto(data.sto)
-                    }
-                })
-        }
-    }, [user.email])
+    // useEffect(() => {
+    //     if (user.email) {
+    //         fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}`)
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 if (data.status === true) {
+    //                     setStoDates([...new Set(data.sto.map(item => item.date))])
+    //                     setSto(data.sto)
+    //                 }
+    //             })
+    //     }
+    // }, [user.email])
 
     // email
     const logOut = () => {
@@ -133,6 +132,8 @@ const useCredential = () => {
         user,
         tickets,
         setTickets,
+        setSto,
+        setStoDates,
         notice,
         setNotice,
         sto,

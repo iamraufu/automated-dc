@@ -1,0 +1,86 @@
+[
+    {
+        "code": "21",
+        "category": "BABY CARE"
+    },
+    {
+        "code": "22",
+        "category": "BABY FOOD"
+    },
+    {
+        "code": "23",
+        "category": "BEVERAGE & TOBACCO"
+    },
+    {
+        "code": "24",
+        "category": "PACKED COMMODITY"
+    },
+    {
+        "code": "25",
+        "category": "DAIRY"
+    },
+    {
+        "code": "26",
+        "category": "HOME CARE"
+    },
+    {
+        "code": "27",
+        "category": "KITCHEN ADDITIVE"
+    },
+    {
+        "code": "28",
+        "category": "PACKAGED FOOD"
+    },
+    {
+        "code": "29",
+        "category": "PERISHABLE"
+    },
+    {
+        "code": "30",
+        "category": "PERSONAL CARE"
+    },
+    {
+        "code": "31",
+        "category": "PROTEIN"
+    },
+    {
+        "code": "32",
+        "category": "HOMEMADE"
+    },
+    {
+        "code": "33",
+        "category": "CLOTHES"
+    },
+    {
+        "code": "34",
+        "category": "MEDICINE"
+    },
+    {
+        "code": "35",
+        "category": "ELECTRONIC APPLIANCE"
+    },
+    {
+        "code": "36",
+        "category": "HOME APPLIANCE"
+    },
+    {
+        "code": "38",
+        "category": "HOME ACCESSORIES"
+    },
+    {
+        "code": "39",
+        "category": "ACCENT & DECORS"
+    },
+    {
+        "code": "40",
+        "category": "STATIONERIES"
+    },
+    {
+        "code": "41",
+        "category": "INFOTAINMENT"
+    },
+    {
+        "code": "42",
+        "category": "GIFT & TOYS"
+    }
+]

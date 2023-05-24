@@ -3,6 +3,7 @@ import logo from '../images/logo.svg'
 import picker from '../images/picker.svg'
 import vehicle from '../images/vehicle.svg'
 import ticket from '../images/ticket.svg'
+// import stoassign from '../images/stoassign.svg'
 import noticeIcon from '../images/notice_red.svg'
 import { NavLink } from 'react-router-dom';
 import logout from '../images/logout.svg'
@@ -27,12 +28,21 @@ const NavContents = () => {
 
             <div className="sidebar-logo-divider"></div>
 
+            {/* <NavLink to='/sto-assign' className='text-decoration-none' style={({ isActive }) => (
+                isActive ? activeStyles : defaultStyles
+            )}>
+                <div className="mt-5 mx-auto d-block">
+                    <img width={34} src={stoassign} className='mx-auto d-block' alt="picker" />
+                    <h2 className='sidebar-title text-center pt-1'>STO Assign</h2>
+                </div>
+            </NavLink> */}
+
             <NavLink to='/picker' className='text-decoration-none' style={({ isActive }) => (
                 isActive ? activeStyles : defaultStyles
             )}>
                 <div className="mt-5 mx-auto d-block">
                     <img width={34} src={picker} className='mx-auto d-block' alt="picker" />
-                    <h2 className='sidebar-title text-center pt-1'>Picker</h2>
+                    <h2 className='sidebar-title text-center pt-1'>Picker/Sorter</h2>
                 </div>
             </NavLink>
 
