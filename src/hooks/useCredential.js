@@ -8,10 +8,9 @@ const useCredential = () => {
     const [pickerTickets, setPickerTickets] = useState([])
     const [sorterTickets, setSorterTickets] = useState([])
     const [vehicleTickets, setVehicleTickets] = useState([])
-    const [stoData, setStoData] = useState([])
-    const [stoDates, setStoDates] = useState([])
     const [notice, setNotice] = useState([])
     const [sto, setSto] = useState([])
+    const [viewSto, setViewSto] = useState([])
     const [selectedZone, setSelectedZone] = useState([])
 
     // getting userInfo from localStorage id and backend API
@@ -129,23 +128,21 @@ const useCredential = () => {
     }
 
     return {
-        setUser,
         user,
+        setUser,
         tickets,
         setTickets,
+        sto,
         setSto,
-        setStoDates,
         notice,
         setNotice,
-        sto,
         pickerTickets,
         sorterTickets,
         vehicleTickets,
-        stoData,
-        stoDates,
-        setStoData,
         selectedZone, 
         setSelectedZone,
+        viewSto, 
+        setViewSto,
         logOut
     }
 };

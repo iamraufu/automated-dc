@@ -5,22 +5,20 @@ import Swal from 'sweetalert2';
 // let priority
 const ViewSTOList = ({ stoData }) => {
 
-    const { user } = useAuth()
-    
+    const { user, viewSto } = useAuth()
+
     // const [error, setError] = useState("")
 
-    const handleStoSubmit = (id) => {
-        // document.getElementById('submit-file-btn').style.display = 'none'
-        // document.getElementById('submit-file-spinner').style.display = 'block'
-        
+    const handleStoSubmit = () => {
+        document.getElementById('submit-file-btn').style.display = 'none'
+        document.getElementById('submit-file-spinner').style.display = 'block'
+
         // !priority && setError("Click on any priority")
         // if (priority) {
         const details = {
             email: user.email,
             name: user.name,
-            data: id,
-            status: 'Pending',
-            // priority,
+            stoData: viewSto,
             date: new Date().toISOString().split('T')[0]
         }
         fetch('https://shwapnodc.onrender.com/sto', {
@@ -64,29 +62,29 @@ const ViewSTOList = ({ stoData }) => {
             })
     }
 
-    const handleFileSubmit = () => {
-        document.getElementById('submit-file-btn').style.display = 'none'
-        document.getElementById('submit-file-spinner').style.display = 'block'
-        
-        fetch('https://shwapnodc.onrender.com/file-upload', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({stoData})
-        })
-            .then(response => response.json())
-            .then(result => {
-                if (result.status === true) {
-                    handleStoSubmit(result.id)
-                }
-                else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: `${result.message}`,
-                        timer: 2000
-                    })
-                }
-            })
-    }
+    // const handleFileSubmit = () => {
+    //     document.getElementById('submit-file-btn').style.display = 'none'
+    //     document.getElementById('submit-file-spinner').style.display = 'block'
+
+    //     fetch('https://shwapnodc.onrender.com/file-upload', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({stoData})
+    //     })
+    //         .then(response => response.json())
+    //         .then(result => {
+    //             if (result.status === true) {
+    //                 handleStoSubmit(result.id)
+    //             }
+    //             else {
+    //                 Swal.fire({
+    //                     icon: 'error',
+    //                     title: `${result.message}`,
+    //                     timer: 2000
+    //                 })
+    //             }
+    //         })
+    // }
 
     // const handleClick = (e) => {
     //     setError("")
@@ -94,56 +92,39 @@ const ViewSTOList = ({ stoData }) => {
     // }
 
     return (
-        <div className="mt-3 col-md-6">
+        <div className="mt-3 col-md-5">
             <div className='d-flex justify-content-center align-items-center'>
-                <div className="col-md-4 view-sto-list-header">STO</div>
-                <div className="col-md-5 view-sto-list-header">Outlet</div>
-                <div className="col-md-3 view-sto-list-header text-center">SKUs</div>
+                <div className="col-md-6 view-sto-list-header">STO</div>
+                <div className="col-md-4 view-sto-list-header">Outlet</div>
+                <div className="col-md-2 view-sto-list-header text-center">SKU</div>
+                {/* <div className="col-md-4 view-sto-list-header text-center">Product</div> */}
             </div>
 
-            <div style={{ height: '400px', overflowY: 'auto' }} className="mt-3 bg-white sto-list-viewer">
+            <div style={{ height: '400px', overflowY: 'auto', overflowX: 'hidden' }} className="mt-3 bg-white sto-list-viewer">
 
                 {
                     stoData.map((data, index) =>
                         data.sku !== 0 && <div key={index} className="d-flex justify-content-between align-items-center my-3">
-                            <div className="d-flex justify-content-center align-items-center col-md-4 font-ibm fw-bold">
-                                {
-                                    data.sto === undefined ? data.sto
-                                        :
-                                        <>
-                                            <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
-                                            <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
-                                            <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
-                                        </>
-                                }
+                            <div className="d-flex justify-content-center align-items-center col-md-6 font-ibm fw-bold">
+
+                                <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
+                                <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
+                                <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
+
                             </div>
                             {
-                                data.sku !== 0 && <div className="col-md-5"><span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span></div>
+                                data.sku !== 0 && <div className="col-md-4"><span className='outlet-code'>{data.code}</span><br /><span className='outlet-name'>{data.name}</span></div>
                             }
-                            <div className="col-md-3 text-center sku-count">{data.sku}</div>
+                            <div className="col-md-2 text-center sku-count">{data.sku}</div>
+                            {/* <div className="col-md-4 sku-count">
+                                <span className='outlet-code'>{data.article}</span><br /><span className='outlet-name'>{data.product}</span>
+                            </div> */}
                         </div>
                     )
                 }
             </div>
 
-            {/* <p className='font-ibm p-0 mt-3'>Priority</p>
-
-            <div className="col-md-6 px-0 d-flex">
-                {
-                    <p onClick={(e) => handleClick(e)} className='urgent d-flex justify-content-center align-items-center mx-auto d-block mb-1 me-2'>Urgent</p>
-                }
-                {
-                    <p onClick={(e) => handleClick(e)} className='by-today d-flex justify-content-center align-items-center mx-auto d-block mb-1 me-2'>By Today</p>
-                }
-                {
-                    <p onClick={(e) => handleClick(e)} className='deadline d-flex justify-content-center align-items-center mx-auto d-block mb-1'>Deadline</p>
-                }
-            </div> */}
-
-            {/* {error && <p className='text-danger font-ibm p-0'>{error}</p>} */}
-
-            <button id='submit-file-btn' onClick={() => handleFileSubmit()} className='mt-3 btn-view-sto-list'>Submit File</button>
-            <br />
+            <button id='submit-file-btn' onClick={() => handleStoSubmit()} className='mt-3 btn-view-sto-list'>Submit File</button>
             <div id='submit-file-spinner' style={{ display: 'none' }} className="">
                 <button className='mt-3 btn-view-sto-list d-flex justify-content-center align-items-center'><div style={{ width: '18px', height: '18px' }} className="spinner-border text-dark me-2" role="status"></div>Uploading...</button>
             </div>

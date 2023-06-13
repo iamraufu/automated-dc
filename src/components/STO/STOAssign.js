@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FileUploader } from "react-drag-drop-files";
 import * as CSV from 'xlsx';
 import ViewSTOList from './ViewSTOList';
-import UploadedSTO from './UploadedSTO';
+import useAuth from '../../hooks/useAuth';
 
 let valid
 
@@ -17,6 +17,7 @@ const STOAssign = () => {
     const [fileName, setFileName] = useState("")
     const [fileSize, setFileSize] = useState("")
     const [data, setData] = useState([])
+    const { setViewSto } = useAuth()
 
     const handleChange = (file) => {
         document.getElementById('file-loading-spinner').style.display = 'block'
@@ -35,42 +36,62 @@ const STOAssign = () => {
 
             const stoData = json.map(obj => (
                 {
-                    code: obj.Site,
-                    name: obj["Receiving Site Name"],
-                    sto: obj["Purch.Doc."],
-                    sku: obj.Quantity,
                     article: obj.Article,
+                    category: String(obj.Article).slice(0,2),
+                    code: obj.Site,
+                    dc: obj.SPlt,
+                    name: obj["Receiving Site Name"],
                     product: obj["Article Description"],
-                    dc: obj.SPlt
+                    quantity: obj.Quantity,
+                    status: 'Pending',
+                    sto: obj["Purch.Doc."],
                 }
             ));
 
+            const stoData2 = json.reduce((result, obj) => {
+                const sto = obj["Purch.Doc."];
+                const catCode = obj["Article"];
+
+                const existingItem = result.find(item => {
+                    return ('Article' in obj && item.sto === sto)
+                });
+
+                if (existingItem) {
+                    existingItem.sku += 1;
+                    existingItem.catCode.push(String(catCode).slice(0, 2))
+                }
+                else if ('Article' in obj) {
+                    const item = {
+                        code: obj.Site,
+                        name: obj["Receiving Site Name"],
+                        sto: sto,
+                        sku: 1,
+                        dc: obj.SPlt,
+                        catCode: [String(obj.Article).slice(0, 2)],
+                        status: 'Pending'
+                    };
+                    result.push(item);
+                }
+                return result;
+            }, []);
+
             const filteredArray = stoData.filter((obj) => Object.values(obj).every((val) => val !== undefined));
+            const filteredArray2 = stoData2.filter((obj) => Object.values(obj).every((val) => val !== undefined));
 
-            // const uniqueStoArray = [...new Set(stoData.map(item => item.sto))];
-            // const resultArray = uniqueStoArray.map(sto => {
-            //     return {
-            //         sto: sto,
-            //         // items: stoData.filter(item => item.sto === sto),
-            //         code: stoData.filter(item => item.sto === sto)[0].code,
-            //         name: stoData.filter(item => item.sto === sto)[0].name,
-            //         sku: stoData.filter(item => item.sto === sto).reduce((accumulator, currentValue) => {
-            //             const skuValue = typeof currentValue.sku === 'undefined' ? 0 : currentValue.sku;
-            //             return accumulator + skuValue;
-            //         }, 0)
-            //     };
-            // });
-            setData(filteredArray)
+            console.log("RAW Data: ", filteredArray)
+            console.log("Sorted Data: ", filteredArray2)
 
-            const labels = ['code', 'name', 'sto', 'sku', 'article', 'product', 'dc']
+            setViewSto(filteredArray)
+            setData(filteredArray2)
+
+            const labels = ['article', 'category', 'code', 'dc', 'name', 'product', 'quantity', 'status', 'sto']
             const dataLabel = filteredArray.length > 0 ? Object.keys(filteredArray[0]) : valid = false
 
             valid = labels.every((item, index) => (item === dataLabel[index]) ? true : false)
-            if(valid === false){
+            if (!valid) {
                 document.getElementById('file-loading-spinner').style.display = 'none'
                 setFileUploadError("File Format Mismatch. Please Check again and upload")
             }
-            // valid === false && setFileUploadError("File Format Mismatch. Please Check again and upload")
         }
         reader.readAsArrayBuffer(file)
     };
@@ -136,6 +157,7 @@ const STOAssign = () => {
         //         </div>
         //     </div>
         // </section>
+
         <div className="">
             <div className='col-md-4'>
                 <div id="file-upload-container">
@@ -174,7 +196,6 @@ const STOAssign = () => {
                         </div>
                     </div>
             }
-            <UploadedSTO />
         </div>
     );
 };

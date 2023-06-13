@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import logo from '../images/logo.svg'
+import { useEffect } from 'react';
 
 const Login = () => {
 
@@ -16,7 +17,12 @@ const Login = () => {
 
     const { user, setUser } = useAuth();
 
-    user?.email && navigate(from, { replace: true })
+    // Added later for error debugging
+    useEffect(()=> {
+        user?.email && navigate(from, { replace: true })
+    },[from, navigate, user?.email])
+
+    // user?.email && navigate(from, { replace: true })
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => processLogin(data);

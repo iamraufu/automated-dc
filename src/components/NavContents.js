@@ -51,7 +51,8 @@ const NavContents = () => {
             )}>
                 <div className="mt-5 mx-auto d-block">
                     <img width={34} src={vehicle} className='mx-auto d-block' alt="vehicle" />
-                    <h2 className='sidebar-title text-center pt-1'>Vehicle<br />Assign</h2>
+                    {/* <h2 className='sidebar-title text-center pt-1'>Vehicle<br />Assign</h2> */}
+                    <h2 className='sidebar-title text-center pt-1'>Zone/Vehicle</h2>
                 </div>
             </NavLink>
 
