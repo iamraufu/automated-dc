@@ -8,14 +8,12 @@ import categoryCodeData from '../../data/catcode.json'
 // import outletData from '../../data/outlets.json'
 import closeIcon from '../../images/close.svg'
 import _ from 'lodash';
+import { ToastContainer, toast } from 'react-toastify';
 
 const UploadedSTO = () => {
 
-    const { user, setSto, viewSto, setViewSto } = useAuth()
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const { user, setSto, viewSto, setViewSto, setAssignedSto, productCategory, setProductCategory, startDate, setStartDate, endDate, setEndDate } = useAuth()
     const [errorMessage, setErrorMessage] = useState("")
-    const [productCategory, setProductCategory] = useState([])
     // const [outletCode, setOutletCode] = useState([])
     const [flag, setFlag] = useState(1)
     const [flag2, setFlag2] = useState(1)
@@ -24,52 +22,96 @@ const UploadedSTO = () => {
         const fetchData = async () => {
             setFlag(1)
             setFlag2(1)
-            try {
-                const response = await fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`);
-                const result = await response.json();
-                if (result.status === true) {
-                    setFlag(0)
-                    setErrorMessage("")
-                    setSto(result.sto)
-                    const stoData = result.sto.reduce((result, obj) => {
-                        const sto = obj.sto;
-
-                        const existingItem = result.find(item => {
-                            return ('category' in obj && item.sto === sto)
-                        });
-
-                        if (existingItem) {
-                            existingItem.sku += 1;
-                        }
-                        else if ('category' in obj) {
-                            const item = {
-                                code: obj.code,
-                                name: obj.name,
-                                sto: sto,
-                                sku: 1,
-                                dc: obj.dc,
-                                status: 'Pending'
-                            };
-                            result.push(item);
-                        }
-                        return result;
-                    }, []);
-                    setViewSto(_.orderBy(stoData, ['code'], ['asc']))
+            const response = await toast.promise(
+                fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+                {
+                    pending: 'Fetching the latest data...',
+                    success: 'Latest data updated',
+                    error: 'There is an error fetching. Please try again!'
                 }
-                else {
-                    setFlag2(0)
-                    setErrorMessage(result.message)
-                }
+            );
+            const result = await response.json();
+            if (result.status === true) {
+                setFlag(0)
+                setErrorMessage("")
+                setSto(result.sto)
+                const stoData = result.sto.reduce((result, obj) => {
+                    const sto = obj.sto;
+
+                    const existingItem = result.find(item => {
+                        return ('category' in obj && item.sto === sto)
+                    });
+
+                    if (existingItem) {
+                        existingItem.sku += 1;
+                    }
+                    else if ('category' in obj) {
+                        const item = {
+                            code: obj.code,
+                            name: obj.name,
+                            sto: sto,
+                            sku: 1,
+                            dc: obj.dc,
+                            status: 'Pending'
+                        };
+                        result.push(item);
+                    }
+                    return result;
+                }, []);
+                setViewSto(_.orderBy(stoData, ['code'], ['asc']))
+                setAssignedSto(_.orderBy(stoData, ['code'], ['asc']))
             }
-            catch (error) {
-                // fetchData();
+            else {
+                setFlag2(0)
+                setErrorMessage(result.message)
             }
+
+            // try {
+            //     const response = await fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`);
+            //     const result = await response.json();
+            //     if (result.status === true) {
+            //         setFlag(0)
+            //         setErrorMessage("")
+            //         setSto(result.sto)
+            //         const stoData = result.sto.reduce((result, obj) => {
+            //             const sto = obj.sto;
+
+            //             const existingItem = result.find(item => {
+            //                 return ('category' in obj && item.sto === sto)
+            //             });
+
+            //             if (existingItem) {
+            //                 existingItem.sku += 1;
+            //             }
+            //             else if ('category' in obj) {
+            //                 const item = {
+            //                     code: obj.code,
+            //                     name: obj.name,
+            //                     sto: sto,
+            //                     sku: 1,
+            //                     dc: obj.dc,
+            //                     status: 'Pending'
+            //                 };
+            //                 result.push(item);
+            //             }
+            //             return result;
+            //         }, []);
+            //         setViewSto(_.orderBy(stoData, ['code'], ['asc']))
+            //     }
+            //     else {
+            //         setFlag2(0)
+            //         setErrorMessage(result.message)
+            //     }
+            // }
+            // catch (error) {
+            //     // fetchData();
+            // }
         };
-        productCategory.length 
-        && 
-        // outletCode.length && 
-        fetchData();
-    }, [user.email, startDate, endDate, setViewSto, setSto, productCategory
+        productCategory.length
+            &&
+            // outletCode.length && 
+            fetchData();
+    }, [user.email, startDate, endDate, setViewSto, setSto, productCategory, setAssignedSto
         // , outletCode
     ])
 
@@ -218,7 +260,7 @@ const UploadedSTO = () => {
                     <p className='font-ibm text-danger my-3 ps-1'>{flag2 === 0 && errorMessage}</p> :
                     <>
                         {
-                            flag === 0 && <p className='ps-1 font-ibm'>Showing {viewSto.reduce((acc, curr) => acc + curr.sku, 0).toLocaleString()} SKU</p>
+                            flag === 0 && <p className='font-ibm'>Showing {viewSto.reduce((acc, curr) => acc + curr.sku, 0).toLocaleString()} SKU</p>
                         }
                     </>
             }
@@ -227,11 +269,7 @@ const UploadedSTO = () => {
                 {
                     viewSto.length > 0 ?
                         <Link to={`/picker-details`} className='text-decoration-none'>
-                            <img
-                                // data-bs-toggle="modal" 
-                                // data-bs-target="#staticBackdrop2"
-                                width={45} className='img-fluid' src={excelIcon} alt="Excel Icon" />
-
+                            <img width={45} className='img-fluid' src={excelIcon} alt="Excel Icon" />
                         </Link>
                         :
                         <>
@@ -245,7 +283,7 @@ const UploadedSTO = () => {
                         </>
                 }
             </div>
-            {/* <PickerSorterModal /> */}
+            <ToastContainer />
         </div>
     );
 };

@@ -11,7 +11,11 @@ const useCredential = () => {
     const [notice, setNotice] = useState([])
     const [sto, setSto] = useState([])
     const [viewSto, setViewSto] = useState([])
+    const [assignedSto, setAssignedSto] = useState([])
     const [selectedZone, setSelectedZone] = useState([])
+    const [productCategory, setProductCategory] = useState([])
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
     // getting userInfo from localStorage id and backend API
     const userData = () => {
@@ -143,6 +147,14 @@ const useCredential = () => {
         setSelectedZone,
         viewSto, 
         setViewSto,
+        productCategory, 
+        setProductCategory,
+        startDate, 
+        setStartDate,
+        endDate, 
+        setEndDate,
+        assignedSto, 
+        setAssignedSto,
         logOut
     }
 };

@@ -4,11 +4,10 @@ import useAuth from '../hooks/useAuth';
 import { ToastContainer, toast } from 'react-toastify';
 import ZoneSelect from '../components/ZoneSelect';
 
-
 const PickerDetails = () => {
 
     const navigate = useNavigate()
-    const { user, setUser, viewSto, sto, setSto, setSelectedZone, selectedZone } = useAuth()
+    const { user, setUser, viewSto, setSto, setSelectedZone, selectedZone, productCategory, startDate, endDate } = useAuth()
     const skeletonLength = Array.from(Array(9).keys())
 
     useEffect(() => {
@@ -110,55 +109,26 @@ const PickerDetails = () => {
     }
 
     const updateSto = () => {
+        console.log(selectedZone.map(item => item.sto))
+        console.log(productCategory.map(item => item))
+        console.log(selectedZone.map(item => item.code))
 
-        const details = {
-            data: sto.map((data) => {
-                return { ...data, status: "Assigned" };
-          })
+        console.log("Selected ", selectedZone)
+        
+        const fetchData = async () => {
+            const response = await toast.promise(
+                fetch(`https://shwapnodc.onrender.com/update-products-status/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${selectedZone.map(item => item.sto)}/${productCategory.map(item => item)}/${selectedZone.map(item => item.code)}`),
+                {
+                  pending: 'SKU is Assigning...',
+                  success: 'SKU Assigned Successfully',
+                  error: 'There is an error saving. Try again!'
+                }
+            );
+            const result = await response.json();
+            console.log(result)
+            setSelectedZone([])
         }
-        console.log(details)
-        // fetch(`https://shwapnodc.onrender.com/sto/${stoDetails._id}`, {
-        //     method: 'PATCH',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(details)
-        // })
-        //     .then(response => response.json())
-        //     .then(result => {
-        //         if (result.status === true) {
-        //             toast.success(`${result.message}`, {
-        //                 position: "top-right",
-        //                 autoClose: 2000,
-        //                 hideProgressBar: false,
-        //                 closeOnClick: true,
-        //                 pauseOnHover: true,
-        //                 draggable: true,
-        //                 progress: undefined,
-        //                 theme: "light",
-        //             });
-        //         }
-        //         else {
-        //             toast.warn(`${result.message}`, {
-        //                 position: "top-right",
-        //                 autoClose: 2000,
-        //                 hideProgressBar: false,
-        //                 closeOnClick: true,
-        //                 pauseOnHover: true,
-        //                 draggable: true,
-        //                 progress: undefined,
-        //                 theme: "light",
-        //             });
-        //         }
-        //     })
-        //     .catch(err => toast.warn(`${err}`, {
-        //         position: "top-right",
-        //         autoClose: 2000,
-        //         hideProgressBar: false,
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //         progress: undefined,
-        //         theme: "light",
-        //     }))
+        selectedZone.length && fetchData()
     }
 
     const updatePickerSorter = (person) => {
@@ -287,7 +257,9 @@ const PickerDetails = () => {
 
     const addToZone = (product, index) => {
         delete viewSto[index]
+        // setViewSto(viewSto.splice(index,1))
         setSelectedZone([...selectedZone, product])
+        // console.log(viewSto.splice(index,1))
     }
 
 
@@ -340,23 +312,19 @@ const PickerDetails = () => {
             {
                 viewSto.length > 0 ?
                     <div className="d-flex mt-3 font-ibm">
-                        <div className="col-md-3 px-1">
-                            {/* <button onClick={() => updateSto()} className='btn btn-sm btn-danger px-3 my-2 ms-auto d-block font-ibm'>Save and Submit</button> */}
+                        <div className="col-md-3 px-1 d-none">
                             <div className='row justify-content-between align-items-center m-0'>
                                 <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="col-md-5 view-sto-list-header">STO & Outlet</div>
-                                {/* <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="col-md-3 view-sto-list-header">Outlet</div> */}
                                 <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="col-md-3 view-sto-list-header text-center">SKU</div>
                                 <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="col-md-4 view-sto-list-header text-center">Action</div>
-                                {/* <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="col-md-4 view-sto-list-header text-center">Picker</div>
-                    <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="col-md-4 view-sto-list-header text-center">Sorter</div> */}
                             </div>
 
                             <div style={{ height: '600px', overflowY: 'auto', borderTop: '1px solid black', borderBottom: '1px solid black', borderLeft: '1px solid black' }} className="bg-white sto-list-viewer mt-1">
 
                                 {
                                     viewSto.length > 0 ?
-                                    viewSto.map((data, index) =>
-                                            // data.sku !== 0 &&
+                                        viewSto.map((data, index) =>
+                                            data !== undefined &&
                                             <div key={index} className="d-flex justify-content-between align-items-center my-3 px-2">
                                                 <div className="col-md-5 font-ibm fw-bold">
                                                     <div className="d-flex align-items-center">
@@ -442,14 +410,15 @@ const PickerDetails = () => {
                                                 <span className="placeholder col-12 my-3"></span>
                                             </p>
                                         )
+                                        // <p className='font-ibm text-center'>Loading...</p>
                                 }
                             </div>
                         </div>
 
-                        <div className="col-md-9 px-2">
+                        <div className="col-md-12 px-2">
                             <div style={{ backgroundColor: '#DFE0EB', height: '40px' }} className="d-flex justify-content-between align-items-center view-sto-list-header">
                                 <p className='m-0'>Total SKU: {parseInt(viewSto.reduce((accumulator, currentValue) => {
-                                    return accumulator + currentValue.sku;
+                                    return accumulator + (currentValue === undefined ? 0 : currentValue.sku) ;
                                 }, 0)).toLocaleString()}</p>
 
                                 <p className='m-0'>Selected SKU: {parseInt(selectedZone.reduce((accumulator, currentValue) => {
