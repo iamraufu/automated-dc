@@ -9,16 +9,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import DatePicker from "react-datepicker";
 import categoryCodeData from '../data/catcode.json'
 import { groupBy } from 'lodash';
+import crossIcon from '../images/cross.svg'
 
 const VehicleAssign = () => {
 
-    const { user, sto, setSto, viewSto, setViewSto, setAssignedSto, selectedZone, setSelectedZone, startDate, setStartDate, endDate, setEndDate, productCategory, setProductCategory } = useAuth()
+    // const deliveryPlanSto = JSON.parse(localStorage.getItem('zoneOutletArray')) || []
+    const { user, setSto, viewSto, setViewSto, setAssignedSto, selectedZone, setSelectedZone, startDate, setStartDate, endDate, setEndDate, productCategory, setProductCategory } = useAuth()
 
     const [zone, setZone] = useState('');
     const outletDivisions = _.sortBy([...new Set(outletZones.map(item => item.zone))])
-
-    // const [zonalOutlet, setZonalOutlet] = useState([])
-    // const [zoneOutletArray, setZoneOutletArray] = useState([])
+    const [zoneOutletArray, setZoneOutletArray] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -58,15 +58,14 @@ const VehicleAssign = () => {
                 }, []);
                 setViewSto(_.orderBy(stoData, ['code'], ['asc']))
                 setAssignedSto(_.orderBy(stoData, ['code'], ['asc']))
+                setSelectedZone([])
             }
             else {
 
             }
         };
         productCategory.length && fetchData();
-    }, [user.email, startDate, endDate, setViewSto, setSto, productCategory, setAssignedSto])
-
-    console.log(viewSto)
+    }, [user.email, startDate, endDate, setViewSto, setSto, productCategory, setAssignedSto, setSelectedZone])
 
     const handleZoneChange = (e) => {
         const zoneName = e.target.value;
@@ -116,8 +115,107 @@ const VehicleAssign = () => {
     //     return outletZones.filter(item => item.zone === zoneName).some(zone => zone.code === sto.code);
     // });
 
-    console.log( "Selected Zone ",selectedZone)
-    console.log("Sto ", sto)
+    const handleZonalSkuAdd = product => {
+        zoneOutletArray.indexOf(product) === -1 ? setZoneOutletArray([...zoneOutletArray, product]) : setZoneOutletArray(zoneOutletArray)
+    }
+
+    const handleZonalSkuAddRemove = elm => {
+        setZoneOutletArray(zoneOutletArray.filter((item) => item !== elm))
+    }
+
+    // useEffect(()=> {
+    //     zoneOutletArray.length > 0 && localStorage.setItem('deliverPlan', JSON.stringify(zoneOutletArray))
+    // },[zoneOutletArray])
+
+    const assignToVehicle = items => {
+        let btn = document.getElementById('vehicle_assign')
+        btn.disabled = true
+        btn.innerText = 'Assigning...'
+        const details = {
+            date: new Date().toISOString().split('T')[0],
+            email: user.email,
+            name: user.name,
+            stoData: items
+        }
+
+        const updateStoStatus = async () => {
+            const response = await toast.promise(
+                fetch(`https://shwapnodc.onrender.com/update-products-status/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${zoneOutletArray.map(item => item.sto)}/${productCategory.map(item => item)}/${zoneOutletArray.map(item => item.code)}`),
+                {
+                    pending: 'Please wait. Status Updating',
+                    success: 'SKU Status Updated Successfully',
+                    error: 'There is an error saving. Try again!'
+                }
+            );
+            const result = await response.json();
+            result.status === true && fetchData()
+        }
+
+        const fetchData = async () => {
+            const response = await toast.promise(
+                fetch(`https://shwapnodc.onrender.com/vehicle-wise-sto`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(details)
+                }),
+                {
+                    pending: 'Please wait. Vehicle assigning',
+                    success: 'Vehicle Assigned Successfully',
+                    error: 'There is an error adding new vehicle wise sto. Please try again later!'
+                }
+            );
+            const result = await response.json();
+
+            if (result.status === true) {
+                const fetchData = async () => {
+                    const response = await toast.promise(
+                        fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+                        {
+                            pending: 'Fetching the latest data...',
+                            success: 'Latest data updated',
+                            error: 'There is an error fetching. Please try again!'
+                        }
+                    );
+                    const result = await response.json();
+                    if (result.status === true) {
+                        setSto(result.sto)
+                        const stoData = result.sto.reduce((result, obj) => {
+                            const sto = obj.sto;
+
+                            const existingItem = result.find(item => {
+                                return ('category' in obj && item.sto === sto)
+                            });
+
+                            if (existingItem) {
+                                existingItem.sku += 1;
+                            }
+                            else if ('category' in obj) {
+                                const item = {
+                                    code: obj.code,
+                                    name: obj.name,
+                                    sto: sto,
+                                    sku: 1,
+                                    dc: obj.dc,
+                                    status: 'Pending'
+                                };
+                                result.push(item);
+                            }
+                            return result;
+                        }, []);
+                        setViewSto(_.orderBy(stoData, ['code'], ['asc']))
+                        setAssignedSto(_.orderBy(stoData, ['code'], ['asc']))
+                        setSelectedZone([])
+                        setZoneOutletArray([])
+                    }
+                    else {
+
+                    }
+                };
+                productCategory.length && fetchData();
+            }
+        }
+        updateStoStatus()
+    }
 
     return (
         <section className='bg-brand container-fluid p-0'>
@@ -273,49 +371,106 @@ const VehicleAssign = () => {
                         </div>
                     } */}
 
-                    {
-                        zone &&
-                        <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 col-md-4 bg-white">
-                            <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Code</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col" className='text-center'>STO</th>
-                                        <th scope="col" className='text-center'>SKUs</th>
-                                    </tr>
-                                </thead>
+                    <div className="row">
+                        {
+                            zone &&
+                            <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 col-md-4 bg-white p-0 mx-3">
+                                <p className="font-ibm m-0 text-center">Showing Category Wise Zonal STO</p>
+                                <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Code</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col" className='text-center'>STO</th>
+                                            <th scope="col" className='text-center'>SKUs</th>
+                                            <th scope="col" className='text-center'></th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
-                                    {
+                                    <tbody>
+                                        {
 
-                                        Object.values(groupBy(selectedZone, 'code')).map((outletGroup, index) => (
-                                            <React.Fragment key={index}>
-                                                {outletGroup.map((item, innerIndex) => (
-                                                    <tr key={`${index}-${innerIndex}`}>
-                                                        {innerIndex === 0 ? (
-                                                            <>
-                                                                <td rowSpan={outletGroup.length} className="">{index + 1}</td>
-                                                                <td rowSpan={outletGroup.length} className="">{item.code}</td>
-                                                            </>
-                                                        ) : null}
-                                                        <td>{item.name}</td>
-                                                        <td>{item.sto}</td>
-                                                        <td className='text-center'>{item.sku}</td>
-                                                    </tr>
-                                                ))}
-                                            </React.Fragment>
-                                        ))
-                                    }
-                                    <tr>
-                                        <td colspan="4" className='text-center'>Grand Total</td>
-                                        <td className='text-center'>{selectedZone.reduce((a, c) => a + c.sku, 0)}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    }
+                                            Object.values(groupBy(selectedZone, 'code')).map((outletGroup, index) => (
+                                                <React.Fragment key={index}>
+                                                    {outletGroup.map((item, innerIndex) => (
+                                                        <tr key={`${index}-${innerIndex}`}>
+                                                            {innerIndex === 0 ? (
+                                                                <>
+                                                                    <td rowSpan={outletGroup.length} className="">{index + 1}</td>
+                                                                    <td rowSpan={outletGroup.length} className="">{item.code}</td>
+                                                                </>
+                                                            ) : null}
+                                                            <td>{item.name}</td>
+                                                            <td>{item.sto}</td>
+                                                            <td className='text-center'>{item.sku}</td>
+                                                            <td className='text-center'>
+                                                                {
+                                                                    // selectedZone.filter(item1 => zoneOutletArray.some(item2 => item2.sto === item1.sto)).filter(i => i.sto === item.sku).length > 0 ?
+                                                                    //     <button className='btn btn-sm btn-success d-flex justify-content-center align-items-center'>Added</button> :
+                                                                    <button onClick={() => handleZonalSkuAdd(item)} className='btn btn-sm btn-secondary d-flex justify-content-center align-items-center'>Add</button>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </React.Fragment>
+                                            ))
+                                        }
+                                        <tr>
+                                            <td colSpan="4" className='text-center'>Grand Total</td>
+                                            <td className='text-center'>{selectedZone.reduce((a, c) => a + c.sku, 0)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+
+                        {
+                            zoneOutletArray.length > 0 &&
+                            <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 col-md-4 bg-white p-0">
+                                <p className="font-ibm m-0 d-flex justify-content-between align-items-center p-2">Showing Selected Category Wise Zonal STO <button id='vehicle_assign' onClick={() => assignToVehicle(zoneOutletArray)} className='btn btn-primary btn-sm'>Assign to Vehicle</button></p>
+                                <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">No</th>
+                                            <th scope="col">Code</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col" className='text-center'>STO</th>
+                                            <th scope="col" className='text-center'>SKUs</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {
+
+                                            Object.values(groupBy(zoneOutletArray, 'code')).map((outletGroup, index) => (
+                                                <React.Fragment key={index}>
+                                                    {outletGroup.map((item, innerIndex) => (
+                                                        <tr key={`${index}-${innerIndex}`}>
+                                                            {innerIndex === 0 ? (
+                                                                <>
+                                                                    <td rowSpan={outletGroup.length} className="">{index + 1}</td>
+                                                                    <td rowSpan={outletGroup.length} className="">{item.code}</td>
+                                                                </>
+                                                            ) : null}
+                                                            <td>{item.name}</td>
+                                                            <td>{item.sto}</td>
+                                                            <td className='text-center'>{item.sku}</td>
+                                                            <td><img className='img-fluid ms-2' style={{ cursor: 'pointer' }} onClick={() => handleZonalSkuAddRemove(item)} width={18} src={crossIcon} alt="remove" /></td>
+                                                        </tr>
+                                                    ))}
+                                                </React.Fragment>
+                                            ))
+                                        }
+                                        <tr>
+                                            <td colSpan="4" className='text-center'>Grand Total</td>
+                                            <td className='text-center'>{zoneOutletArray.reduce((a, c) => a + c.sku, 0)}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
                     <ToastContainer />
                 </div>
             </div>
