@@ -13,6 +13,9 @@ import Tickets from './pages/Tickets';
 import VehicleAssign from './pages/VehicleAssign';
 import PickerDetails from './pages/PickerDetails';
 import PoData from './components/PoData';
+import ZoneAssign from './pages/ZoneAssign';
+import KPI from './pages/KPI';
+import ExpenseTrack from './pages/ExpenseTrack';
 // import PickerDate from './pages/PickerDate';
 // import STOAssign from './pages/STOAssign';
 
@@ -29,9 +32,12 @@ function App() {
           <Route path='/attendance' element={<Attendance />} />
           <Route path='/picker' element={<Picker />} />
           <Route path='/picker-details' element={<PickerDetails />} />
+          <Route path='/expense-tracker' element={<ExpenseTrack />} />
           {/* <Route path='/sto-assign' element={<STOAssign />} /> */}
           {/* <Route path='/picker-date/:date' element={<PickerDate />} /> */}
+          <Route path='/zone-assign' element={<ZoneAssign />} />
           <Route path='/vehicle-assign' element={<VehicleAssign />} />
+          <Route path='/kpi' element={<KPI />} />
           <Route path='/tickets' element={<Tickets />} />
           <Route path='/notice' element={<Notice />} />
           <Route path='/ticket-details/:id' element={<TicketDescription />} />

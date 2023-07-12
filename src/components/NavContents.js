@@ -2,7 +2,10 @@ import React from 'react';
 import logo from '../images/logo.svg'
 import picker from '../images/picker.svg'
 import vehicle from '../images/vehicle.svg'
+import zone from '../images/zone.svg'
 import ticket from '../images/ticket.svg'
+import kpi from '../images/kpi.svg'
+import taka from '../images/taka.svg'
 // import stoassign from '../images/stoassign.svg'
 import noticeIcon from '../images/notice_red.svg'
 import { NavLink } from 'react-router-dom';
@@ -37,12 +40,21 @@ const NavContents = () => {
                 </div>
             </NavLink> */}
 
+            <NavLink to='/zone-assign' className='text-decoration-none' style={({ isActive }) => (
+                isActive ? activeStyles : defaultStyles
+            )}>
+                <div className="mt-5 mx-auto d-block">
+                    <img width={34} src={zone} className='mx-auto d-block' alt="zone" />
+                    <h2 className='sidebar-title text-center pt-1'>Zone</h2>
+                </div>
+            </NavLink>
+
             <NavLink to='/picker' className='text-decoration-none' style={({ isActive }) => (
                 isActive ? activeStyles : defaultStyles
             )}>
                 <div className="mt-5 mx-auto d-block">
                     <img width={34} src={picker} className='mx-auto d-block' alt="picker" />
-                    <h2 className='sidebar-title text-center pt-1'>Picker/Sorter</h2>
+                    <h2 className='sidebar-title text-center pt-1'>Picker & Sorter</h2>
                 </div>
             </NavLink>
 
@@ -51,8 +63,25 @@ const NavContents = () => {
             )}>
                 <div className="mt-5 mx-auto d-block">
                     <img width={34} src={vehicle} className='mx-auto d-block' alt="vehicle" />
-                    {/* <h2 className='sidebar-title text-center pt-1'>Vehicle<br />Assign</h2> */}
-                    <h2 className='sidebar-title text-center pt-1'>Zone/Vehicle</h2>
+                    <h2 className='sidebar-title text-center pt-1'>Vehicle Assign</h2>
+                </div>
+            </NavLink>
+
+            <NavLink to='/expense-tracker' className='text-decoration-none' style={({ isActive }) => (
+                isActive ? activeStyles : defaultStyles
+            )}>
+                <div className="mt-5 mx-auto d-block">
+                    <img width={34} src={taka} className='mx-auto d-block' alt="expense" />
+                    <h2 className='sidebar-title text-center pt-1'>Expense Track</h2>
+                </div>
+            </NavLink>
+
+            <NavLink to='/kpi' className='text-decoration-none' style={({ isActive }) => (
+                isActive ? activeStyles : defaultStyles
+            )}>
+                <div className="mt-5 mx-auto d-block">
+                    <img width={32} src={kpi} className='mx-auto d-block' alt="KPI" />
+                    <h2 className='sidebar-title text-center pt-1'>KPI</h2>
                 </div>
             </NavLink>
 
@@ -90,7 +119,9 @@ const NavContents = () => {
                 </NavLink>
             }
 
-            <div style={{ cursor: "pointer", position: "absolute", bottom: '0', padding: "1rem 2rem" }} onClick={() => logOut()} className="mt-5">
+            <div style={{ cursor: "pointer", 
+            // position: "absolute", bottom: '0', 
+            padding: "1rem 2rem" }} onClick={() => logOut()} className="mt-5">
                 <img src={logout} alt="log out" className='mx-auto d-block' width={34} />
                 <h2 className='sidebar-title text-center'>Logout</h2>
             </div>

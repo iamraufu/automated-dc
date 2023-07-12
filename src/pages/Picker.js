@@ -1,8 +1,9 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
-import STOAssign from '../components/STO/STOAssign'
-import UploadedSTO from '../components/STO/UploadedSTO';
-import PickerSorterKPI from '../components/KPI/PickerSorterKPI';
+import VehicleZone from '../components/VehicleZone';
+// import STOAssign from '../components/STO/STOAssign'
+// import UploadedSTO from '../components/STO/UploadedSTO';
+// import PickerSorterKPI from '../components/KPI/PickerSorterKPI';
 
 const Picker = () => {
 
@@ -14,9 +15,10 @@ const Picker = () => {
                 </div>
 
                 <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block">
-                    <STOAssign />
-                    <UploadedSTO />
-                    <PickerSorterKPI />
+                    {/* <STOAssign /> */}
+                    {/* <UploadedSTO /> */}
+                    <VehicleZone />
+                    {/* <PickerSorterKPI /> */}
                 </div>
             </div>
         </section>

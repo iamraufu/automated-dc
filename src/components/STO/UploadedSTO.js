@@ -22,6 +22,7 @@ const UploadedSTO = () => {
         const fetchData = async () => {
             setFlag(1)
             setFlag2(1)
+            console.log("Loading...")
             const response = await toast.promise(
                 fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
                 {
@@ -107,10 +108,7 @@ const UploadedSTO = () => {
             //     // fetchData();
             // }
         };
-        productCategory.length
-            &&
-            // outletCode.length && 
-            fetchData();
+        productCategory.length && fetchData();
     }, [user.email, startDate, endDate, setViewSto, setSto, productCategory, setAssignedSto
         // , outletCode
     ])
@@ -200,7 +198,7 @@ const UploadedSTO = () => {
     // }
 
     return (
-        <div className='mt-3'>
+        <div className=''>
             <div className="d-flex align-items-center">
                 <div className="font-ibm"><p className='ms-1 mb-0'>From:</p> <DatePicker className='select bg-white' selected={startDate} onChange={(date) => setStartDate(date)} /></div>
                 <div className="font-ibm ms-3"><p className='ms-1 mb-0'>To:</p> <DatePicker className='select bg-white' selected={endDate} onChange={(date) => setEndDate(date)} /></div>
