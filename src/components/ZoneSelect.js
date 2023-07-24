@@ -11,6 +11,7 @@ const ZoneSelect = () => {
     
     const { selectedZone, setSelectedZone, assignedSto, setAssignedSto, user } = useAuth();
     const [zone, setZone] = useState('');
+    
     const outletDivisions = _.sortBy([...new Set(outletZones.map(item => item.zone))])
 
     const handleZoneChange = (e) => {

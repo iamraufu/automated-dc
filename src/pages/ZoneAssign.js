@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import outletZones from '../data/outletZone.json';
+// import outletZones from '../data/outletZone.json';
 import closeIcon from '../images/close.svg'
 import _ from 'lodash';
 import useAuth from '../hooks/useAuth';
@@ -10,19 +10,33 @@ import categoryCodeData from '../data/catcode.json'
 import { groupBy } from 'lodash';
 import crossIcon from '../images/cross.svg'
 import STOAssign from '../components/STO/STOAssign';
+import UpdateVehicleZoneData from './UpdateVehicleZoneData';
+import STODetailsModal from '../components/STODetailsModal';
+import Swal from 'sweetalert2';
 
 const ZoneAssign = () => {
 
-      const { user, setSto, viewSto, setViewSto, setAssignedSto, selectedZone, setSelectedZone, startDate, setStartDate, endDate, setEndDate, productCategory, setProductCategory } = useAuth()
+    const { user, setSto, viewSto, setViewSto, setSelectedZone, startDate, setStartDate, endDate, setEndDate, productCategory, setProductCategory } = useAuth()
 
+    const [stoData, setStoData] = useState({})
     const [zone, setZone] = useState('');
+
+    const [outletZones, setOutletZones] = useState([])
+
+    useEffect(() => {
+        fetch(`https://shwapnodc.onrender.com/outlet-zones/${user.email}`)
+            .then(response => response.json())
+            .then(result => result.status && setOutletZones(result.outletZones.data))
+    }, [user.email])
+
     const outletDivisions = _.sortBy([...new Set(outletZones.map(item => item.zone))])
     const [zoneOutletArray, setZoneOutletArray] = useState([])
+    const [counts, setCounts] = useState({})
 
     useEffect(() => {
         const fetchData = async () => {
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+                fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category-code/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}/${outletZones.filter(outlet => outlet.zone === zone).map(item => item.code)}`),
                 {
                     pending: 'Fetching the latest data...',
                     success: 'Zone Wise Data Loaded',
@@ -56,23 +70,86 @@ const ZoneAssign = () => {
                     return result;
                 }, []);
                 setViewSto(_.orderBy(stoData, ['code'], ['asc']))
-                setAssignedSto(_.orderBy(stoData, ['code'], ['asc']))
+                // setAssignedSto(_.orderBy(stoData, ['code'], ['asc']))
                 setSelectedZone([])
             }
             else {
-
+                console.log(result)
             }
         };
-        productCategory.length && fetchData();
-    }, [user.email, startDate, endDate, setViewSto, setSto, productCategory, setAssignedSto, setSelectedZone])
+        (productCategory.length && outletZones.filter(outlet => outlet.zone === zone).map(item => item.code).length) && fetchData();
+    }, [user.email, startDate, endDate, setViewSto, setSto, productCategory, setSelectedZone, outletZones, zone])
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const response = await toast.promise(
+    //             fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+    //             {
+    //                 pending: 'Fetching the latest data...',
+    //                 success: 'Zone Wise Data Loaded',
+    //                 error: 'There is an error fetching. Please try again!'
+    //             }
+    //         );
+    //         const result = await response.json();
+    //         if (result.status === true) {
+    //             setSto(result.sto)
+    //             const stoData = result.sto.reduce((result, obj) => {
+    //                 const sto = obj.sto;
+
+    //                 const existingItem = result.find(item => {
+    //                     return ('category' in obj && item.sto === sto)
+    //                 });
+
+    //                 if (existingItem) {
+    //                     existingItem.sku += 1;
+    //                 }
+    //                 else if ('category' in obj) {
+    //                     const item = {
+    //                         code: obj.code,
+    //                         name: obj.name,
+    //                         sto: sto,
+    //                         sku: 1,
+    //                         dc: obj.dc,
+    //                         status: 'Pending'
+    //                     };
+    //                     result.push(item);
+    //                 }
+    //                 return result;
+    //             }, []);
+    //             setViewSto(_.orderBy(stoData, ['code'], ['asc']))
+    //             setAssignedSto(_.orderBy(stoData, ['code'], ['asc']))
+    //             setSelectedZone([])
+    //         }
+    //         else {
+
+    //         }
+    //     };
+    //     productCategory.length && fetchData();
+    // }, [user.email, startDate, endDate, setViewSto, setSto, productCategory, setAssignedSto, setSelectedZone])
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+            const result = await response.json();
+            if (result.status === true) {
+                setCounts(result.counts)
+            }
+            else {
+                console.log(result)
+            }
+        }
+        fetchData()
+    }, [user.email])
 
     const handleZoneChange = (e) => {
-        const zoneName = e.target.value;
-        const filteredSto = viewSto.filter(sto => {
-            return outletZones.filter(item => item.zone === zoneName).some(zone => zone.code === sto.code);
-        });
-        setSelectedZone(filteredSto)
-        setZone(zoneName);
+        // const zoneName = e.target.value;
+        // const filteredSto = viewSto.filter(sto => {
+        //     return outletZones.filter(item => item.zone === zoneName).some(zone => zone.code === sto.code);
+        // });
+        // setSelectedZone(filteredSto)
+        // setZone(zoneName);
+        setZone(e.target.value);
     }
 
     // const handleOutletAdd = (outlet, index) => {
@@ -131,14 +208,56 @@ const ZoneAssign = () => {
         let btn = document.getElementById('vehicle_assign')
         btn.disabled = true
         btn.innerText = 'Assigning...'
-        const details = {
+        const vehicleDetails = {
             date: new Date().toISOString().split('T')[0],
             email: user.email,
             name: user.name,
             stoData: items
         }
 
-        console.log(`https://shwapnodc.onrender.com/update-products-status/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${zoneOutletArray.map(item => item.sto)}/${productCategory.map(item => item)}/${zoneOutletArray.map(item => item.code)}`)
+        fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}/${items.map(item => item.sto)}`)
+            .then(response => response.json())
+            .then(result => result.status && updateCount(result.sto.reduce((a, c) => a + c.quantity, 0)))
+
+        const updateCount = async (productCount) => {
+            const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+            const result = await response.json()
+
+            if (result.status === true) {
+                if (result.counts.email) {
+                    console.log(result.counts)
+                    const details = {
+                        "email": result.counts.email,
+                        "sto": result.counts.sto - items.length,
+                        "sku": result.counts.sku - items.reduce((a, c) => a + c.sku, 0),
+                        "outlet": result.counts.outlet - [...new Set(items.map(item => item.code))].length,
+                        "quantity": result.counts.quantity - productCount
+                    }
+                    handleCounts(details)
+                }
+            }
+        }
+
+        const handleCounts = details => {
+            fetch('https://shwapnodc.onrender.com/counts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(details)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.status === true) {
+                        updateStoStatus()
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: `${result.message}`,
+                            timer: 1500
+                        })
+                    }
+                })
+        }
 
         const updateStoStatus = async () => {
             const response = await toast.promise(
@@ -158,7 +277,7 @@ const ZoneAssign = () => {
                 fetch(`https://shwapnodc.onrender.com/vehicle-wise-sto`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(details)
+                    body: JSON.stringify(vehicleDetails)
                 }),
                 {
                     pending: 'Please wait. Vehicle assigning',
@@ -169,12 +288,68 @@ const ZoneAssign = () => {
             const result = await response.json();
 
             if (result.status === true) {
+                // const fetchData = async () => {
+                //     const response = await toast.promise(
+                //         fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+                //         {
+                //             pending: 'Fetching the latest data...',
+                //             success: 'Latest data updated',
+                //             error: 'There is an error fetching. Please try again!'
+                //         }
+                //     );
+                //     const result = await response.json();
+                //     if (result.status === true) {
+                //         setSto(result.sto)
+                //         const stoData = result.sto.reduce((result, obj) => {
+                //             const sto = obj.sto;
+
+                //             const existingItem = result.find(item => {
+                //                 return ('category' in obj && item.sto === sto)
+                //             });
+
+                //             if (existingItem) {
+                //                 existingItem.sku += 1;
+                //             }
+                //             else if ('category' in obj) {
+                //                 const item = {
+                //                     code: obj.code,
+                //                     name: obj.name,
+                //                     sto: sto,
+                //                     sku: 1,
+                //                     dc: obj.dc,
+                //                     status: 'Pending'
+                //                 };
+                //                 result.push(item);
+                //             }
+                //             return result;
+                //         }, []);
+                //         setViewSto(_.orderBy(stoData, ['code'], ['asc']))
+                //         setAssignedSto(_.orderBy(stoData, ['code'], ['asc']))
+                //         setSelectedZone([])
+                //         setZoneOutletArray([])
+                //         const fetchData = async () => {
+                //             const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+                //             const result = await response.json();
+                //             if (result.status === true) {
+                //                 setCounts(result.counts)
+                //             }
+                //             else {
+                //                 console.log(result)
+                //             }
+                //         }
+                //         fetchData()
+                //     }
+                //     else {
+
+                //     }
+                // };
+                // productCategory.length && fetchData();
                 const fetchData = async () => {
                     const response = await toast.promise(
-                        fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+                        fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category-code/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}/${outletZones.filter(outlet => outlet.zone === zone).map(item => item.code)}`),
                         {
                             pending: 'Fetching the latest data...',
-                            success: 'Latest data updated',
+                            success: 'Zone Wise Data Loaded',
                             error: 'There is an error fetching. Please try again!'
                         }
                     );
@@ -205,36 +380,48 @@ const ZoneAssign = () => {
                             return result;
                         }, []);
                         setViewSto(_.orderBy(stoData, ['code'], ['asc']))
-                        setAssignedSto(_.orderBy(stoData, ['code'], ['asc']))
                         setSelectedZone([])
                         setZoneOutletArray([])
+                        const fetchData = async () => {
+                            const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+                            const result = await response.json();
+                            if (result.status === true) {
+                                setCounts(result.counts)
+                            }
+                            else {
+                                console.log(result)
+                            }
+                        }
+                        fetchData()
                     }
                     else {
-
+                        console.log(result)
                     }
                 };
-                productCategory.length && fetchData();
+                (productCategory.length && outletZones.filter(outlet => outlet.zone === zone).map(item => item.code).length) && fetchData();
             }
         }
-        updateStoStatus()
     }
 
-      return (
-            <section className='bg-brand container-fluid p-0'>
+    return (
+        <section className='bg-brand container-fluid p-0'>
             <div className="d-flex">
                 <div style={{ width: '116px' }} className="col-md-2 bg-white">
                     <Sidebar />
                 </div>
 
                 <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block">
+                    <h2 className='h6 font-ibm ms-2'>STO Assign</h2>
+
                     <STOAssign />
+
                     <div className="bg-white py-3 bg-body-tertiary rounded shadow-sm mt-3">
                         <div className='d-flex align-items-center' >
                             <div className="d-flex align-items-center ms-3">
                                 <div className="font-ibm"><p className='mb-0 ms-1'>From:</p> <DatePicker className='select bg-white' selected={startDate} onChange={(date) => setStartDate(date)} /></div>
                                 <div className="font-ibm ms-3"><p className='ms-1 mb-0'>To:</p> <DatePicker className='select bg-white' selected={endDate} onChange={(date) => setEndDate(date)} /></div>
                                 <div className="font-ibm ms-3">
-                                    <p className='mb-0 ms-1'>Product Category</p>
+                                    <p className='mb-0 ms-1'>Product Division</p>
                                     <select className='select bg-white' onChange={(e) => {
                                         setProductCategory(e.target.value)
                                         handleCategoryAdd(e.target.value)
@@ -243,7 +430,8 @@ const ZoneAssign = () => {
                                         <option className='font-ibm my-1' value="" selected disabled>Select</option>
                                         {
                                             categoryCodeData.map((product, index) =>
-                                                <option key={index + 1} className='font-ibm my-1' value={product.code}>{product.category}</option>
+                                                // <option key={index + 1} className='font-ibm my-1' value={product.code}>{product.category}</option>
+                                                <option key={index + 1} className='font-ibm my-1' value={product.code}>{product.division}</option>
                                             )
                                         }
                                     </select>
@@ -252,11 +440,12 @@ const ZoneAssign = () => {
 
                             <div className="ms-3">
                                 <div className="font-ibm ms-1">Select Zone:</div>
-                                <select className="select font-ibm bg-white" value={zone} onChange={handleZoneChange}>
+                                <select className="select font-ibm bg-white" value={zone} onChange={(e) => handleZoneChange(e)}>
                                     <option className="font-ibm" value="" disabled>Select</option>
-                                    {outletDivisions.map((zone, index) => (
-                                        <option key={index + 1} className="font-ibm" value={zone}>{zone}</option>
-                                    ))}
+                                    {
+                                        outletDivisions.map((zone, index) => (
+                                            <option key={index + 1} className="font-ibm" value={zone}>{zone}</option>
+                                        ))}
                                 </select>
                             </div>
 
@@ -278,16 +467,27 @@ const ZoneAssign = () => {
                                 )} */}
                         </div>
 
-                        <div className="my-2 font-ibm ms-3">
-                            <span>Master Category: </span>
-                            {
-                                productCategory.map((item, index) =>
-                                    <button key={index} onClick={() => handleCategoryRemove(item)} type="button" className="btn btn-sm btn-dark me-2 align-items-center my-1"><span>{item}</span><img className='img-fluid mb-1 ms-1' width={15} src={closeIcon} alt="" /></button>
-                                )
-                            }
-                        </div>
+                        <p className='font-ibm ms-3 mt-3'>Pending:
+                            <span style={{ border: '1px solid lightgrey' }} className='mx-2 p-2 shadow-sm rounded bg-white'>{counts?.outlet?.toLocaleString()} Outlets</span>
+                            <span style={{ border: '1px solid lightgrey' }} className='mx-2 p-2 shadow-sm rounded bg-white'>{counts?.sto?.toLocaleString()} STO</span>
+                            <span style={{ border: '1px solid lightgrey' }} className='mx-2 p-2 shadow-sm rounded bg-white'>{counts?.sku?.toLocaleString()} SKU</span>
+                            <span style={{ border: '1px solid lightgrey' }} className='mx-2 p-2 shadow-sm rounded bg-white'>{counts?.quantity?.toLocaleString()} Quantity</span>
+                        </p>
+
+                        {
+                            productCategory.length > 0 &&
+                            <div className="my-2 font-ibm ms-3">
+                                <span>Master Category: </span>
+                                {
+                                    productCategory.map((item, index) =>
+                                        <button key={index} onClick={() => handleCategoryRemove(item)} type="button" className="btn btn-sm btn-dark me-2 align-items-center my-1"><span>{item}</span><img className='img-fluid mb-1 ms-1' width={15} src={closeIcon} alt="" /></button>
+                                    )
+                                }
+                            </div>
+                        }
 
                         <p className='font-ibm ms-3 mb-0'>Showing {viewSto.reduce((acc, curr) => acc + curr.sku, 0).toLocaleString()} SKU</p>
+
 
                         {/* <div className="d-flex mt-2">
                             <div className="ms-3 d-flex">
@@ -377,7 +577,7 @@ const ZoneAssign = () => {
                     <div className="row">
                         {
                             zone &&
-                            <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 col-md-4 bg-white p-0 mx-3">
+                            <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 col-md-5 bg-white p-0 mx-3">
                                 <p className="font-ibm m-0 text-center py-2">Showing Category Wise Zonal STO</p>
                                 <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0">
                                     <thead>
@@ -387,14 +587,15 @@ const ZoneAssign = () => {
                                             <th scope="col">Name</th>
                                             <th scope="col" className='text-center'>STO</th>
                                             <th scope="col" className='text-center'>SKUs</th>
-                                            <th scope="col" className='text-center'></th>
+                                            <th scope="col" className='text-center'>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         {
 
-                                            Object.values(groupBy(selectedZone, 'code')).map((outletGroup, index) => (
+                                            // Object.values(groupBy(selectedZone, 'code')).map((outletGroup, index) => (
+                                            Object.values(groupBy(viewSto, 'code')).map((outletGroup, index) => (
                                                 <React.Fragment key={index}>
                                                     {outletGroup.map((item, innerIndex) => (
                                                         <tr key={`${index}-${innerIndex}`}>
@@ -407,11 +608,17 @@ const ZoneAssign = () => {
                                                             <td>{item.name}</td>
                                                             <td>{item.sto}</td>
                                                             <td className='text-center'>{item.sku}</td>
-                                                            <td className='text-center'>
+                                                            <td className='text-center d-flex justify-content-between align-items-center'>
                                                                 {
                                                                     // selectedZone.filter(item1 => zoneOutletArray.some(item2 => item2.sto === item1.sto)).filter(i => i.sto === item.sku).length > 0 ?
                                                                     //     <button className='btn btn-sm btn-success d-flex justify-content-center align-items-center'>Added</button> :
-                                                                    <button onClick={() => handleZonalSkuAdd(item)} className='btn btn-sm btn-secondary d-flex justify-content-center align-items-center'>Add</button>
+                                                                    <>
+                                                                        <button onClick={() => {
+                                                                            setStoData(item)
+                                                                            window.scrollTo(0, 0)
+                                                                        }} data-bs-toggle="modal" data-bs-target="#stoDetailsModal" className='btn btn-sm btn-dark d-flex justify-content-center align-items-center mx-2'>Details</button>
+                                                                        <button onClick={() => handleZonalSkuAdd(item)} className='btn btn-sm btn-secondary d-flex justify-content-center align-items-center'>Add</button>
+                                                                    </>
                                                                 }
                                                             </td>
                                                         </tr>
@@ -421,7 +628,8 @@ const ZoneAssign = () => {
                                         }
                                         <tr>
                                             <td colSpan="4" className='text-center'>Grand Total</td>
-                                            <td className='text-center'>{selectedZone.reduce((a, c) => a + c.sku, 0)}</td>
+                                            {/* <td className='text-center'>{selectedZone.reduce((a, c) => a + c.sku, 0)}</td> */}
+                                            <td className='text-center'>{viewSto.reduce((a, c) => a + c.sku, 0)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -430,7 +638,7 @@ const ZoneAssign = () => {
 
                         {
                             zoneOutletArray.length > 0 &&
-                            <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 col-md-4 bg-white p-0">
+                            <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 col-md-5 bg-white p-0">
                                 <p className="font-ibm m-0 d-flex justify-content-between align-items-center p-2">Showing Selected Category Wise Zonal STO <button id='vehicle_assign' onClick={() => assignToVehicle(zoneOutletArray)} className='btn btn-primary btn-sm'>Assign to Vehicle</button></p>
                                 <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0 p-0">
                                     <thead>
@@ -474,11 +682,17 @@ const ZoneAssign = () => {
                             </div>
                         }
                     </div>
+
+                    <div className="mt-3">
+                        <h2 className='h6 font-ibm ms-2'>Update Vehicle Zone</h2>
+                        <UpdateVehicleZoneData />
+                    </div>
                     <ToastContainer />
+                    <STODetailsModal data={stoData} />
                 </div>
             </div>
         </section>
-      );
+    );
 };
 
 export default ZoneAssign;

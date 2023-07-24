@@ -1,86 +1,53 @@
 [
     {
-        "code": "21",
-        "category": "BABY CARE"
+        "code": [
+            21,
+            22,
+            23,
+            25,
+            26,
+            27,
+            28,
+            30,
+            32
+        ],
+        "division": "COMPANY GOODS"
     },
     {
-        "code": "22",
-        "category": "BABY FOOD"
+        "code": [
+            24
+        ],
+        "division": "PACKED COMMODITY"
     },
     {
-        "code": "23",
-        "category": "BEVERAGE & TOBACCO"
+        "code": [
+            29,
+            31
+        ],
+        "division": "FRESH PRODUCE"
     },
     {
-        "code": "24",
-        "category": "PACKED COMMODITY"
+        "code": [
+            33
+        ],
+        "division": "LIFESTYLE"
     },
     {
-        "code": "25",
-        "category": "DAIRY"
+        "code": [
+            34
+        ],
+        "division": "MEDICINE"
     },
     {
-        "code": "26",
-        "category": "HOME CARE"
-    },
-    {
-        "code": "27",
-        "category": "KITCHEN ADDITIVE"
-    },
-    {
-        "code": "28",
-        "category": "PACKAGED FOOD"
-    },
-    {
-        "code": "29",
-        "category": "PERISHABLE"
-    },
-    {
-        "code": "30",
-        "category": "PERSONAL CARE"
-    },
-    {
-        "code": "31",
-        "category": "PROTEIN"
-    },
-    {
-        "code": "32",
-        "category": "HOMEMADE"
-    },
-    {
-        "code": "33",
-        "category": "CLOTHES"
-    },
-    {
-        "code": "34",
-        "category": "MEDICINE"
-    },
-    {
-        "code": "35",
-        "category": "ELECTRONIC APPLIANCE"
-    },
-    {
-        "code": "36",
-        "category": "HOME APPLIANCE"
-    },
-    {
-        "code": "38",
-        "category": "HOME ACCESSORIES"
-    },
-    {
-        "code": "39",
-        "category": "ACCENT & DECORS"
-    },
-    {
-        "code": "40",
-        "category": "STATIONERIES"
-    },
-    {
-        "code": "41",
-        "category": "INFOTAINMENT"
-    },
-    {
-        "code": "42",
-        "category": "GIFT & TOYS"
+        "code": [
+            35,
+            36,
+            38,
+            39,
+            40,
+            41,
+            42
+        ],
+        "division": "GENERAL MERCHANDISE"
     }
 ]

@@ -37,20 +37,22 @@ const STOAssign = () => {
             const stoData = json.map(obj => (
                 {
                     article: obj.Article,
-                    category: String(obj.Article).slice(0,2),
+                    category: String(obj.Article).slice(0, 2),
                     code: obj.Site,
                     dc: obj.SPlt,
                     name: obj["Receiving Site Name"],
                     product: obj["Article Description"],
                     quantity: obj.Quantity,
+                    sap_stock: obj["DC Present Stock"],
                     status: 'Pending',
                     sto: obj["Purch.Doc."],
+                    store_stock: obj["Store Present Stock"]
                 }
             ));
 
             const stoData2 = json.reduce((result, obj) => {
                 const sto = obj["Purch.Doc."];
-                const catCode = obj["Article"];
+                // const catCode = obj["Article"];
 
                 const existingItem = result.find(item => {
                     return ('Article' in obj && item.sto === sto)
@@ -58,7 +60,7 @@ const STOAssign = () => {
 
                 if (existingItem) {
                     existingItem.sku += 1;
-                    existingItem.catCode.push(String(catCode).slice(0, 2))
+                    // existingItem.catCode.push(String(catCode).slice(0, 2))
                 }
                 else if ('Article' in obj) {
                     const item = {
@@ -67,7 +69,7 @@ const STOAssign = () => {
                         sto: sto,
                         sku: 1,
                         dc: obj.SPlt,
-                        catCode: [String(obj.Article).slice(0, 2)],
+                        // catCode: [String(obj.Article).slice(0, 2)],
                         status: 'Pending'
                     };
                     result.push(item);
@@ -84,10 +86,11 @@ const STOAssign = () => {
             setViewSto(filteredArray)
             setData(filteredArray2)
 
-            const labels = ['article', 'category', 'code', 'dc', 'name', 'product', 'quantity', 'status', 'sto']
+            const labels = ['article', 'category', 'code', 'dc', 'name', 'product', 'quantity', 'sap_stock', 'status', 'sto', 'store_stock']
             const dataLabel = filteredArray.length > 0 ? Object.keys(filteredArray[0]) : valid = false
 
             valid = labels.every((item, index) => (item === dataLabel[index]) ? true : false)
+            
             if (!valid) {
                 document.getElementById('file-loading-spinner').style.display = 'none'
                 setFileUploadError("File Format Mismatch. Please Check again and upload")
@@ -177,7 +180,7 @@ const STOAssign = () => {
 
                 <div style={{ display: 'none' }} id="file-uploaded-container">
                     {
-                        fileUploadError && <p className='fw-bold font-ibm text-danger m-0'>{fileUploadError}</p>
+                        fileUploadError && <p style={{ fontSize: '13px' }} className='text-center fw-bold font-ibm text-danger ms-2 mt-2'>{fileUploadError}</p>
                     }
                     <div className="d-flex justify-content-between align-items-center px-1">
                         <p style={{ fontSize: '14px' }} className='text-brand fw-bold pt-3 mx-3 font-ibm'>{fileName}</p>

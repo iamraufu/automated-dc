@@ -281,9 +281,9 @@ const KPI = () => {
                             <div style={{ borderLeft: '5px solid rgba(255, 99, 132, 0.5)' }} className="mt-3 bg-white p-3 rounded shadow-sm mx-2 col-md-5">
                                 <h2 className="h5 font-ibm">{picker} KPI <small>(Picker)</small></h2>
                                 <p className='font-ibm m-0'>Total Picking Time:
-                                    <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).hours()} Hours </b>
-                                    <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).minutes()} Minutes </b>
-                                    <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).seconds()} Seconds</b>
+                                    <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).hours()}h </b>
+                                    <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).minutes()}min </b>
+                                    <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).seconds()}s</b>
                                 </p>
                                 <p className='font-ibm m-0'>Total Picked SKU: <b>{selectedPickerSto.reduce((a, c) => a + c.sku, 0)}</b></p>
                             </div>
@@ -294,9 +294,9 @@ const KPI = () => {
                             <div style={{ borderLeft: '5px solid rgba(53, 162, 235, 0.5)' }} className="mt-3 bg-white p-3 rounded shadow-sm mx-2 col-md-5">
                                 <h2 className="h5 font-ibm">{sorter} KPI <small>(Sorter)</small></h2>
                                 <p className='font-ibm m-0'>Total Sorting Time:
-                                    <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).hours() || 0} Hours </b>
-                                    <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).minutes() || 0} Minutes </b>
-                                    <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).seconds() || 0} Seconds</b>
+                                    <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).hours() || 0}h </b>
+                                    <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).minutes() || 0}m </b>
+                                    <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).seconds() || 0}s</b>
                                 </p>
                                 <p className='font-ibm m-0'>Total Sorted SKU: <b>{selectedSorterSto.reduce((a, c) => a + c.sku, 0)}</b></p>
                             </div>

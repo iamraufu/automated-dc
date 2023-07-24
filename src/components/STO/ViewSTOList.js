@@ -12,9 +12,60 @@ const ViewSTOList = ({ stoData }) => {
     const handleStoSubmit = () => {
         document.getElementById('submit-file-btn').style.display = 'none'
         document.getElementById('submit-file-spinner').style.display = 'block'
+        updateCount()
+    }
 
-        // !priority && setError("Click on any priority")
-        // if (priority) {
+    const updateCount = async () => {
+        const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+        const result = await response.json()
+
+        if (result.status === true) {
+            if (result.counts.email) {
+                console.log(result.counts)
+                const details = {
+                    "email": result.counts.email,
+                    "sto": result.counts.sto + stoData.length,
+                    "sku": result.counts.sku + stoData.reduce((a, c) => a + c.sku, 0),
+                    "outlet": result.counts.outlet + [...new Set(stoData.map(item => item.code))].length,
+                    "quantity": result.counts.quantity + viewSto.reduce((a, c) => a + c.quantity, 0)
+                }
+                handleCounts(details)
+            }
+            else {
+                const details = {
+                    "email": user.email,
+                    "sto": stoData.length,
+                    "sku": stoData.reduce((a, c) => a + c.sku, 0),
+                    "outlet": [...new Set(stoData.map(item => item.code))].length,
+                    "quantity": viewSto.reduce((a, c) => a + c.quantity, 0)
+                }
+                handleCounts(details)
+            }
+        }
+    }
+
+    const handleCounts = details => {
+        fetch('https://shwapnodc.onrender.com/counts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(details)
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === true) {
+                    submit()
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `${result.message}`,
+                        timer: 1500
+                    })
+                }
+            })
+    }
+
+    const submit = () => {
         const details = {
             email: user.email,
             name: user.name,
@@ -61,35 +112,6 @@ const ViewSTOList = ({ stoData }) => {
                 }
             })
     }
-
-    // const handleFileSubmit = () => {
-    //     document.getElementById('submit-file-btn').style.display = 'none'
-    //     document.getElementById('submit-file-spinner').style.display = 'block'
-
-    //     fetch('https://shwapnodc.onrender.com/file-upload', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({stoData})
-    //     })
-    //         .then(response => response.json())
-    //         .then(result => {
-    //             if (result.status === true) {
-    //                 handleStoSubmit(result.id)
-    //             }
-    //             else {
-    //                 Swal.fire({
-    //                     icon: 'error',
-    //                     title: `${result.message}`,
-    //                     timer: 2000
-    //                 })
-    //             }
-    //         })
-    // }
-
-    // const handleClick = (e) => {
-    //     setError("")
-    //     priority = e.target.innerText
-    // }
 
     return (
         <div className="mt-3 col-md-5">

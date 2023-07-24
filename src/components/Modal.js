@@ -13,7 +13,7 @@ const Modal = () => {
                     </div>
 
                     <div className="modal-body ticket-modal-body">
-                    <CreateTicket />
+                        <CreateTicket />
                     </div>
                 </div>
             </div>

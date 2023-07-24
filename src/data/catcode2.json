@@ -1,0 +1,107 @@
+[
+      {
+          "code": "21",
+          "division": "COMPANY GOODS",
+          "category": "BABY CARE"
+      },
+      {
+          "code": "22",
+          "division": "COMPANY GOODS",
+          "category": "BABY FOOD"
+      },
+      {
+          "code": "23",
+          "division": "COMPANY GOODS",
+          "category": "BEVERAGE & TOBACCO"
+      },
+      {
+          "code": "24",
+          "division": "PACKED COMMODITY",
+          "category": "PACKED COMMODITY"
+      },
+      {
+          "code": "25",
+          "division": "COMPANY GOODS",
+          "category": "DAIRY"
+      },
+      {
+          "code": "26",
+          "division": "COMPANY GOODS",
+          "category": "HOME CARE"
+      },
+      {
+          "code": "27",
+          "division": "COMPANY GOODS",
+          "category": "KITCHEN ADDITIVE"
+      },
+      {
+          "code": "28",
+          "division": "COMPANY GOODS",
+          "category": "PACKAGED FOOD"
+      },
+      {
+          "code": "29",
+          "division": "FRESH PRODUCE",
+          "category": "PERISHABLE"
+      },
+      {
+          "code": "30",
+          "division": "COMPANY GOODS",
+          "category": "PERSONAL CARE"
+      },
+      {
+          "code": "31",
+          "division": "FRESH PRODUCE",
+          "category": "PROTEIN"
+      },
+      {
+          "code": "32",
+          "division": "COMPANY GOODS",
+          "category": "HOMEMADE"
+      },
+      {
+          "code": "33",
+          "division": "LIFESTYLE",
+          "category": "CLOTHES"
+      },
+      {
+          "code": "34",
+          "division": "MEDICINE",
+          "category": "MEDICINE"
+      },
+      {
+          "code": "35",
+          "division": "GENERAL MERCHANDISE",
+          "category": "ELECTRONIC APPLIANCE"
+      },
+      {
+          "code": "36",
+          "division": "GENERAL MERCHANDISE",
+          "category": "HOME APPLIANCE"
+      },
+      {
+          "code": "38",
+          "division": "GENERAL MERCHANDISE",
+          "category": "HOME ACCESSORIES"
+      },
+      {
+          "code": "39",
+          "division": "GENERAL MERCHANDISE",
+          "category": "ACCENT & DECORS"
+      },
+      {
+          "code": "40",
+          "division": "GENERAL MERCHANDISE",
+          "category": "STATIONERIES"
+      },
+      {
+          "code": "41",
+          "division": "GENERAL MERCHANDISE",
+          "category": "INFOTAINMENT"
+      },
+      {
+          "code": "42",
+          "division": "GENERAL MERCHANDISE",
+          "category": "GIFT & TOYS"
+      }
+  ]

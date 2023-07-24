@@ -9,6 +9,7 @@ import _ from 'lodash';
 const VehicleAssign = () => {
     const { user, startDate, setStartDate, endDate, setEndDate } = useAuth()
     const [vehicle, setVehicle] = useState()
+    const [vehicleType, setVehicleType] = useState("")
     const [selectedVehicleId, setSelectedVehicleId] = useState("")
     const [vehicleRegNo, setVehicleRegNo] = useState()
     const [vehicleWiseData, setVehicleWiseData] = useState([])
@@ -40,7 +41,7 @@ const VehicleAssign = () => {
 
     // const vehicleAssign = () => {
     //     let thisVehicleData = vehicleWiseData.find(data => data.vehicle === Number(vehicle))
-        
+
     //     thisVehicleData = {
     //         ...thisVehicleData,
     //         vehicle_reg_no: vehicleRegNo
@@ -59,8 +60,18 @@ const VehicleAssign = () => {
     // }
 
     const updateVehicleWiseData = async () => {
-        const details = {
-            vehicle_reg_no: vehicleRegNo
+        let details
+        if (vehicleType === 'Hired Vehicle') {
+            details = {
+                vehicle_type: vehicleType,
+                vehicle_reg_no: document.getElementById('vehicle_number_input').value
+            }
+        }
+        else {
+            details = {
+                vehicle_type: vehicleType,
+                vehicle_reg_no: vehicleRegNo
+            }
         }
         const response = await toast.promise(
             fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
@@ -126,7 +137,13 @@ const VehicleAssign = () => {
                             <div className="font-ibm ms-3">
                                 <p className='mb-0 ms-1'>Vehicle Registration Number</p>
                                 <select className='select bg-white' onChange={(e) => {
-                                    setVehicleRegNo(e.target.value)
+                                    if (e.target.value === 'Hired Vehicle') {
+                                        setVehicleType('Hired Vehicle')
+                                    }
+                                    else {
+                                        setVehicleRegNo(e.target.value)
+                                        setVehicleType('Own Vehicle')
+                                    }
                                 }
                                 }>
                                     <option className='font-ibm my-1' value="" selected disabled>Select</option>
@@ -136,13 +153,24 @@ const VehicleAssign = () => {
                                             <option key={index + 1} className='font-ibm my-1' value={v.no}>{v.no}</option>
                                         )
                                     }
+                                    <option className='font-ibm my-1' value="Hired Vehicle">Hired Vehicle</option>
                                 </select>
                             </div>
                         }
+
                     </div>
 
                     {
-                        vehicleRegNo &&
+                        vehicleType === 'Hired Vehicle' &&
+                        <div className="mt-3 ps-1">
+                            <input className='font-ibm mb-3' placeholder='DM-MA-11-2483' type="text" id="vehicle_number_input" required />
+                            <br />
+                            <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm'>Save</button>
+                        </div>
+                    }
+
+                    {
+                        (vehicleRegNo && vehicleType !== 'Hired Vehicle') &&
                         <div className="mt-3 ps-1">
                             <p className="font-ibm">Vehicle {vehicle} is assigned to <b>{vehicleRegNo}</b></p>
                             <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm'>Save</button>
