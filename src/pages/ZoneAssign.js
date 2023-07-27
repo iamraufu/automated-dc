@@ -215,6 +215,10 @@ const ZoneAssign = () => {
             stoData: items
         }
 
+        console.log(zoneOutletArray.map(item => item.sto));
+        console.log(productCategory.map(item => item));
+        console.log(zoneOutletArray.map(item => item.code));
+
         fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}/${items.map(item => item.sto)}`)
             .then(response => response.json())
             .then(result => result.status && updateCount(result.sto.reduce((a, c) => a + c.quantity, 0)))
@@ -225,7 +229,6 @@ const ZoneAssign = () => {
 
             if (result.status === true) {
                 if (result.counts.email) {
-                    console.log(result.counts)
                     const details = {
                         "email": result.counts.email,
                         "sto": result.counts.sto - items.length,
@@ -261,7 +264,8 @@ const ZoneAssign = () => {
 
         const updateStoStatus = async () => {
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/update-products-status/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${zoneOutletArray.map(item => item.sto)}/${productCategory.map(item => item)}/${zoneOutletArray.map(item => item.code)}`),
+                // fetch(`https://shwapnodc.onrender.com/update-products-status/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${zoneOutletArray.map(item => item.sto)}/${productCategory.map(item => item)}/${zoneOutletArray.map(item => item.code)}`),
+                fetch(`https://shwapnodc.onrender.com/update-sto-status/${zoneOutletArray.map(item => item.sto)}`),
                 {
                     pending: 'Please wait. Status Updating',
                     success: 'SKU Status Updated Successfully',
