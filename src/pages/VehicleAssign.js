@@ -60,17 +60,32 @@ const VehicleAssign = () => {
     // }
 
     const updateVehicleWiseData = async () => {
+        
         let details
         if (vehicleType === 'Hired Vehicle') {
             details = {
                 vehicle_type: vehicleType,
-                vehicle_reg_no: document.getElementById('vehicle_number_input').value
+                vehicle_reg_no: document.getElementById('vehicle_number_input').value,
+                deliveryOutlets: vehicleWiseData.find(item => item.vehicle === Number(vehicle)).stoData.reduce((result, item) => {
+                    const key = item.code + item.name;
+                    if (!result.some((entry) => entry.code + entry.name === key)) {
+                        result.push({ code: item.code, name: item.name });
+                    }
+                    return result;
+                }, [])
             }
         }
         else {
             details = {
                 vehicle_type: vehicleType,
-                vehicle_reg_no: vehicleRegNo
+                vehicle_reg_no: vehicleRegNo,
+                deliveryOutlets: vehicleWiseData.find(item => item.vehicle === Number(vehicle)).stoData.reduce((result, item) => {
+                    const key = item.code + item.name;
+                    if (!result.some((entry) => entry.code + entry.name === key)) {
+                        result.push({ code: item.code, name: item.name });
+                    }
+                    return result;
+                }, [])
             }
         }
         const response = await toast.promise(
