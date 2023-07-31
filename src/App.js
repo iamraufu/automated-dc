@@ -3,7 +3,7 @@ import './App.css';
 import PrivateOutlet from './components/PrivateOutlet';
 import AuthProvider from './context/AuthProvider';
 import Attendance from './pages/Attendance';
-import Home from './pages/Home';
+// import Home from './pages/Home';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import Notice from './pages/Notice';
@@ -28,7 +28,10 @@ function App() {
         <Route path='*' element={<NotFound />} />
 
         <Route path='/' element={<PrivateOutlet />}>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={
+          // <Home />
+          <ZoneAssign />
+          } />
           <Route path='/attendance' element={<Attendance />} />
           <Route path='/picker' element={<Picker />} />
           <Route path='/picker-details' element={<PickerDetails />} />

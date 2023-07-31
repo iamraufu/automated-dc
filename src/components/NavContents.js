@@ -3,9 +3,9 @@ import logo from '../images/logo.svg'
 import picker from '../images/picker.svg'
 import vehicle from '../images/vehicle.svg'
 import zone from '../images/zone.svg'
-import ticket from '../images/ticket.svg'
+// import ticket from '../images/ticket.svg'
 import kpi from '../images/kpi.svg'
-import taka from '../images/taka.svg'
+// import taka from '../images/taka.svg'
 // import stoassign from '../images/stoassign.svg'
 import noticeIcon from '../images/notice_red.svg'
 import { NavLink } from 'react-router-dom';
@@ -67,14 +67,14 @@ const NavContents = () => {
                 </div>
             </NavLink>
 
-            <NavLink to='/expense-tracker' className='text-decoration-none' style={({ isActive }) => (
+            {/* <NavLink to='/expense-tracker' className='text-decoration-none' style={({ isActive }) => (
                 isActive ? activeStyles : defaultStyles
             )}>
                 <div className="mt-5 mx-auto d-block">
                     <img width={34} src={taka} className='mx-auto d-block' alt="expense" />
                     <h2 className='sidebar-title text-center pt-1'>Expense Track</h2>
                 </div>
-            </NavLink>
+            </NavLink> */}
 
             <NavLink to='/kpi' className='text-decoration-none' style={({ isActive }) => (
                 isActive ? activeStyles : defaultStyles
@@ -85,14 +85,14 @@ const NavContents = () => {
                 </div>
             </NavLink>
 
-            <NavLink to='/tickets' className='text-decoration-none' style={({ isActive }) => (
+            {/* <NavLink to='/tickets' className='text-decoration-none' style={({ isActive }) => (
                 isActive ? activeStyles : defaultStyles
             )}>
                 <div className="mt-5 mx-auto d-block">
                     <img width={32} src={ticket} className='mx-auto d-block' alt="ticket" />
                     <h2 className='sidebar-title text-center pt-1'>Ticket</h2>
                 </div>
-            </NavLink>
+            </NavLink> */}
 
             {
                 user.role === 0 &&

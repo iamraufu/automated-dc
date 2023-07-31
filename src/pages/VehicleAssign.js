@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import vehicleInfo from '../data/vehicleInfo.json'
 import useAuth from '../hooks/useAuth';
 import _ from 'lodash';
+// import { groupBy } from 'lodash';
 
 const VehicleAssign = () => {
     const { user, startDate, setStartDate, endDate, setEndDate } = useAuth()
@@ -60,7 +61,7 @@ const VehicleAssign = () => {
     // }
 
     const updateVehicleWiseData = async () => {
-        
+
         let details
         if (vehicleType === 'Hired Vehicle') {
             details = {
@@ -104,6 +105,8 @@ const VehicleAssign = () => {
         result.status === true && console.log(result)
         result.status === false && console.log(result)
     }
+
+    console.log(vehicleWiseData)
 
     return (
         <section className='bg-brand container-fluid p-0'>
@@ -191,6 +194,84 @@ const VehicleAssign = () => {
                             <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm'>Save</button>
                         </div>
                     }
+
+                    <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 bg-white">
+                        <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0">
+                            <thead>
+                                <tr>
+                                    <th scope="col" className='text-center'>Code</th>
+                                    <th scope="col" className='text-center'>Name</th>
+                                    <th scope="col" className='text-center'>STO</th>
+                                    <th scope="col" className='text-center'>SKU</th>
+                                    <th scope="col" className='text-center'>Vehicle No</th>
+                                    <th scope="col" className='text-center'>Vehicle Registration No</th>
+                                    <th scope="col" className='text-center'>Driver Name</th>
+                                    <th scope="col" className='text-center'>Driver Number</th>
+                                    {/* <th scope="col" className='text-center'>Vehicle Status</th> */}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    vehicleWiseData.length > 0 ?
+                                        vehicleWiseData.map((vehicle, index) =>
+                                            <tr key={index}>
+                                                <td>{
+                                                    vehicle.stoData.map((item, innerIndex) =>
+                                                        <React.Fragment key={item.sto}>
+                                                            {innerIndex > 0 && vehicle.stoData[innerIndex - 1].code === item.code ? "---" : item.code}
+                                                            <br />
+                                                        </React.Fragment>
+                                                    )
+                                                }
+                                                </td>
+                                                <td>{
+                                                    vehicle.stoData.map((item, innerIndex) =>
+                                                        <React.Fragment key={item.sto}>
+                                                            {innerIndex > 0 && vehicle.stoData[innerIndex - 1].name === item.name ? "---" : item.name}
+                                                            <br />
+                                                        </React.Fragment>
+                                                    )
+                                                }
+                                                </td>
+                                                <td>{
+                                                    vehicle.stoData.map((item) =>
+                                                        <React.Fragment key={item.sto}>
+                                                            {item.sto}
+                                                            <br />
+                                                        </React.Fragment>
+                                                    )
+                                                }
+                                                </td>
+                                                <td>{
+                                                    vehicle.stoData.map((item) =>
+                                                        <React.Fragment key={item.sto}>
+                                                            {item.sku}
+                                                            <br />
+                                                        </React.Fragment>
+                                                    )
+                                                }
+                                                </td>
+                                                <td className='text-center'>{vehicle.vehicle}</td>
+                                                <td className='text-center'>{vehicle.vehicle_reg_no}</td>
+                                                <td className='text-center'>{vehicle.driver_name}</td>
+                                                <td className='text-center'>{vehicle.driver_phone}</td>
+                                            </tr>
+                                        )
+                                        :
+                                        <tr>
+                                            <td colSpan="8" className='font-ibm'>
+                                                <div>
+                                                    <div className="d-flex justify-content-center align-items-center">
+                                                        <div style={{ width: '18px', height: '18px' }} className="spinner-border text-dark" role="status"></div>
+                                                        <p className='font-ibm mt-3 ms-2'>Loading...</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
 
                     <ToastContainer />
                 </div>
