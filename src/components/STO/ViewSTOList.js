@@ -21,7 +21,6 @@ const ViewSTOList = ({ stoData }) => {
 
         if (result.status === true) {
             if (result.counts.email) {
-                console.log(result.counts)
                 const details = {
                     "email": result.counts.email,
                     "sto": result.counts.sto + stoData.length,

@@ -23,6 +23,7 @@ const UpdateVehicleZoneData = () => {
         setFileName(file.name)
         setFileSize(bytesToSize(file.size))
         document.getElementById('vehicle_zone-uploaded-container').style.display = 'block'
+        document.getElementById('vehicle_zone-upload-container').style.display = 'none'
 
         const reader = new FileReader()
         reader.onload = (e) => {
@@ -42,8 +43,6 @@ const UpdateVehicleZoneData = () => {
 
             const filteredArray = vehicleZoneData.filter((obj) => Object.values(obj).every((val) => val !== undefined));
 
-            console.log("Filtered Data: ", filteredArray)
-
             // setViewSto(filteredArray)
             setData(filteredArray)
 
@@ -54,6 +53,7 @@ const UpdateVehicleZoneData = () => {
             if (!valid) {
                 document.getElementById('vehicle_zone-loading-spinner').style.display = 'none'
                 setFileUploadError("File Format Mismatch. Please Check again and upload")
+                document.getElementById('vehicle_zone-upload-container').style.display = 'block'
             }
         }
         reader.readAsArrayBuffer(file)
@@ -76,11 +76,13 @@ const UpdateVehicleZoneData = () => {
         setFile(null)
         setData([])
         document.getElementById('vehicle_zone-uploaded-container').style.display = 'none'
+        document.getElementById('vehicle_zone-upload-container').style.display = 'block'
     }
 
     return (
         <div className='ms-2 mt-3'>
             <div className='col-md-4'>
+            <h2 className='h6 font-ibm ms-2'>Update Vehicle Zone</h2>
                 <div id="vehicle_zone-upload-container">
                     <FileUploader
                         children={

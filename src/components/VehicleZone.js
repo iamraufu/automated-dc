@@ -20,7 +20,7 @@ const VehicleZone = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                fetch(`https://shwapnodc.onrender.com/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                 {
                     pending: 'Fetching the latest data...',
                     success: 'Vehicle Wise Data Loaded',
@@ -251,6 +251,35 @@ const VehicleZone = () => {
         }
     }
 
+    // useEffect(()=> {
+    //     const details = {
+    //         stoData: vehicleData
+    //     }
+        
+    //     fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+    //             method: 'PATCH',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify(details)
+    //         })
+    //             .then(response => response.json())
+    //             .then(result => {
+    //                 if (result.status === true) {
+    //                     // setVehicleData([])
+    //                     const fetchData = async () => {
+    //                         const response = await fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
+    //                         const result = await response.json();
+    //                         if (result.status === true) {
+    //                             setVehicleWiseData(result.vehicleWiseData)
+    //                         }
+    //                         else {
+    //                             console.log(result)
+    //                         }
+    //                     };
+    //                     fetchData();
+    //                 }
+    //             })
+    // },[vehicleData, selectedVehicleId, startDate, endDate, user.email])
+
     return (
         <div>
             <div className="d-flex align-items-center">
@@ -269,7 +298,7 @@ const VehicleZone = () => {
                     }} />
                 </div>
                 <div className="font-ibm ms-3">
-                    <p className='mb-0 ms-1'>Vehicle Number</p>
+                    <p className='mb-0 ms-1'>Zone</p>
                     <select className='select bg-white' onChange={(e) => {
                         setVehicle(e.target.value)
                         // setVehicleWiseData([])
@@ -280,8 +309,9 @@ const VehicleZone = () => {
                         <option className='font-ibm my-1' value="" selected disabled>Select</option>
                         {
                             vehicleWiseData.length > 0 &&
+                            // _.orderBy(vehicleWiseData, ['zone'], ['asc']).map((v, index) =>
                             vehicleWiseData.map((v, index) =>
-                                <option key={index + 1} className='font-ibm my-1' value={v.vehicle}>Vehicle {v.vehicle}</option>
+                                <option key={index + 1} className='font-ibm my-1' value={v.vehicle}>{v.zone} {v.vehicle}</option>
                             )
                         }
                     </select>
@@ -289,7 +319,7 @@ const VehicleZone = () => {
             </div>
 
             <div className="">
-                <button className='btn btn-primary btn-sm ms-auto d-block my-2' id='vehicle_zone_submit_btn' onClick={() => handleSaveSubmit()} >Save and Submit</button>
+                <button className='btn btn-primary btn-sm ms-auto d-block my-2 font-ibm' id='vehicle_zone_submit_btn' onClick={() => handleSaveSubmit()} >Save and Submit</button>
                 <div style={{ maxHeight: '600px' }} className="table-responsive">
                     <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm bg-white">
                         <thead>
@@ -389,7 +419,7 @@ const VehicleZone = () => {
                                                 item.picker ?
                                                     <div className='d-flex justify-content-center align-items-center'>
                                                         <div className="col-md-8">
-                                                            <p style={{ border: '2px solid #0C4C9C', borderRadius: '4px', width: '150px', color: '#0C4C9C' }} className='mx-auto d-block m-0 p-1 fw-bold'>{item.picker}{item.picking_ending_time ? ' Picked': ' is Picking 🤲'}</p>
+                                                            <p style={{ border: '2px solid #0C4C9C', borderRadius: '4px', width: '150px', color: '#0C4C9C' }} className='mx-auto d-block m-0 p-1 fw-bold'>{item.picker}{item.picking_ending_time ? ' Picked': ' is Picking'}</p>
                                                             <p className='m-0 pt-1 fw-bold'>Started at {moment(item.picking_starting_time).format('LTS')}</p>
                                                             {
                                                                 item.picking_ending_time && <p className='m-0 pt-1 fw-bold'>Ended at {moment(item.picking_ending_time).format('LTS')}</p>
@@ -422,7 +452,7 @@ const VehicleZone = () => {
                                                 item.sorter ?
                                                     <div className='d-flex justify-content-center align-items-center'>
                                                         <div className="col-md-8">
-                                                            <p style={{ border: '2px solid #0C4C9C', borderRadius: '4px', width: '150px', color: '#0C4C9C' }} className='m-0 p-1 mx-auto d-block fw-bold'>{item.sorter} {item.sorting_ending_time ? " Sorted":" is Sorting 📦"}</p>
+                                                            <p style={{ border: '2px solid #0C4C9C', borderRadius: '4px', width: '150px', color: '#0C4C9C' }} className='m-0 p-1 mx-auto d-block fw-bold'>{item.sorter} {item.sorting_ending_time ? " Sorted":" is Sorting"}</p>
                                                             <p className='m-0 pt-1 fw-bold'>Started at {moment(item.sorting_starting_time).format('LTS')}</p>
                                                             {
                                                                 item.sorting_ending_time && <p className='m-0 pt-1 fw-bold'>Ended at {moment(item.sorting_ending_time).format('LTS')}</p>

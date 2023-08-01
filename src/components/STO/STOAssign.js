@@ -25,6 +25,7 @@ const STOAssign = () => {
         setFile(file);
         setFileName(file.name)
         setFileSize(bytesToSize(file.size))
+        document.getElementById('file-upload-container').style.display = 'none'
         document.getElementById('file-uploaded-container').style.display = 'block'
 
         const reader = new FileReader()
@@ -80,9 +81,6 @@ const STOAssign = () => {
             const filteredArray = stoData.filter((obj) => Object.values(obj).every((val) => val !== undefined));
             const filteredArray2 = stoData2.filter((obj) => Object.values(obj).every((val) => val !== undefined));
 
-            console.log("RAW Data: ", filteredArray)
-            console.log("Sorted Data: ", filteredArray2)
-
             setViewSto(filteredArray)
             setData(filteredArray2)
 
@@ -94,6 +92,7 @@ const STOAssign = () => {
             if (!valid) {
                 document.getElementById('file-loading-spinner').style.display = 'none'
                 setFileUploadError("File Format Mismatch. Please Check again and upload")
+                document.getElementById('file-upload-container').style.display = 'block'
             }
         }
         reader.readAsArrayBuffer(file)
@@ -116,6 +115,7 @@ const STOAssign = () => {
         setFile(null)
         setData([])
         document.getElementById('file-uploaded-container').style.display = 'none'
+        document.getElementById('file-upload-container').style.display = 'block'
     }
 
     return (
@@ -163,6 +163,7 @@ const STOAssign = () => {
 
         <div className="">
             <div className='col-md-4'>
+            <h2 className='h6 font-ibm ms-2'>STO Assign</h2>
                 <div id="file-upload-container">
                     <FileUploader
                         children={
@@ -180,7 +181,7 @@ const STOAssign = () => {
 
                 <div style={{ display: 'none' }} id="file-uploaded-container">
                     {
-                        fileUploadError && <p style={{ fontSize: '13px' }} className='text-center fw-bold font-ibm text-danger ms-2 mt-2'>{fileUploadError}</p>
+                        fileUploadError && <p style={{ fontSize: '13px' }} className='text-center fw-bold font-ibm text-danger ms-2 my-2'>{fileUploadError}</p>
                     }
                     <div className="d-flex justify-content-between align-items-center px-1">
                         <p style={{ fontSize: '14px' }} className='text-brand fw-bold pt-3 mx-3 font-ibm'>{fileName}</p>

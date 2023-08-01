@@ -22,7 +22,6 @@ const UploadedSTO = () => {
         const fetchData = async () => {
             setFlag(1)
             setFlag2(1)
-            console.log("Loading...")
             const response = await toast.promise(
                 fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
                 {

@@ -102,11 +102,28 @@ const VehicleAssign = () => {
             }
         );
         const result = await response.json();
-        result.status === true && console.log(result)
+        if(result.status) {
+            const fetchData = async () => {
+                const response = await toast.promise(
+                    fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                    {
+                        pending: 'Fetching the latest data...',
+                        success: 'Vehicle Number Loaded',
+                        error: 'There is an error fetching. Please try again!'
+                    }
+                );
+                const result = await response.json();
+                if (result.status === true) {
+                    setVehicleWiseData(result.vehicleWiseData)
+                }
+                else {
+                    console.log(result)
+                }
+            };
+            fetchData();
+        }
         result.status === false && console.log(result)
     }
-
-    console.log(vehicleWiseData)
 
     return (
         <section className='bg-brand container-fluid p-0'>
@@ -134,7 +151,7 @@ const VehicleAssign = () => {
                         {
                             vehicleWiseData.length > 0 &&
                             <div className="font-ibm ms-3">
-                                <p className='mb-0 ms-1'>Vehicle Number</p>
+                                <p className='mb-0 ms-1'>Zone</p>
                                 <select className='select bg-white' onChange={(e) => {
                                     setVehicle(e.target.value)
                                 }
@@ -143,7 +160,7 @@ const VehicleAssign = () => {
                                     {
                                         vehicleWiseData.length > 0 &&
                                         vehicleWiseData.map((v, index) =>
-                                            <option key={index + 1} className='font-ibm my-1' value={v.vehicle}>Vehicle {v.vehicle}</option>
+                                            <option key={index + 1} className='font-ibm my-1' value={v.vehicle}>{v.zone} {v.vehicle}</option>
                                         )
                                     }
                                 </select>
@@ -199,6 +216,7 @@ const VehicleAssign = () => {
                         <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0">
                             <thead>
                                 <tr>
+                                    <th scope="col" className='text-center'>Zone</th>
                                     <th scope="col" className='text-center'>Code</th>
                                     <th scope="col" className='text-center'>Name</th>
                                     <th scope="col" className='text-center'>STO</th>
@@ -215,6 +233,7 @@ const VehicleAssign = () => {
                                     vehicleWiseData.length > 0 ?
                                         vehicleWiseData.map((vehicle, index) =>
                                             <tr key={index}>
+                                                <td>{vehicle.zone} {vehicle.vehicle}</td>
                                                 <td>{
                                                     vehicle.stoData.map((item, innerIndex) =>
                                                         <React.Fragment key={item.sto}>

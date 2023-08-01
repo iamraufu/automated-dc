@@ -212,12 +212,9 @@ const ZoneAssign = () => {
             date: new Date().toISOString().split('T')[0],
             email: user.email,
             name: user.name,
-            stoData: items
+            stoData: items,
+            zone
         }
-
-        console.log(zoneOutletArray.map(item => item.sto));
-        console.log(productCategory.map(item => item));
-        console.log(zoneOutletArray.map(item => item.code));
 
         fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}/${items.map(item => item.sto)}`)
             .then(response => response.json())
@@ -415,8 +412,6 @@ const ZoneAssign = () => {
                 </div>
 
                 <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block">
-                    <h2 className='h6 font-ibm ms-2'>STO Assign</h2>
-
                     <STOAssign />
 
                     <div className="bg-white py-3 bg-body-tertiary rounded shadow-sm mt-3">
@@ -643,7 +638,7 @@ const ZoneAssign = () => {
                         {
                             zoneOutletArray.length > 0 &&
                             <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 col-md-5 bg-white p-0">
-                                <p className="font-ibm m-0 d-flex justify-content-between align-items-center p-2">Showing Selected Category Wise Zonal STO <button id='vehicle_assign' onClick={() => assignToVehicle(zoneOutletArray)} className='btn btn-primary btn-sm'>Assign to Vehicle</button></p>
+                                <p className="font-ibm m-0 d-flex justify-content-between align-items-center p-2">Showing Selected Category Wise Zonal STO <button id='vehicle_assign' onClick={() => assignToVehicle(zoneOutletArray)} className='btn btn-primary btn-sm'>Assign to Zone</button></p>
                                 <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0 p-0">
                                     <thead>
                                         <tr>
@@ -688,7 +683,6 @@ const ZoneAssign = () => {
                     </div>
 
                     <div className="mt-3">
-                        <h2 className='h6 font-ibm ms-2'>Update Vehicle Zone</h2>
                         <UpdateVehicleZoneData />
                     </div>
                     <ToastContainer />

@@ -20,7 +20,6 @@ const ZoneSelect = () => {
             return outletZones.filter(item => item.zone === zoneName).some(zone => zone.code === sto.code);
         });
         setSelectedZone(filteredSto)
-        console.log("Filtered STO ", filteredSto)
         setZone(zoneName);
     }
 
@@ -38,9 +37,6 @@ const ZoneSelect = () => {
     }
 
     const handlePickerChange = (index, stoNumber, picker) => {
-
-        console.log("Assigned STO ", assignedSto)
-        console.log("Picker ", picker)
 
         let thisStoData = assignedSto.find(data => data.sto === stoNumber)
 
@@ -64,8 +60,6 @@ const ZoneSelect = () => {
 
     const handleSorterChange = (index, stoNumber, sorter) => {
         let thisStoData = assignedSto.find(data => data.sto === stoNumber)
-
-        console.log("Sorter ", sorter)
 
         thisStoData = {
             ...thisStoData,

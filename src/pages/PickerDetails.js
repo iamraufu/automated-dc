@@ -109,11 +109,6 @@ const PickerDetails = () => {
     }
 
     const updateSto = () => {
-        console.log(selectedZone.map(item => item.sto))
-        console.log(productCategory.map(item => item))
-        console.log(selectedZone.map(item => item.code))
-
-        console.log("Selected ", selectedZone)
         
         const fetchData = async () => {
             const response = await toast.promise(
@@ -125,8 +120,7 @@ const PickerDetails = () => {
                 }
             );
             const result = await response.json();
-            console.log(result)
-            setSelectedZone([])
+            result.status && setSelectedZone([])
         }
         selectedZone.length && fetchData()
     }
