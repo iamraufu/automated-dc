@@ -16,6 +16,7 @@ const VehicleZone = () => {
     const [vehicleWiseData, setVehicleWiseData] = useState([])
     const [vehicleData, setVehicleData] = useState([])
     const [selectedVehicleId, setSelectedVehicleId] = useState("")
+    const [flag, setFlag] = useState(0)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,7 +24,7 @@ const VehicleZone = () => {
                 fetch(`https://shwapnodc.onrender.com/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                 {
                     pending: 'Fetching the latest data...',
-                    success: 'Vehicle Wise Data Loaded',
+                    success: 'Zone Wise Data Loaded',
                     error: 'There is an error fetching. Please try again!'
                 }
             );
@@ -39,8 +40,8 @@ const VehicleZone = () => {
     }, [user.email, startDate, endDate])
 
     useEffect(() => {
-        vehicle && setVehicleData(vehicleWiseData.find(item => item.vehicle === Number(vehicle))?.stoData)
-        vehicle && setSelectedVehicleId(vehicleWiseData.find(item => item.vehicle === Number(vehicle))?._id)
+        vehicle && setVehicleData(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle)?.stoData)
+        vehicle && setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle)?._id)
     }, [vehicle, vehicleWiseData])
 
     const handlePickerChange = (index, stoNumber, picker) => {
@@ -59,6 +60,7 @@ const VehicleZone = () => {
             newArray[index] = { ...newArray[index], ...thisStoData };
             return newArray;
         })
+        setFlag(1)
         // updatePickerStatus(picker, 1)
     }
 
@@ -76,6 +78,7 @@ const VehicleZone = () => {
             newArray[index] = { ...newArray[index], ...thisStoData };
             return newArray;
         })
+        setFlag(1)
         // updatePickerStatus(picker, 1)
     }
 
@@ -95,6 +98,7 @@ const VehicleZone = () => {
             newArray[index] = { ...newArray[index], ...thisStoData };
             return newArray;
         });
+        setFlag(1)
         // updateSorterStatus(sorter, 1)
     }
 
@@ -112,6 +116,7 @@ const VehicleZone = () => {
             newArray[index] = { ...newArray[index], ...thisStoData };
             return newArray;
         });
+        setFlag(1)
         // updateSorterStatus(sorter, 1)
     }
 
@@ -183,80 +188,16 @@ const VehicleZone = () => {
     //         }))
     // }
 
-    const handleSaveSubmit = () => {
-        if (vehicleData.length > 0) {
-            let btn = document.getElementById('vehicle_zone_submit_btn')
-            btn.disabled = true
-            btn.innerText = 'Submitting...'
+    // const handleSaveSubmit = () => {
+    //     if (vehicleData.length > 0) {
+    //         let btn = document.getElementById('vehicle_zone_submit_btn')
+    //         btn.disabled = true
+    //         btn.innerText = 'Submitting...'
 
-            const details = {
-                stoData: vehicleData
-            }
-            fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(details)
-            })
-                .then(response => response.json())
-                .then(result => {
-                    if (result.status === true) {
-                        toast.success(`${result.message}`, {
-                            position: "top-right",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        });
-                        setVehicleData([])
-                        btn.disabled = false
-                        btn.innerText = 'Save and Submit'
-                        const fetchData = async () => {
-                            const response = await fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
-                            const result = await response.json();
-                            if (result.status === true) {
-                                setVehicleWiseData(result.vehicleWiseData)
-                            }
-                            else {
-                                console.log(result)
-                            }
-                        };
-                        fetchData();
-                    }
-                    else {
-                        toast.warn(`${result.message}`, {
-                            position: "top-right",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        });
-                    }
-                })
-                .catch(err => toast.warn(`${err}`, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
-        }
-    }
-
-    // useEffect(()=> {
-    //     const details = {
-    //         stoData: vehicleData
-    //     }
-        
-    //     fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+    //         const details = {
+    //             stoData: vehicleData
+    //         }
+    //         fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
     //             method: 'PATCH',
     //             headers: { 'Content-Type': 'application/json' },
     //             body: JSON.stringify(details)
@@ -264,9 +205,21 @@ const VehicleZone = () => {
     //             .then(response => response.json())
     //             .then(result => {
     //                 if (result.status === true) {
-    //                     // setVehicleData([])
+    //                     toast.success(`${result.message}`, {
+    //                         position: "top-right",
+    //                         autoClose: 2000,
+    //                         hideProgressBar: false,
+    //                         closeOnClick: true,
+    //                         pauseOnHover: true,
+    //                         draggable: true,
+    //                         progress: undefined,
+    //                         theme: "light",
+    //                     });
+    //                     setVehicleData([])
+    //                     btn.disabled = false
+    //                     btn.innerText = 'Save and Submit'
     //                     const fetchData = async () => {
-    //                         const response = await fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
+    //                         const response = await fetch(`https://shwapnodc.onrender.com/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
     //                         const result = await response.json();
     //                         if (result.status === true) {
     //                             setVehicleWiseData(result.vehicleWiseData)
@@ -277,8 +230,60 @@ const VehicleZone = () => {
     //                     };
     //                     fetchData();
     //                 }
+    //                 else {
+    //                     toast.warn(`${result.message}`, {
+    //                         position: "top-right",
+    //                         autoClose: 2000,
+    //                         hideProgressBar: false,
+    //                         closeOnClick: true,
+    //                         pauseOnHover: true,
+    //                         draggable: true,
+    //                         progress: undefined,
+    //                         theme: "light",
+    //                     });
+    //                 }
     //             })
-    // },[vehicleData, selectedVehicleId, startDate, endDate, user.email])
+    //             .catch(err => toast.warn(`${err}`, {
+    //                 position: "top-right",
+    //                 autoClose: 2000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 progress: undefined,
+    //                 theme: "light",
+    //             }))
+    //     }
+    // }
+
+    useEffect(()=> {
+        const fetchData = async () => {
+            const details = {
+                stoData: vehicleData
+            }
+            const response = await fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(details)
+            })
+            const result = await response.json()
+            if(result.status) {
+                const fetchData = async () => {
+                    const response = await fetch(`https://shwapnodc.onrender.com/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
+                    const result = await response.json();
+                    if (result.status === true) {
+                        setFlag(0)
+                        setVehicleWiseData(result.vehicleWiseData)
+                    }
+                    else {
+                        console.log(result)
+                    }
+                };
+                fetchData();
+            }
+        }
+        flag === 1 && fetchData()
+    },[vehicleData, selectedVehicleId, startDate, endDate, user.email, flag])
 
     return (
         <div>
@@ -311,7 +316,7 @@ const VehicleZone = () => {
                             vehicleWiseData.length > 0 &&
                             // _.orderBy(vehicleWiseData, ['zone'], ['asc']).map((v, index) =>
                             vehicleWiseData.map((v, index) =>
-                                <option key={index + 1} className='font-ibm my-1' value={v.vehicle}>{v.zone} {v.vehicle}</option>
+                                <option key={index + 1} className='font-ibm my-1' value={`${v.zone}-${v.vehicle}`}>{v.zone} {v.vehicle}</option>
                             )
                         }
                     </select>
@@ -319,8 +324,8 @@ const VehicleZone = () => {
             </div>
 
             <div className="">
-                <button className='btn btn-primary btn-sm ms-auto d-block my-2 font-ibm' id='vehicle_zone_submit_btn' onClick={() => handleSaveSubmit()} >Save and Submit</button>
-                <div style={{ maxHeight: '600px' }} className="table-responsive">
+                {/* <button className='btn btn-primary btn-sm ms-auto d-block my-2 font-ibm' id='vehicle_zone_submit_btn' onClick={() => handleSaveSubmit()} >Save and Submit</button> */}
+                <div style={{ maxHeight: '600px' }} className="table-responsive mt-3">
                     <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm bg-white">
                         <thead>
                             <tr>
@@ -492,7 +497,7 @@ const VehicleZone = () => {
                     </table>
                 </div>
             </div>
-            <ToastContainer />
+            <ToastContainer autoClose={1000} />
         </div>
     );
 };

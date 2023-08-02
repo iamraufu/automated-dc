@@ -685,7 +685,7 @@ const ZoneAssign = () => {
                     <div className="mt-3">
                         <UpdateVehicleZoneData />
                     </div>
-                    <ToastContainer />
+                    <ToastContainer autoClose={1000} />
                     <STODetailsModal data={stoData} />
                 </div>
             </div>

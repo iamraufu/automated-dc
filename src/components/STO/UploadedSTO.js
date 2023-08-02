@@ -280,7 +280,7 @@ const UploadedSTO = () => {
                         </>
                 }
             </div>
-            <ToastContainer />
+            <ToastContainer autoClose={1000} />
         </div>
     );
 };

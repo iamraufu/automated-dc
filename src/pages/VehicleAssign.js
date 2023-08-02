@@ -12,6 +12,7 @@ const VehicleAssign = () => {
     const [vehicle, setVehicle] = useState()
     const [vehicleType, setVehicleType] = useState("")
     const [selectedVehicleId, setSelectedVehicleId] = useState("")
+    const [vehicleData, setVehicleData] = useState([])
     const [vehicleRegNo, setVehicleRegNo] = useState()
     const [vehicleWiseData, setVehicleWiseData] = useState([])
 
@@ -37,8 +38,11 @@ const VehicleAssign = () => {
     }, [user.email, startDate, endDate])
 
     useEffect(() => {
-        vehicle && setSelectedVehicleId(vehicleWiseData.find(item => item.vehicle === Number(vehicle))?._id)
+        vehicle && setVehicleData(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle)?.stoData)
+        vehicle && setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle)?._id)
     }, [vehicle, vehicleWiseData])
+
+    console.log(vehicleData)
 
     // const vehicleAssign = () => {
     //     let thisVehicleData = vehicleWiseData.find(data => data.vehicle === Number(vehicle))
@@ -160,7 +164,7 @@ const VehicleAssign = () => {
                                     {
                                         vehicleWiseData.length > 0 &&
                                         vehicleWiseData.map((v, index) =>
-                                            <option key={index + 1} className='font-ibm my-1' value={v.vehicle}>{v.zone} {v.vehicle}</option>
+                                            <option key={index + 1} className='font-ibm my-1' value={`${v.zone}-${v.vehicle}`}>{v.zone} {v.vehicle}</option>
                                         )
                                     }
                                 </select>
@@ -221,10 +225,10 @@ const VehicleAssign = () => {
                                     <th scope="col" className='text-center'>Name</th>
                                     <th scope="col" className='text-center'>STO</th>
                                     <th scope="col" className='text-center'>SKU</th>
-                                    <th scope="col" className='text-center'>Vehicle No</th>
                                     <th scope="col" className='text-center'>Vehicle Registration No</th>
                                     <th scope="col" className='text-center'>Driver Name</th>
                                     <th scope="col" className='text-center'>Driver Number</th>
+                                    <th scope="col" className='text-center'>Helper Name</th>
                                     {/* <th scope="col" className='text-center'>Vehicle Status</th> */}
                                 </tr>
                             </thead>
@@ -270,10 +274,10 @@ const VehicleAssign = () => {
                                                     )
                                                 }
                                                 </td>
-                                                <td className='text-center'>{vehicle.vehicle}</td>
                                                 <td className='text-center'>{vehicle.vehicle_reg_no}</td>
                                                 <td className='text-center'>{vehicle.driver_name}</td>
                                                 <td className='text-center'>{vehicle.driver_phone}</td>
+                                                <td className='text-center'>{vehicle.helper_name}</td>
                                             </tr>
                                         )
                                         :
@@ -292,7 +296,7 @@ const VehicleAssign = () => {
                         </table>
                     </div>
 
-                    <ToastContainer />
+                    <ToastContainer autoClose={1000} />
                 </div>
             </div>
         </section>

@@ -436,7 +436,7 @@ const PickerDetails = () => {
                     :
                     <p className='font-ibm text-center'>Loading...</p>
             }
-            <ToastContainer />
+            <ToastContainer autoClose={1000} />
         </div>
     );
 };

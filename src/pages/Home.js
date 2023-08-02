@@ -26,7 +26,7 @@ const Home = () => {
                 </div>
             </div>
             <Modal />
-            <ToastContainer />
+            <ToastContainer autoClose={1000} />
         </section>
     );
 };
