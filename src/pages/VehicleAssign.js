@@ -71,7 +71,7 @@ const VehicleAssign = () => {
             details = {
                 vehicle_type: vehicleType,
                 vehicle_reg_no: document.getElementById('vehicle_number_input').value,
-                deliveryOutlets: vehicleWiseData.find(item => item.vehicle === Number(vehicle)).stoData.reduce((result, item) => {
+                deliveryOutlets: vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle).stoData.reduce((result, item) => {
                     const key = item.code + item.name;
                     if (!result.some((entry) => entry.code + entry.name === key)) {
                         result.push({ code: item.code, name: item.name });
@@ -84,7 +84,7 @@ const VehicleAssign = () => {
             details = {
                 vehicle_type: vehicleType,
                 vehicle_reg_no: vehicleRegNo,
-                deliveryOutlets: vehicleWiseData.find(item => item.vehicle === Number(vehicle)).stoData.reduce((result, item) => {
+                deliveryOutlets: vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle).stoData.reduce((result, item) => {
                     const key = item.code + item.name;
                     if (!result.some((entry) => entry.code + entry.name === key)) {
                         result.push({ code: item.code, name: item.name });

@@ -2,13 +2,13 @@
     {
         "id": "1",
         "code": "F013",
-        "name": "Banasree, (Block -H Avenue)",
+        "name": "Banasree, (Block - H Avenue)",
         "zone": "Badda"
     },
     {
         "id": "2",
         "code": "F048",
-        "name": "Kawla Express outlet",
+        "name": "Kawla Express Outlet",
         "zone": "Badda"
     },
     {
@@ -20,7 +20,7 @@
     {
         "id": "4",
         "code": "F065",
-        "name": "Thana Road, Uttar Badda Expres",
+        "name": "Thana Road, Uttar Badda Express",
         "zone": "Badda"
     },
     {
@@ -32,7 +32,7 @@
     {
         "id": "6",
         "code": "F299",
-        "name": "West Merul Badda outlet",
+        "name": "West Merul Badda Outlet",
         "zone": "Badda"
     },
     {
@@ -50,13 +50,13 @@
     {
         "id": "9",
         "code": "D088",
-        "name": "Saterkul Outlet",
+        "name": "Satarkul Outlet",
         "zone": "Badda"
     },
     {
         "id": "10",
         "code": "F017",
-        "name": "Modhubagh Express outlet",
+        "name": "Modhubagh Express Outlet",
         "zone": "Bonosree"
     },
     {
@@ -68,7 +68,7 @@
     {
         "id": "12",
         "code": "F046",
-        "name": "Khilgaon Tipapara Express Outlet",
+        "name": "Khilgaon Tilpapara Express Outlet",
         "zone": "Bonosree"
     },
     {
@@ -86,7 +86,7 @@
     {
         "id": "15",
         "code": "F172",
-        "name": "Banashree E Block outlet",
+        "name": "Banasree E Block Outlet",
         "zone": "Bonosree"
     },
     {
@@ -110,7 +110,7 @@
     {
         "id": "19",
         "code": "D049",
-        "name": "North Bonosri",
+        "name": "North Bonosree",
         "zone": "Bonosree"
     },
     {
@@ -140,7 +140,7 @@
     {
         "id": "24",
         "code": "F044",
-        "name": "Jigatola Post Road Express out",
+        "name": "Jigatola Post Road Express Outlet",
         "zone": "Dhanmondi"
     },
     {

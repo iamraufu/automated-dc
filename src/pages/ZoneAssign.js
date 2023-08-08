@@ -415,7 +415,7 @@ const ZoneAssign = () => {
                     <STOAssign />
 
                     <div className="bg-white py-3 bg-body-tertiary rounded shadow-sm mt-3">
-                        <div className='d-flex align-items-center' >
+                        <div className='d-flex align-items-center'>
                             <div className="d-flex align-items-center ms-3">
                                 <div className="font-ibm"><p className='mb-0 ms-1'>From:</p> <DatePicker className='select bg-white' selected={startDate} onChange={(date) => setStartDate(date)} /></div>
                                 <div className="font-ibm ms-3"><p className='ms-1 mb-0'>To:</p> <DatePicker className='select bg-white' selected={endDate} onChange={(date) => setEndDate(date)} /></div>
