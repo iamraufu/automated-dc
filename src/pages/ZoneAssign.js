@@ -13,6 +13,8 @@ import STOAssign from '../components/STO/STOAssign';
 import UpdateVehicleZoneData from './UpdateVehicleZoneData';
 import STODetailsModal from '../components/STODetailsModal';
 import Swal from 'sweetalert2';
+import UpdatePickerList from '../components/UpdatePickerList';
+import UpdateSorterList from '../components/UpdateSorterList';
 
 const ZoneAssign = () => {
 
@@ -682,9 +684,19 @@ const ZoneAssign = () => {
                         }
                     </div>
 
-                    <div className="mt-3">
-                        <UpdateVehicleZoneData />
-                    </div>
+                    {/* <div className="row"> */}
+                        <div className="mt-3">
+                            <UpdateVehicleZoneData />
+                        </div>
+
+                        <div className="mt-3">
+                            <UpdatePickerList />
+                        </div>
+
+                        <div className="mt-3">
+                            <UpdateSorterList />
+                        </div>
+                    {/* </div> */}
                     <ToastContainer autoClose={1000} />
                     <STODetailsModal data={stoData} />
                 </div>

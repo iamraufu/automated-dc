@@ -6,6 +6,7 @@ import vehicleInfo from '../data/vehicleInfo.json'
 import useAuth from '../hooks/useAuth';
 import _ from 'lodash';
 // import { groupBy } from 'lodash';
+// import { useForm } from 'react-hook-form';
 
 const VehicleAssign = () => {
     const { user, startDate, setStartDate, endDate, setEndDate } = useAuth()
@@ -42,7 +43,8 @@ const VehicleAssign = () => {
         vehicle && setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle)?._id)
     }, [vehicle, vehicleWiseData])
 
-    console.log(vehicleData)
+    console.log("Vehicle Wise Data ", vehicleWiseData)
+    console.log("Selected Zone STO Data ", vehicleData)
 
     // const vehicleAssign = () => {
     //     let thisVehicleData = vehicleWiseData.find(data => data.vehicle === Number(vehicle))
@@ -106,7 +108,7 @@ const VehicleAssign = () => {
             }
         );
         const result = await response.json();
-        if(result.status) {
+        if (result.status) {
             const fetchData = async () => {
                 const response = await toast.promise(
                     fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
@@ -127,6 +129,10 @@ const VehicleAssign = () => {
             fetchData();
         }
         result.status === false && console.log(result)
+    }
+
+    const handleSelectedSTO = (sto) => {
+        document.getElementById(sto).checked ? console.log(sto, "Checked") : console.log(sto, "Not Checked")
     }
 
     return (
@@ -216,7 +222,25 @@ const VehicleAssign = () => {
                         </div>
                     }
 
-                    <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive mt-3 bg-white">
+                    {
+                        vehicle &&
+                        <div className="my-3">
+                            <h2 className="h6 font-ibm mt-3">{vehicle} Zone</h2>
+                            <div className="bg-white shadow-sm rounded py-3 ps-3 col-sm-3">
+                                {
+                                    vehicleData.map(outlet =>
+                                        <div onClick={() => handleSelectedSTO(outlet.sto)} key={outlet.sto}>
+                                            <input className='mt-2' type="checkbox" id={`${outlet.sto}`} value={`${outlet.sto}`} />
+                                            <label htmlFor={`${outlet.sto}`} className='ms-2 me-5 font-ibm mb-1'>{outlet.sto}</label>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <h2 className='font-ibm h6 mt-3 mb-0'>Showing Data for Selected Date Range</h2>
+                    <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive bg-white">
                         <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0">
                             <thead>
                                 <tr>
