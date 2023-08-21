@@ -6,6 +6,7 @@ import useAuth from '../hooks/useAuth';
 import moment from 'moment/moment';
 import BarChart from '../components/Charts/BarChart';
 import truck from '../images/truck.svg'
+import _ from 'lodash'
 
 const KPI = () => {
 
@@ -65,7 +66,7 @@ const KPI = () => {
             if (existingIndex !== -1) {
                 result[existingIndex].sku += current.sku;
                 result[existingIndex].time += (current.picking_ending_time - current.picking_starting_time);
-            } else {
+            } else {    
                 result.push(
                     {
                         name: current.picker,
@@ -206,7 +207,7 @@ const KPI = () => {
                                 <option className='font-ibm my-1' value="" selected disabled>Select</option>
                                 {
                                     user?.pickers.length > 0 &&
-                                    user.pickers.map((u, index) =>
+                                    _.sortBy(user.pickers, "name").map((u, index) =>
                                         <option key={index + 1} className='font-ibm my-1' value={u.name}>{u.name}</option>
                                     )
                                 }
@@ -222,7 +223,7 @@ const KPI = () => {
                                 <option className='font-ibm my-1' value="" selected disabled>Select</option>
                                 {
                                     user?.sorters.length > 0 &&
-                                    user.sorters.map((u, index) =>
+                                    _.sortBy(user.sorters, "name").map((u, index) =>
                                         <option key={index + 1} className='font-ibm my-1' value={u.name}>{u.name}</option>
                                     )
                                 }

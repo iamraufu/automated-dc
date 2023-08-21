@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 // import { groupBy } from 'lodash';
-// import _ from 'lodash';
+import _ from 'lodash';
 import moment from 'moment/moment';
 // import stopIcon from '../images/stop.svg'
 
@@ -446,7 +446,7 @@ const VehicleZone = () => {
                                                         <option className='font-ibm' value="" selected disabled>Select Picker</option>
                                                         {
                                                             user.email &&
-                                                            user.pickers.map((picker, index) =>
+                                                            _.sortBy(user.pickers, 'name' ).map((picker, index) =>
                                                                 <option key={index} value={picker.name}>{picker.name}</option>
                                                             )}
                                                     </select>
@@ -480,7 +480,7 @@ const VehicleZone = () => {
                                                         <option className='font-ibm' value="" selected disabled>Select Sorter</option>
                                                         {
                                                             user.email &&
-                                                            user.sorters.map((sorter, index) =>
+                                                            _.sortBy(user.sorters, 'name').map((sorter, index) =>
                                                                 <option key={index} value={sorter.name}>{sorter.name}</option>
                                                             )}
                                                     </select>
