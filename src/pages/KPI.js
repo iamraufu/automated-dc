@@ -7,6 +7,7 @@ import moment from 'moment/moment';
 import BarChart from '../components/Charts/BarChart';
 import truck from '../images/truck.svg'
 import _ from 'lodash'
+import { CSVLink } from 'react-csv';
 
 const KPI = () => {
 
@@ -56,7 +57,7 @@ const KPI = () => {
 
     useEffect(() => {
         setSelectedPickerSto(pickedSto.filter(item => item.picker === picker))
-        setSelectedSorterSto(sortedSto.filter(item => item.picker === sorter))
+        setSelectedSorterSto(sortedSto.filter(item => item.sorter === sorter))
     }, [pickedSto, sortedSto, picker, sorter])
 
     useEffect(() => {
@@ -66,7 +67,7 @@ const KPI = () => {
             if (existingIndex !== -1) {
                 result[existingIndex].sku += current.sku;
                 result[existingIndex].time += (current.picking_ending_time - current.picking_starting_time);
-            } else {    
+            } else {
                 result.push(
                     {
                         name: current.picker,
@@ -90,7 +91,7 @@ const KPI = () => {
                         name: current.sorter,
                         sku: current.sku,
                         time: current.sorting_ending_time - current.sorting_starting_time
-                    }
+                    },
                 );
             }
             return result;
@@ -276,6 +277,24 @@ const KPI = () => {
                         </div>
                     </div>
 
+                    <CSVLink
+                        data={sortedSto.map(item => ({
+                            code: item.code,
+                            name: item.name,
+                            sto: item.sto,
+                            sku: item.sku,
+                            picker: item.picker,
+                            sorter: item.sorter
+                        }))}
+                        filename={`Report.csv`}
+                        className="text-decoration-none text-black me-4"
+                        target="_blank"
+                    >
+                        <button className='btn btn-success mt-3'>Download Report</button>
+                    </CSVLink>
+
+
+                    {/* Selected Picker Sorter Details */}
                     <div className="row align-items-center">
                         {
                             picker &&
