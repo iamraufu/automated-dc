@@ -43,9 +43,6 @@ const VehicleAssign = () => {
         vehicle && setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle)?._id)
     }, [vehicle, vehicleWiseData])
 
-    console.log("Vehicle Wise Data ", vehicleWiseData)
-    console.log("Selected Zone STO Data ", vehicleData)
-
     // const vehicleAssign = () => {
     //     let thisVehicleData = vehicleWiseData.find(data => data.vehicle === Number(vehicle))
 

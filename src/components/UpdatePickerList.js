@@ -42,7 +42,6 @@ const UpdatePickerList = () => {
                   const filteredArray = pickerData.filter((obj) => Object.values(obj).every((val) => val !== undefined));
 
                   setData(filteredArray)
-                  console.log(filteredArray)
 
                   const labels = ['id', 'name']
                   const dataLabel = filteredArray.length > 0 ? Object.keys(filteredArray[0]) : valid = false

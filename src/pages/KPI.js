@@ -12,7 +12,7 @@ import { CSVLink } from 'react-csv';
 const KPI = () => {
 
     const { user, startDate, setStartDate, endDate, setEndDate } = useAuth()
-    const [vehicleWiseData, setVehicleWiseData] = useState([])
+    // const [vehicleWiseData, setVehicleWiseData] = useState([])
     const [picker, setPicker] = useState("")
     const [sorter, setSorter] = useState("")
     const [pickedSto, setPickedSto] = useState([])
@@ -23,27 +23,24 @@ const KPI = () => {
     const [selectedSorterSto, setSelectedSorterSto] = useState([])
     const [vehicleData, setVehicleData] = useState([])
     // const [vehicles, setVehicles] = useState([])
+    const [pickerKpi, setPickerKpi] = useState([])
+    const [sorterKpi, setSorterKpi] = useState([])
 
     useEffect(() => {
         try {
             const fetchData = async () => {
                 const response = await toast.promise(
-                    fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                    fetch(`https://shwapnodc.onrender.com/picker-kpi/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                     {
-                        pending: 'Fetching the latest data...',
-                        success: 'KPI Data Loaded',
-                        error: 'There is an error fetching. Please try again!'
+                        pending: "Fetching Picker KPI",
+                        success: "Picker KPI Loaded",
+                        error: "There is an error fetching. Please try again"
                     }
-                );
-                const result = await response.json();
-                if (result.status === true) {
-                    setVehicleWiseData(result.vehicleWiseData)
-                }
-                else {
-                    console.log(result)
-                }
-            };
-            fetchData();
+                )
+                const result = await response.json()
+                result.status && setPickerKpi(result.pickerData)
+            }
+            fetchData()
         }
         catch {
 
@@ -51,9 +48,30 @@ const KPI = () => {
     }, [user.email, startDate, endDate])
 
     useEffect(() => {
-        setPickedSto([].concat(...vehicleWiseData.map(item => item.stoData)).filter(item => item.hasOwnProperty("picking_ending_time")))
-        setSortedSto([].concat(...vehicleWiseData.map(item => item.stoData)).filter(item => item.hasOwnProperty("sorting_ending_time")))
-    }, [vehicleWiseData, picker, sorter])
+        try {
+            const fetchData = async () => {
+                const response = await toast.promise(
+                    fetch(`https://shwapnodc.onrender.com/sorter-kpi/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                    {
+                        pending: "Fetching Sorter KPI",
+                        success: "Sorter KPI Loaded",
+                        error: "There is an error fetching. Please try again"
+                    }
+                )
+                const result = await response.json()
+                result.status && setSorterKpi(result.sorterData)
+            }
+            fetchData()
+        }
+        catch {
+
+        }
+    }, [user.email, startDate, endDate])
+
+    useEffect(() => {
+        setPickedSto([].concat(...pickerKpi.map(item => item.stoData)).filter(item => item.hasOwnProperty("picking_ending_time")))
+        setSortedSto([].concat(...sorterKpi.map(item => item.stoData)).filter(item => item.hasOwnProperty("sorting_ending_time")))
+    }, [pickerKpi, sorterKpi, picker, sorter])
 
     useEffect(() => {
         setSelectedPickerSto(pickedSto.filter(item => item.picker === picker))
@@ -235,11 +253,11 @@ const KPI = () => {
                     <div className="row align-items-center">
                         <div className="mt-3 bg-white col-md-5 p-3 rounded shadow-sm mx-2">
                             <h2 className="h5 font-ibm text-center">Picking KPI</h2>
-                            <p className='font-ibm m-0'>Total Picking Time:
+                            {/* <p className='font-ibm m-0'>Total Picking Time:
                                 <b>{moment.duration(pickedSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).hours()} Hours </b>
                                 <b>{moment.duration(pickedSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).minutes()} Minutes </b>
                                 <b>{moment.duration(pickedSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).seconds()} Seconds</b>
-                            </p>
+                            </p> */}
                             <p className='font-ibm m-0'>Total Picked SKU: <b>{pickedSto.reduce((a, c) => a + c.sku, 0)}</b></p>
 
                             {
@@ -257,11 +275,11 @@ const KPI = () => {
 
                         <div className="mt-3 bg-white col-md-5 p-3 rounded shadow-sm mx-2">
                             <h2 className="h5 font-ibm text-center">Sorting KPI</h2>
-                            <p className='font-ibm m-0'>Total Sorting Time:
+                            {/* <p className='font-ibm m-0'>Total Sorting Time:
                                 <b>{moment.duration(sortedSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).hours()} Hours </b>
                                 <b>{moment.duration(sortedSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).minutes()} Minutes </b>
                                 <b>{moment.duration(sortedSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).seconds()} Seconds</b>
-                            </p>
+                            </p> */}
                             <p className='font-ibm m-0'>Total Sorted SKU: <b>{sortedSto.reduce((a, c) => a + c.sku, 0)}</b></p>
 
                             {
@@ -278,19 +296,39 @@ const KPI = () => {
                     </div>
 
                     <CSVLink
-                        data={sortedSto.map(item => ({
-                            code: item.code,
-                            name: item.name,
-                            sto: item.sto,
-                            sku: item.sku,
-                            picker: item.picker,
-                            sorter: item.sorter
+                        data={pickedSto.map(item => ({
+                            Code: item.code,
+                            Name: item.name,
+                            STO: item.sto,
+                            SKU: item.sku,
+                            "Picking Starting Time": moment(item.picking_starting_time).format("LTS"),
+                            "Picking Ending Time": moment(item.picking_ending_time).format("LTS"),
+                            "Picking Time": `${moment.duration(item.picking_ending_time - item.picking_starting_time).hours()}:${moment.duration(item.picking_ending_time - item.picking_starting_time).minutes()}: ${moment.duration(item.picking_ending_time - item.picking_starting_time).seconds()}`,
+                            "Picker Name": item.picker
                         }))}
-                        filename={`Report.csv`}
+                        filename={`Picker Report ${startDate.toISOString().split('T')[0]} - ${endDate.toISOString().split('T')[0]}.csv`}
                         className="text-decoration-none text-black me-4"
                         target="_blank"
                     >
-                        <button className='btn btn-success mt-3'>Download Report</button>
+                        <button className='btn btn-primary mt-3'>Download Picker Report</button>
+                    </CSVLink>
+
+                    <CSVLink
+                        data={sortedSto.map(item => ({
+                            Code: item.code,
+                            Name: item.name,
+                            STO: item.sto,
+                            SKU: item.sku,
+                            "Sorting Starting Time": moment(item.sorting_starting_time).format("LTS"),
+                            "Sorting Ending Time": moment(item.sorting_ending_time).format("LTS"),
+                            "Sorting Time": `${moment.duration(item.sorting_ending_time - item.sorting_starting_time).hours()}:${moment.duration(item.sorting_ending_time - item.sorting_starting_time).minutes()}: ${moment.duration(item.sorting_ending_time - item.sorting_starting_time).seconds()}`,
+                            "Sorter Name": item.sorter
+                        }))}
+                        filename={`Sorter Report ${startDate.toISOString().split('T')[0]} - ${endDate.toISOString().split('T')[0]}.csv`}
+                        className="text-decoration-none text-black me-4"
+                        target="_blank"
+                    >
+                        <button className='btn btn-info mt-3 text-white'>Download Sorter Report</button>
                     </CSVLink>
 
 
@@ -300,11 +338,11 @@ const KPI = () => {
                             picker &&
                             <div style={{ borderLeft: '5px solid rgba(255, 99, 132, 0.5)' }} className="mt-3 bg-white p-3 rounded shadow-sm mx-2 col-md-5">
                                 <h2 className="h5 font-ibm">{picker} KPI <small>(Picker)</small></h2>
-                                <p className='font-ibm m-0'>Total Picking Time:
+                                {/* <p className='font-ibm m-0'>Total Picking Time:
                                     <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).hours()}h </b>
                                     <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).minutes()}min </b>
                                     <b>{moment.duration(selectedPickerSto.reduce((a, c) => a + (c.picking_ending_time - c.picking_starting_time), 0)).seconds()}s</b>
-                                </p>
+                                </p> */}
                                 <p className='font-ibm m-0'>Total Picked SKU: <b>{selectedPickerSto.reduce((a, c) => a + c.sku, 0)}</b></p>
                             </div>
                         }
@@ -313,11 +351,11 @@ const KPI = () => {
                             sorter &&
                             <div style={{ borderLeft: '5px solid rgba(53, 162, 235, 0.5)' }} className="mt-3 bg-white p-3 rounded shadow-sm mx-2 col-md-5">
                                 <h2 className="h5 font-ibm">{sorter} KPI <small>(Sorter)</small></h2>
-                                <p className='font-ibm m-0'>Total Sorting Time:
+                                {/* <p className='font-ibm m-0'>Total Sorting Time:
                                     <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).hours() || 0}h </b>
                                     <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).minutes() || 0}m </b>
                                     <b>{moment.duration(selectedSorterSto.reduce((a, c) => a + (c.sorting_ending_time - c.sorting_starting_time), 0)).seconds() || 0}s</b>
-                                </p>
+                                </p> */}
                                 <p className='font-ibm m-0'>Total Sorted SKU: <b>{selectedSorterSto.reduce((a, c) => a + c.sku, 0)}</b></p>
                             </div>
                         }
