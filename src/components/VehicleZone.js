@@ -285,8 +285,6 @@ const VehicleZone = () => {
         flag === 1 && fetchData()
     },[vehicleData, selectedVehicleId, startDate, endDate, user.email, flag])
 
-    console.log(vehicleData)
-
     return (
         <div>
             <div className="d-flex align-items-center">

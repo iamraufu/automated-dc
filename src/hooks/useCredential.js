@@ -11,6 +11,8 @@ const useCredential = () => {
     const [notice, setNotice] = useState([])
     const [sto, setSto] = useState([])
     const [viewSto, setViewSto] = useState([])
+    const [dn, setDn] = useState([])
+    const [viewDn, setViewDn] = useState([])
     const [assignedSto, setAssignedSto] = useState([])
     const [selectedZone, setSelectedZone] = useState([])
     const [productCategory, setProductCategory] = useState([])
@@ -138,6 +140,8 @@ const useCredential = () => {
         setTickets,
         sto,
         setSto,
+        dn, 
+        setDn,
         notice,
         setNotice,
         pickerTickets,
@@ -147,6 +151,8 @@ const useCredential = () => {
         setSelectedZone,
         viewSto,
         setViewSto,
+        viewDn, 
+        setViewDn,
         productCategory,
         setProductCategory,
         startDate,

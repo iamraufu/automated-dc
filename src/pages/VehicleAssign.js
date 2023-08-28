@@ -5,17 +5,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import vehicleInfo from '../data/vehicleInfo.json'
 import useAuth from '../hooks/useAuth';
 import _ from 'lodash';
+import UploadDN from '../components/UploadDN';
 // import { groupBy } from 'lodash';
 // import { useForm } from 'react-hook-form';
 
 const VehicleAssign = () => {
-    const { user, startDate, setStartDate, endDate, setEndDate } = useAuth()
+    const { user, startDate, setStartDate, endDate, setEndDate, viewDn } = useAuth()
     const [vehicle, setVehicle] = useState()
     const [vehicleType, setVehicleType] = useState("")
     const [selectedVehicleId, setSelectedVehicleId] = useState("")
     const [vehicleData, setVehicleData] = useState([])
     const [vehicleRegNo, setVehicleRegNo] = useState()
     const [vehicleWiseData, setVehicleWiseData] = useState([])
+    // const [selectedSto, setSelectedSto] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,7 +65,36 @@ const VehicleAssign = () => {
     //     // updateVehicleWiseData(thisVehicleData)
     // }
 
+    // const handleSelectedSTO = (sto) => {
+    //     if (document.getElementById(sto).checked) {
+    //         selectedSto.indexOf(sto) === -1 ? setSelectedSto([...selectedSto, sto]) : setSelectedSto(selectedSto)
+    //     }
+    //     else {
+    //         setSelectedSto(selectedSto.filter((item) => item !== sto))
+    //     }
+    // }
+
     const updateVehicleWiseData = async () => {
+        // let filteredData = vehicleData.filter(data => selectedSto.includes(data.sto));
+
+        // filteredData.forEach(data => {
+        //     data.status = "Delivered";
+        // });
+
+        // console.log(filteredData)
+
+        const updatedVehicleData = vehicleData.map(vehicleItem => {
+            const matchingDn = viewDn.find(dnItem => dnItem.sto === vehicleItem.sto);
+            
+            if (matchingDn) {
+                return {
+                    ...vehicleItem,
+                    dn: matchingDn.dn
+                };
+            } else {
+                return vehicleItem;
+            }
+        });
 
         let details
         if (vehicleType === 'Hired Vehicle') {
@@ -76,7 +107,15 @@ const VehicleAssign = () => {
                         result.push({ code: item.code, name: item.name });
                     }
                     return result;
-                }, [])
+                }, []),
+                stoData: updatedVehicleData
+                // deliveryOutlets: filteredData.reduce((result, item) => {
+                //     const key = item.code + item.name;
+                //     if (!result.some((entry) => entry.code + entry.name === key)) {
+                //         result.push({ code: item.code, name: item.name });
+                //     }
+                //     return result;
+                // }, [])
             }
         }
         else {
@@ -89,9 +128,18 @@ const VehicleAssign = () => {
                         result.push({ code: item.code, name: item.name });
                     }
                     return result;
-                }, [])
+                }, []),
+                stoData: updatedVehicleData
+                // deliveryOutlets: filteredData.reduce((result, item) => {
+                //     const key = item.code + item.name;
+                //     if (!result.some((entry) => entry.code + entry.name === key)) {
+                //         result.push({ code: item.code, name: item.name });
+                //     }
+                //     return result;
+                // }, [])
             }
         }
+
         const response = await toast.promise(
             fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
                 method: 'PATCH',
@@ -126,10 +174,6 @@ const VehicleAssign = () => {
             fetchData();
         }
         result.status === false && console.log(result)
-    }
-
-    const handleSelectedSTO = (sto) => {
-        document.getElementById(sto).checked ? console.log(sto, "Checked") : console.log(sto, "Not Checked")
     }
 
     return (
@@ -211,28 +255,58 @@ const VehicleAssign = () => {
                         </div>
                     }
 
+                    {/* <div className="row">
+                        <div className="col-sm-5">
+                            {
+                                vehicle &&
+                                <div className="my-3">
+                                    <h2 className="h6 font-ibm mt-3">{vehicle} Zone</h2>
+                                    <div className="bg-white shadow-sm rounded py-3 ps-3 col-sm-9">
+                                        {
+                                            vehicleData.map(outlet =>
+                                                <div onClick={() => handleSelectedSTO(outlet.sto)} 
+                                                key={outlet.sto}>
+                                                    <input className='mt-2' type="checkbox" id={`${outlet.sto}`} value={`${outlet.sto}`} />
+                                                    <label htmlFor={`${outlet.sto}`} className='ms-2 me-5 font-ibm mb-1'>{outlet.sto}</label>
+                                                </div>
+                                            )
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        {
+                            selectedSto.length > 0 &&
+                            <div className="col-sm-5">
+                                <h2 className="h6 font-ibm mt-3">Selected Sto</h2>
+                                <div className="bg-white shadow-sm rounded py-3 ps-3 col-sm-9">
+                                    {
+                                        selectedSto.map((item, index) =>
+                                            <li style={{ listStyle: 'none' }} key={index} className='mb-2 font-ibm'>
+                                                {item}
+                                            </li>
+                                        )}
+                                </div>
+                            </div>
+                        }
+                    </div> */}
+
+                    {
+                        vehicle && <UploadDN />
+                    }
+
+
                     {
                         (vehicleRegNo && vehicleType !== 'Hired Vehicle') &&
                         <div className="mt-3 ps-1">
                             <p className="font-ibm">Vehicle {vehicle} is assigned to <b>{vehicleRegNo}</b></p>
-                            <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm'>Save</button>
-                        </div>
-                    }
-
-                    {
-                        vehicle &&
-                        <div className="my-3">
-                            <h2 className="h6 font-ibm mt-3">{vehicle} Zone</h2>
-                            <div className="bg-white shadow-sm rounded py-3 ps-3 col-sm-3">
-                                {
-                                    vehicleData.map(outlet =>
-                                        <div onClick={() => handleSelectedSTO(outlet.sto)} key={outlet.sto}>
-                                            <input className='mt-2' type="checkbox" id={`${outlet.sto}`} value={`${outlet.sto}`} />
-                                            <label htmlFor={`${outlet.sto}`} className='ms-2 me-5 font-ibm mb-1'>{outlet.sto}</label>
-                                        </div>
-                                    )
-                                }
-                            </div>
+                            {
+                                viewDn.length > 0 ?
+                                <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm'>Save</button>
+                                :
+                                <p className='font-ibm text-danger fw-bold'>Please Upload Delivery Note</p>
+                            }
                         </div>
                     }
 
@@ -245,11 +319,12 @@ const VehicleAssign = () => {
                                     <th scope="col" className='text-center'>Code</th>
                                     <th scope="col" className='text-center'>Name</th>
                                     <th scope="col" className='text-center'>STO</th>
+                                    <th scope="col" className='text-center'>DN</th>
                                     <th scope="col" className='text-center'>SKU</th>
                                     <th scope="col" className='text-center'>Vehicle Registration No</th>
                                     <th scope="col" className='text-center'>Driver Name</th>
                                     <th scope="col" className='text-center'>Driver Number</th>
-                                    <th scope="col" className='text-center'>Helper Name</th>
+                                    <th scope="col" className='text-center'>Delivery Man</th>
                                     {/* <th scope="col" className='text-center'>Vehicle Status</th> */}
                                 </tr>
                             </thead>
@@ -281,6 +356,15 @@ const VehicleAssign = () => {
                                                     vehicle.stoData.map((item) =>
                                                         <React.Fragment key={item.sto}>
                                                             {item.sto}
+                                                            <br />
+                                                        </React.Fragment>
+                                                    )
+                                                }
+                                                </td>
+                                                <td>{
+                                                    vehicle.stoData.map((item) =>
+                                                        <React.Fragment key={item.dn}>
+                                                            {item.dn}
                                                             <br />
                                                         </React.Fragment>
                                                     )

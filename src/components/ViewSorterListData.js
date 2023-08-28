@@ -1,7 +1,8 @@
 import React from 'react';
 import useAuth from '../hooks/useAuth';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import _ from 'lodash'
+import Swal from 'sweetalert2';
 
 const ViewPickerListData = ({ sorterData }) => {
 
@@ -20,22 +21,61 @@ const ViewPickerListData = ({ sorterData }) => {
                   email: user.email
             }
 
-            const response = await toast.promise(fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
+            // const response = await toast.promise(fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
+            //       method: 'PATCH',
+            //       headers: { 'Content-Type': 'application/json' },
+            //       body: JSON.stringify(details)
+            // }),
+            //       {
+            //             pending: 'Sorter List Updating...',
+            //             success: 'Updated Sorter Data',
+            //             error: 'There is an error posting. Please try again!'
+            //       })
+
+            // const result = await response.json()
+            // if (result.status === true) {
+            //       document.getElementById('sorter-file-btn').style.display = 'block'
+            //       document.getElementById('sorter-file-spinner').style.display = 'none'
+            // }
+            fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
                   method: 'PATCH',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(details)
-            }),
-                  {
-                        pending: 'Sorter List Updating...',
-                        success: 'Updated Sorter Data',
-                        error: 'There is an error posting. Please try again!'
+            })
+                  .then(response => response.json())
+                  .then(result => {
+                        if (result.status === true) {
+                              document.getElementById('sorter-file-btn').style.display = 'block'
+                              document.getElementById('sorter-file-spinner').style.display = 'none'
+                              let timerInterval
+                              Swal.fire({
+                                    icon: 'success',
+                                    title: `${result.message}`,
+                                    timer: 1500,
+                                    timerProgressBar: true,
+                                    didOpen: () => {
+                                          Swal.showLoading()
+                                          timerInterval = setInterval(() => {
+                                          }, 100)
+                                    },
+                                    willClose: () => {
+                                          clearInterval(timerInterval)
+                                          window.location.reload()
+                                    }
+                              }).then((result) => {
+                                    if (result.dismiss === Swal.DismissReason.timer) {
+                                          window.location.reload()
+                                    }
+                              })
+                        }
+                        else {
+                              Swal.fire({
+                                    icon: 'error',
+                                    title: `${result.message}`,
+                                    timer: 2000
+                              })
+                        }
                   })
-
-            const result = await response.json()
-            if (result.status === true) {
-                  document.getElementById('sorter-file-btn').style.display = 'block'
-                  document.getElementById('sorter-file-spinner').style.display = 'none'
-            }
       }
 
       return (
