@@ -53,7 +53,6 @@ const STOAssign = () => {
 
             const stoData2 = json.reduce((result, obj) => {
                 const sto = obj["Purch.Doc."];
-                // const catCode = obj["Article"];
 
                 const existingItem = result.find(item => {
                     return ('Article' in obj && item.sto === sto)
@@ -61,7 +60,6 @@ const STOAssign = () => {
 
                 if (existingItem) {
                     existingItem.sku += 1;
-                    // existingItem.catCode.push(String(catCode).slice(0, 2))
                 }
                 else if ('Article' in obj) {
                     const item = {
@@ -70,7 +68,6 @@ const STOAssign = () => {
                         sto: sto,
                         sku: 1,
                         dc: obj.SPlt,
-                        // catCode: [String(obj.Article).slice(0, 2)],
                         status: 'Pending'
                     };
                     result.push(item);
@@ -88,7 +85,7 @@ const STOAssign = () => {
             const dataLabel = filteredArray.length > 0 ? Object.keys(filteredArray[0]) : valid = false
 
             valid = labels.every((item, index) => (item === dataLabel[index]) ? true : false)
-            
+
             if (!valid) {
                 document.getElementById('file-loading-spinner').style.display = 'none'
                 setFileUploadError("File Format Mismatch. Please Check again and upload")
@@ -163,7 +160,7 @@ const STOAssign = () => {
 
         <div className="">
             <div className='col-md-4'>
-            <h2 className='h6 font-ibm ms-2'>STO Assign</h2>
+                <h2 className='h6 font-ibm ms-2'>STO Assign</h2>
                 <div id="file-upload-container">
                     <FileUploader
                         children={

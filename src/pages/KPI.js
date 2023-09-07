@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import useAuth from '../hooks/useAuth';
 import moment from 'moment/moment';
 import BarChart from '../components/Charts/BarChart';
-import truck from '../images/truck.svg'
+// import truck from '../images/truck.svg'
 import _ from 'lodash'
 import { CSVLink } from 'react-csv';
 
@@ -21,7 +21,7 @@ const KPI = () => {
     const [sortedSto, setSortedSto] = useState([])
     const [selectedPickerSto, setSelectedPickerSto] = useState([])
     const [selectedSorterSto, setSelectedSorterSto] = useState([])
-    const [vehicleData, setVehicleData] = useState([])
+    // const [vehicleData, setVehicleData] = useState([])
     // const [vehicles, setVehicles] = useState([])
     const [pickerKpi, setPickerKpi] = useState([])
     const [sorterKpi, setSorterKpi] = useState([])
@@ -116,44 +116,44 @@ const KPI = () => {
         }, []))
     }, [pickedSto, sortedSto])
 
-    useEffect(() => {
-        try {
-            setVehicleData([])
-            const fetchData = async () => {
-                const response = await toast.promise(
-                    fetch(`https://shwapnodc.onrender.com/vehicleHistoryData`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            from_date: startDate.toISOString().split("T")[0],
-                            from_time: "00:00",
-                            to_date: endDate.toISOString().split("T")[0],
-                            to_time: "23:59",
-                            device_name: ""
-                        }),
-                    }),
-                    {
-                        pending: 'Fetching the latest Vehicle data...',
-                        success: 'Vehicle Data Loaded',
-                        error: 'There is an error fetching vehicle data. Please try again!'
-                    }
-                );
-                const result = await response.json();
-                if (result.status === true) {
-                    setVehicleData(result?.data?.data)
-                }
-                else {
-                    console.log(result)
-                }
-            };
-            fetchData();
-        }
-        catch (error) {
-            console.log(error)
-        }
-    }, [startDate, endDate])
+    // useEffect(() => {
+    //     try {
+    //         setVehicleData([])
+    //         const fetchData = async () => {
+    //             const response = await toast.promise(
+    //                 fetch(`https://shwapnodc.onrender.com/vehicleHistoryData`, {
+    //                     method: "POST",
+    //                     headers: {
+    //                         "Content-Type": "application/json"
+    //                     },
+    //                     body: JSON.stringify({
+    //                         from_date: startDate.toISOString().split("T")[0],
+    //                         from_time: "00:00",
+    //                         to_date: endDate.toISOString().split("T")[0],
+    //                         to_time: "23:59",
+    //                         device_name: ""
+    //                     }),
+    //                 }),
+    //                 {
+    //                     pending: 'Fetching the latest Vehicle data...',
+    //                     success: 'Vehicle Data Loaded',
+    //                     error: 'There is an error fetching vehicle data. Please try again!'
+    //                 }
+    //             );
+    //             const result = await response.json();
+    //             if (result.status === true) {
+    //                 setVehicleData(result?.data?.data)
+    //             }
+    //             else {
+    //                 console.log(result)
+    //             }
+    //         };
+    //         fetchData();
+    //     }
+    //     catch (error) {
+    //         console.log(error)
+    //     }
+    // }, [startDate, endDate])
 
     return (
         <section className='bg-brand container-fluid p-0'>
@@ -361,7 +361,7 @@ const KPI = () => {
                         }
                     </div>
 
-                    <div className="row align-items-center mt-3">
+                    {/* <div className="row align-items-center mt-3">
                         {
                             vehicleData.length > 0 ?
                                 <>
@@ -380,7 +380,7 @@ const KPI = () => {
                                 :
                                 <div className="spinner-grow d-flex mx-auto d-block" role="status"></div>
                         }
-                    </div>
+                    </div> */}
 
                     <ToastContainer autoClose={1000} />
                 </div>
