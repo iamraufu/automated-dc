@@ -14,8 +14,7 @@ const UploadDN = () => {
     const [file, setFile] = useState()
     const [fileName, setFileName] = useState("")
     const [fileSize, setFileSize] = useState("")
-    const [data, setData] = useState([])
-    const { setViewDn } = useAuth()
+    const { setViewDn, setDn, dn } = useAuth()
 
     const handleChange = (file) => {
         document.getElementById('dn-loading-spinner').style.display = 'block'
@@ -32,6 +31,8 @@ const UploadDN = () => {
             const sheetName = workbook.SheetNames[0]
             const worksheet = workbook.Sheets[sheetName]
             const json = CSV.utils.sheet_to_json(worksheet)
+
+            console.log(json)
 
             const dnData = json.map(obj => (
                 {
@@ -83,7 +84,7 @@ const UploadDN = () => {
             const filteredArray2 = dnData2.filter((obj) => Object.values(obj).every((val) => val !== undefined && val !== ""));
 
             setViewDn(filteredArray)
-            setData(filteredArray2)
+            setDn(filteredArray2)
 
             const labels = ['article', 'category', 'code', 'dc', 'name', 'product', 'quantity', 'sap_stock', 'status', 'sto', 'dn','dn_quantity', 'amount', 'store_stock']
             const dataLabel = filteredArray.length > 0 ? Object.keys(filteredArray[0]) : valid = false
@@ -114,7 +115,7 @@ const UploadDN = () => {
 
     const handleUndo = () => {
         setFile(null)
-        setData([])
+        setDn([])
         document.getElementById('dn-uploaded-container').style.display = 'none'
         document.getElementById('dn-upload-container').style.display = 'block'
     }
@@ -151,8 +152,8 @@ const UploadDN = () => {
             </div>
 
             {
-                data.length > 0 ?
-                    <ViewDN dnData={data} />
+                dn.length > 0 ?
+                    <ViewDN dnData={dn} />
                     :
                     <div style={{ display: 'none' }} id='dn-loading-spinner'>
                         <div className="d-flex justify-content-center align-items-center col-md-4">

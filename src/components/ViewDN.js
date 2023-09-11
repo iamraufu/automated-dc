@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 const ViewDN = ({ dnData }) => {
 
-    // const { user } = useAuth()
+    // const { user, viewDn } = useAuth()
 
     // const handleVehicleUpdate = () => {
     //     document.getElementById('dn-file-btn').style.display = 'none'

@@ -6,6 +6,7 @@ import vehicleInfo from '../data/vehicleInfo.json'
 import useAuth from '../hooks/useAuth';
 import _ from 'lodash';
 import UploadDN from '../components/UploadDN';
+import Swal from 'sweetalert2';
 // import { groupBy } from 'lodash';
 // import { useForm } from 'react-hook-form';
 
@@ -18,6 +19,10 @@ const VehicleAssign = () => {
     const [vehicleRegNo, setVehicleRegNo] = useState()
     const [vehicleWiseData, setVehicleWiseData] = useState([])
     // const [selectedSto, setSelectedSto] = useState([])
+    const [toggle, setToggle] = useState(false)
+    const [driverName, setDriverName] = useState("")
+    const [driverPhone, setDriverPhone] = useState("")
+    const [deliveryMan, setDeliveryMan] = useState("")
 
     useEffect(() => {
         const fetchData = async () => {
@@ -85,7 +90,7 @@ const VehicleAssign = () => {
 
         const updatedVehicleData = vehicleData.map(vehicleItem => {
             const matchingDn = viewDn.find(dnItem => dnItem.sto === vehicleItem.sto);
-            
+
             if (matchingDn) {
                 return {
                     ...vehicleItem,
@@ -109,14 +114,36 @@ const VehicleAssign = () => {
                     return result;
                 }, []),
                 stoData: updatedVehicleData
-                // deliveryOutlets: filteredData.reduce((result, item) => {
-                //     const key = item.code + item.name;
-                //     if (!result.some((entry) => entry.code + entry.name === key)) {
-                //         result.push({ code: item.code, name: item.name });
-                //     }
-                //     return result;
-                // }, [])
             }
+            // toggle === false ?
+            //     details = {
+            //         vehicle_type: vehicleType,
+            //         vehicle_reg_no: vehicleRegNo,
+            //         deliveryOutlets: vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle).stoData.reduce((result, item) => {
+            //             const key = item.code + item.name;
+            //             if (!result.some((entry) => entry.code + entry.name === key)) {
+            //                 result.push({ code: item.code, name: item.name });
+            //             }
+            //             return result;
+            //         }, []),
+            //         stoData: updatedVehicleData
+            //     }
+            //     :
+            //     details = {
+            //         vehicle_type: vehicleType,
+            //         vehicle_reg_no: vehicleRegNo,
+            //         driver_name: document.getElementById('driver_name').value,
+            //         driver_phone: document.getElementById('driver_phone').value,
+            //         helper_name: document.getElementById('helper_name').value,
+            //         // deliveryOutlets: vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle).stoData.reduce((result, item) => {
+            //         //     const key = item.code + item.name;
+            //         //     if (!result.some((entry) => entry.code + entry.name === key)) {
+            //         //         result.push({ code: item.code, name: item.name });
+            //         //     }
+            //         //     return result;
+            //         // }, []),
+            //         // stoData: updatedVehicleData
+            //     }
         }
         else {
             details = {
@@ -130,16 +157,37 @@ const VehicleAssign = () => {
                     return result;
                 }, []),
                 stoData: updatedVehicleData
-                // deliveryOutlets: filteredData.reduce((result, item) => {
-                //     const key = item.code + item.name;
-                //     if (!result.some((entry) => entry.code + entry.name === key)) {
-                //         result.push({ code: item.code, name: item.name });
-                //     }
-                //     return result;
-                // }, [])
             }
+            // toggle === false ?
+            //     details = {
+            //         vehicle_type: vehicleType,
+            //         vehicle_reg_no: vehicleRegNo,
+            //         deliveryOutlets: vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle).stoData.reduce((result, item) => {
+            //             const key = item.code + item.name;
+            //             if (!result.some((entry) => entry.code + entry.name === key)) {
+            //                 result.push({ code: item.code, name: item.name });
+            //             }
+            //             return result;
+            //         }, []),
+            //         stoData: updatedVehicleData
+            //     }
+            //     :
+            //     details = {
+            //         vehicle_type: vehicleType,
+            //         vehicle_reg_no: vehicleRegNo,
+            //         driver_name: document.getElementById('driver_name').value,
+            //         driver_phone: document.getElementById('driver_phone').value,
+            //         helper_name: document.getElementById('helper_name').value,
+            //         // deliveryOutlets: vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle).stoData.reduce((result, item) => {
+            //         //     const key = item.code + item.name;
+            //         //     if (!result.some((entry) => entry.code + entry.name === key)) {
+            //         //         result.push({ code: item.code, name: item.name });
+            //         //     }
+            //         //     return result;
+            //         // }, []),
+            //         // stoData: updatedVehicleData
+            //     }
         }
-
         const response = await toast.promise(
             fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
                 method: 'PATCH',
@@ -166,6 +214,114 @@ const VehicleAssign = () => {
                 const result = await response.json();
                 if (result.status === true) {
                     setVehicleWiseData(result.vehicleWiseData)
+                    // handleUpdate()
+                    submit()
+                }
+                else {
+                    console.log(result)
+                }
+            };
+            fetchData();
+        }
+        result.status === false && console.log(result)
+    }
+
+    const handleUpdate = () => {
+        setToggle(curr => !curr)
+    }
+
+    const submit = () => {
+        const details = {
+            email: user.email,
+            name: user.name,
+            dnData: viewDn,
+            date: new Date().toISOString().split('T')[0]
+        }
+        fetch('https://shwapnodc.onrender.com/dn', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(details)
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === true) {
+                    // document.getElementById('submit-file-btn').style.display = 'block'
+                    // document.getElementById('submit-file-spinner').style.display = 'none'
+                    let timerInterval
+                    Swal.fire({
+                        icon: 'success',
+                        title: `${result.message}`,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            timerInterval = setInterval(() => {
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                            window.location.reload()
+                        }
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            window.location.reload()
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: `${result.message}`,
+                        timer: 2000
+                    })
+                }
+            })
+    }
+
+    const handleDriverDetails = async () => {
+        let details
+        vehicleRegNo ?
+        details = {
+            vehicle_type: vehicleType,
+            vehicle_reg_no: vehicleRegNo,
+            driver_name: driverName,
+            driver_phone: driverPhone,
+            helper_name: deliveryMan,
+        }
+        :
+        details = {
+            driver_name: driverName,
+            driver_phone: driverPhone,
+            helper_name: deliveryMan,
+        }
+        console.log(details, selectedVehicleId, vehicleWiseData)
+        const response = await toast.promise(
+            fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(details)
+            }),
+            {
+                pending: 'Please wait. Vehicle assigning',
+                success: 'Vehicle Assigned Successfully',
+                error: 'There is an error adding new vehicle wise sto. Please try again later!'
+            }
+        );
+        const result =  await response.json()
+        if (result.status) {
+            const fetchData = async () => {
+                const response = await toast.promise(
+                    fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                    {
+                        pending: 'Fetching the latest data...',
+                        success: 'Vehicle Number Loaded',
+                        error: 'There is an error fetching. Please try again!'
+                    }
+                );
+                const result = await response.json();
+                if (result.status === true) {
+                    setVehicleWiseData(result.vehicleWiseData)
+                    handleUpdate()
                 }
                 else {
                     console.log(result)
@@ -254,7 +410,7 @@ const VehicleAssign = () => {
                             <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm'>Save</button>
                         </div>
                     }
-
+                    {/* <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm mt-3'>Save</button> */}
                     {/* <div className="row">
                         <div className="col-sm-5">
                             {
@@ -303,14 +459,19 @@ const VehicleAssign = () => {
                             <p className="font-ibm">Vehicle {vehicle} is assigned to <b>{vehicleRegNo}</b></p>
                             {
                                 viewDn.length > 0 ?
-                                <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm'>Save</button>
-                                :
-                                <p className='font-ibm text-danger fw-bold'>Please Upload Delivery Note</p>
+                                    <button onClick={() => updateVehicleWiseData()} className='btn btn-sm btn-success px-4 font-ibm'>Save</button>
+                                    :
+                                    <p className='font-ibm text-danger fw-bold'>Please Upload Delivery Note</p>
                             }
                         </div>
                     }
 
-                    <h2 className='font-ibm h6 mt-3 mb-0'>Showing Data for Selected Date Range</h2>
+                    {/* <h2 className='font-ibm h6 mt-3 mb-0'>Showing Data for Selected Date Range</h2> */}
+                    <button className='btn btn-outline-dark btn-sm px-3 ms-auto d-block my-2 font-ibm' onClick={() => handleUpdate()}>{!toggle ? 'Edit' : 'View'}</button>
+                    {
+                        toggle &&
+                        <button onClick={() => handleDriverDetails()} className='btn btn-success btn-sm px-3 my-2 ms-auto d-block font-ibm'>Save</button>
+                    }
                     <div style={{ maxHeight: '450px', overflowY: 'auto' }} className="table-responsive bg-white">
                         <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm m-0">
                             <thead>
@@ -379,10 +540,61 @@ const VehicleAssign = () => {
                                                     )
                                                 }
                                                 </td>
-                                                <td className='text-center'>{vehicle.vehicle_reg_no}</td>
-                                                <td className='text-center'>{vehicle.driver_name}</td>
-                                                <td className='text-center'>{vehicle.driver_phone}</td>
-                                                <td className='text-center'>{vehicle.helper_name}</td>
+                                                {
+                                                    !toggle &&
+                                                    <>
+                                                        <td className='text-center'>{vehicle.vehicle_reg_no}</td>
+                                                        <td className='text-center'>{vehicle.driver_name}</td>
+                                                        <td className='text-center'>{vehicle.driver_phone}</td>
+                                                        <td className='text-center'>{vehicle.helper_name}</td>
+                                                    </>
+                                                }
+                                                {
+                                                    toggle &&
+                                                    <>
+                                                        <td className='text-center'>
+                                                            <div className="font-ibm ms-3">
+                                                                <select className='py-1' onChange={(e) => {
+                                                                    if (e.target.value === 'Hired Vehicle') {
+                                                                        setVehicleType('Hired Vehicle')
+                                                                    }
+                                                                    else {
+                                                                        setVehicleRegNo(e.target.value)
+                                                                        setVehicleType('Own Vehicle')
+                                                                    }
+                                                                }
+                                                                }>
+                                                                    <option className='font-ibm my-1' value="" selected disabled>{vehicle.vehicle_reg_no ? vehicle.vehicle_reg_no : 'Select'}</option>
+                                                                    {
+                                                                        // vehicleWiseData.length > 0 &&
+                                                                        _.orderBy(vehicleInfo, ['no'], ['asc']).map((v, index) =>
+                                                                            <option key={index + 1} className='font-ibm my-1' value={v.no}>{v.no}</option>
+                                                                        )
+                                                                    }
+                                                                    <option className='font-ibm my-1' value="Hired Vehicle">Hired Vehicle</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td className='text-center'><input 
+                                                        onChange={(e)=> {
+                                                            setDriverName(e.target.value)
+                                                            setSelectedVehicleId(vehicle._id)
+                                                            setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
+                                                            }} defaultValue={vehicle.driver_name} type="text" className='' /></td>
+                                                        <td className='text-center'><input 
+                                                        onChange={(e)=> {
+                                                            setDriverPhone(e.target.value)
+                                                            setSelectedVehicleId(vehicle._id)
+                                                            setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
+                                                            }} defaultValue={vehicle.driver_phone} type="number" className='' /></td>
+                                                        <td className='text-center'><input 
+                                                        onChange={(e)=> {
+                                                            setDeliveryMan(e.target.value)
+                                                            setSelectedVehicleId(vehicle._id)
+                                                            setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
+                                                            }} defaultValue={vehicle.helper_name} type="text" className='' /></td>
+                                                    </>
+                                                }
                                             </tr>
                                         )
                                         :
