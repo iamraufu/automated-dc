@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Sidebar from '../components/Sidebar';
 import DatePicker from "react-datepicker";
 import { ToastContainer, toast } from 'react-toastify';
+import ReactToPrint from 'react-to-print';
 import vehicleInfo from '../data/vehicleInfo.json'
 import useAuth from '../hooks/useAuth';
 import _ from 'lodash';
 import UploadDN from '../components/UploadDN';
 import Swal from 'sweetalert2';
+import GetPass from '../components/GetPass';
+import printIcon from '../images/print.svg'
 // import { groupBy } from 'lodash';
 // import { useForm } from 'react-hook-form';
 
@@ -23,6 +26,9 @@ const VehicleAssign = () => {
     const [driverName, setDriverName] = useState("")
     const [driverPhone, setDriverPhone] = useState("")
     const [deliveryMan, setDeliveryMan] = useState("")
+    const [selectedVehicle, setSelectedVehicle] = useState({})
+
+    const componentRef = useRef();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -281,19 +287,19 @@ const VehicleAssign = () => {
     const handleDriverDetails = async () => {
         let details
         vehicleRegNo ?
-        details = {
-            vehicle_type: vehicleType,
-            vehicle_reg_no: vehicleRegNo,
-            driver_name: driverName,
-            driver_phone: driverPhone,
-            helper_name: deliveryMan,
-        }
-        :
-        details = {
-            driver_name: driverName,
-            driver_phone: driverPhone,
-            helper_name: deliveryMan,
-        }
+            details = {
+                vehicle_type: vehicleType,
+                vehicle_reg_no: vehicleRegNo,
+                driver_name: driverName,
+                driver_phone: driverPhone,
+                helper_name: deliveryMan,
+            }
+            :
+            details = {
+                driver_name: driverName,
+                driver_phone: driverPhone,
+                helper_name: deliveryMan,
+            }
         console.log(details, selectedVehicleId, vehicleWiseData)
         const response = await toast.promise(
             fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
@@ -307,7 +313,7 @@ const VehicleAssign = () => {
                 error: 'There is an error adding new vehicle wise sto. Please try again later!'
             }
         );
-        const result =  await response.json()
+        const result = await response.json()
         if (result.status) {
             const fetchData = async () => {
                 const response = await toast.promise(
@@ -331,6 +337,57 @@ const VehicleAssign = () => {
         }
         result.status === false && console.log(result)
     }
+
+    // const print = (vehicle) => {
+    //     console.log("Clicked ")
+    //     setSelectedVehicle(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`))
+    //     if (selectedVehicle.email) {
+    //         let printContents = document.getElementById('printableDiv').innerHTML;
+    //         let originalContents = document.body.innerHTML;
+    //         document.body.innerHTML = printContents;
+    //         window.print();
+    //         document.body.innerHTML = originalContents;
+
+    //         // updated
+    //         // const printTable = document.getElementById(`printableDiv`);
+    //         // printTable.style.display = 'block';
+    //         // const newWin = window.open('Data');
+    //         // newWin.document.write(printTable.outerHTML);
+    //         // newWin.document.close();
+    //         // newWin.print();
+    //         // printTable.style.display = 'none';
+    //         // newWin.close();
+    //     }
+    //     else {
+    //         console.log("Nai")
+    //     }
+    // }
+
+    const handleOnBeforeGetContent = (vehicle) => {
+
+        setSelectedVehicle(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`))
+
+        return new Promise((resolve) => resolve());
+
+    }
+
+    // const handleOnBeforeGetContent = React.useCallback(() => {
+    //     console.log("`onBeforeGetContent` called"); // tslint:disable-line no-console
+    //     // setLoading(true);
+    //     // setText("Loading new text...");
+
+    //     return new Promise((resolve) => {
+    //         console.log("Again ")
+    //     //   onBeforeGetContentResolve.current = resolve;
+
+    //       setTimeout(() => {
+    //         // setLoading(false);
+    //         // setText("New, Updated Text!");
+    //         console.log("Again 2")
+    //         resolve();
+    //       }, 1000);
+    //     });
+    //   }, []);
 
     return (
         <section className='bg-brand container-fluid p-0'>
@@ -486,7 +543,7 @@ const VehicleAssign = () => {
                                     <th scope="col" className='text-center'>Driver Name</th>
                                     <th scope="col" className='text-center'>Driver Number</th>
                                     <th scope="col" className='text-center'>Delivery Man</th>
-                                    {/* <th scope="col" className='text-center'>Vehicle Status</th> */}
+                                    <th scope="col" className='text-center'>Get Pass</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -504,6 +561,7 @@ const VehicleAssign = () => {
                                                     )
                                                 }
                                                 </td>
+
                                                 <td>{
                                                     vehicle.stoData.map((item, innerIndex) =>
                                                         <React.Fragment key={item.sto}>
@@ -513,6 +571,7 @@ const VehicleAssign = () => {
                                                     )
                                                 }
                                                 </td>
+
                                                 <td>{
                                                     vehicle.stoData.map((item) =>
                                                         <React.Fragment key={item.sto}>
@@ -522,6 +581,7 @@ const VehicleAssign = () => {
                                                     )
                                                 }
                                                 </td>
+
                                                 <td>{
                                                     vehicle.stoData.map((item) =>
                                                         <React.Fragment key={item.dn}>
@@ -531,6 +591,7 @@ const VehicleAssign = () => {
                                                     )
                                                 }
                                                 </td>
+
                                                 <td>{
                                                     vehicle.stoData.map((item) =>
                                                         <React.Fragment key={item.sto}>
@@ -547,6 +608,19 @@ const VehicleAssign = () => {
                                                         <td className='text-center'>{vehicle.driver_name}</td>
                                                         <td className='text-center'>{vehicle.driver_phone}</td>
                                                         <td className='text-center'>{vehicle.helper_name}</td>
+                                                        <td>
+                                                            {/* <img
+                                                            onClick={() => {
+                                                                // setSelectedVehicle(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`))
+                                                                print(vehicle)
+                                                            }}
+                                                            style={{ cursor: 'pointer' }} src={downloadIcon} width={25} className='mx-auto d-block img-fluid' alt="download get pass" /> */}
+                                                            <ReactToPrint
+                                                                onBeforeGetContent={() => handleOnBeforeGetContent(vehicle)}
+                                                                trigger={() => <img style={{ cursor: 'pointer' }} src={printIcon} width={25} className='mx-auto d-block img-fluid' alt="download get pass" />}
+                                                                content={() => componentRef.current}
+                                                            />
+                                                        </td>
                                                     </>
                                                 }
                                                 {
@@ -575,23 +649,23 @@ const VehicleAssign = () => {
                                                                 </select>
                                                             </div>
                                                         </td>
-                                                        <td className='text-center'><input 
-                                                        onChange={(e)=> {
-                                                            setDriverName(e.target.value)
-                                                            setSelectedVehicleId(vehicle._id)
-                                                            setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
+                                                        <td className='text-center'><input
+                                                            onChange={(e) => {
+                                                                setDriverName(e.target.value)
+                                                                setSelectedVehicleId(vehicle._id)
+                                                                setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
                                                             }} defaultValue={vehicle.driver_name} type="text" className='' /></td>
-                                                        <td className='text-center'><input 
-                                                        onChange={(e)=> {
-                                                            setDriverPhone(e.target.value)
-                                                            setSelectedVehicleId(vehicle._id)
-                                                            setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
+                                                        <td className='text-center'><input
+                                                            onChange={(e) => {
+                                                                setDriverPhone(e.target.value)
+                                                                setSelectedVehicleId(vehicle._id)
+                                                                setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
                                                             }} defaultValue={vehicle.driver_phone} type="number" className='' /></td>
-                                                        <td className='text-center'><input 
-                                                        onChange={(e)=> {
-                                                            setDeliveryMan(e.target.value)
-                                                            setSelectedVehicleId(vehicle._id)
-                                                            setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
+                                                        <td className='text-center'><input
+                                                            onChange={(e) => {
+                                                                setDeliveryMan(e.target.value)
+                                                                setSelectedVehicleId(vehicle._id)
+                                                                setSelectedVehicleId(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === `${vehicle.zone}-${vehicle.vehicle}`)?._id)
                                                             }} defaultValue={vehicle.helper_name} type="text" className='' /></td>
                                                     </>
                                                 }
@@ -612,7 +686,10 @@ const VehicleAssign = () => {
                             </tbody>
                         </table>
                     </div>
-
+                    {
+                        selectedVehicle.email &&
+                        <GetPass data={selectedVehicle} ref={componentRef} />
+                    }
                     <ToastContainer autoClose={1000} />
                 </div>
             </div>
