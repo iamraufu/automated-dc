@@ -8,6 +8,7 @@ import kpi from '../images/kpi.svg'
 // import taka from '../images/taka.svg'
 // import stoassign from '../images/stoassign.svg'
 import noticeIcon from '../images/notice_red.svg'
+import expenseIcon from '../images/expense.svg'
 import { NavLink } from 'react-router-dom';
 import logout from '../images/logout.svg'
 import useAuth from '../hooks/useAuth';
@@ -82,6 +83,15 @@ const NavContents = () => {
                 <div className="mt-5 mx-auto d-block">
                     <img width={32} src={kpi} className='mx-auto d-block' alt="KPI" />
                     <h2 className='sidebar-title text-center pt-1'>KPI</h2>
+                </div>
+            </NavLink>
+
+            <NavLink to='/expense-tracker' className='text-decoration-none' style={({ isActive }) => (
+                isActive ? activeStyles : defaultStyles
+            )}>
+                <div className="mt-5 mx-auto d-block">
+                    <img width={32} src={expenseIcon} className='mx-auto d-block' alt="Expenses" />
+                    <h2 className='sidebar-title text-center pt-1'>Expenses</h2>
                 </div>
             </NavLink>
 

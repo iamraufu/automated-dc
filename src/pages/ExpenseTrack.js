@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { useForm } from 'react-hook-form';
 import DatePicker from "react-datepicker";
+import useAuth from '../hooks/useAuth';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ExpenseTrack = () => {
+
       const { register, handleSubmit } = useForm();
       const [date, setDate] = useState(new Date())
       const [categoryTypeName, setCategoryTypeName] = useState("Variable Cost")
       const [categoryType, setCategoryType] = useState([])
       const [categoryName, setCategoryName] = useState("Picker")
       const [filteredExpenseCategory, setFilteredExpenseCategory] = useState({})
+      const { user, expenses, setExpenses, startDate, endDate, setStartDate, setEndDate } = useAuth()
 
       const expenseCategoriesData =
             [
@@ -64,8 +68,8 @@ const ExpenseTrack = () => {
       const onSubmit = data => handleExpense(data);
 
       const handleExpense = (data) => {
-            document.getElementById('expense_form').reset()
-            const result = [];
+            let result = [];
+            let expenseData = {};
 
             for (const key in data) {
                   if (data.hasOwnProperty(key) && data[key] !== "") {
@@ -78,13 +82,63 @@ const ExpenseTrack = () => {
                               });
                   }
             }
-            const expenseData = {
-                  date,
-                  type: categoryTypeName,
-                  name: categoryName,
-                  data: result
-            }
+
+            // const expenseData = {
+            //       email: user.email,
+            //       date: new Date().toISOString().split('T')[0],
+            //       type: categoryTypeName,
+            //       name: categoryName,
+            //       data: result
+            // }
+
+            categoryTypeName === "Fixed Cost" ?
+                  expenseData = {
+                        email: user.email,
+                        date: new Date().toISOString().split('T')[0],
+                        type: categoryTypeName,
+                        name: "",
+                        data: result
+                  } :
+                  expenseData = {
+                        email: user.email,
+                        date: new Date().toISOString().split('T')[0],
+                        type: categoryTypeName,
+                        name: categoryName,
+                        data: result
+                  }
+
             console.log(expenseData)
+
+            const fetchData = async () => {
+                  const response = await toast.promise(
+                        fetch(`https://shwapnodc.onrender.com/expense`, {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify(expenseData)
+                        }),
+                        {
+                              pending: 'Please wait. Expense Submitting...',
+                              success: 'Expense Added Successfully',
+                              error: 'There is an error adding new expense. Please try again later!'
+                        }
+                  );
+                  const result = await response.json();
+
+                  if (result.status === true) {
+                        document.getElementById('expense_form').reset()
+                        const fetchData = async () => {
+                              try {
+                                    const response = await fetch(`https://shwapnodc.onrender.com/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
+                                    const data = await response.json();
+                                    setExpenses(data.expenses);
+                              } catch (error) {
+                                    fetchData();
+                              }
+                        };
+                        fetchData();
+                  }
+            }
+            result.length > 0 && fetchData()
       }
 
       return (
@@ -139,77 +193,62 @@ const ExpenseTrack = () => {
                                     <button className='btn btn-primary px-4 font-ibm'>Submit</button>
                               </form>
 
-                              {/* <form onSubmit={handleSubmit(onSubmit)}>
-                                    <div className="font-ibm mb-3"><DatePicker className='select bg-white' selected={date} onChange={(date) => setDate(date)} /></div>
+                              {
+                                    expenses.length > 0 &&
+                                    <div style={{ backgroundColor: '#F8F8F0' }} className="mt-4 py-3 px-2 rounded shadow-sm">
 
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Picker Cost' className='custom-input font-ibm bg-white' type='number' {...register("picker_cost",
-
-                                          )} />
-                                          <br />
-                                          {errors.picker_cost && <span className='text-danger fw-bold font-ibm p-1'>*Picker Cost required</span>}
+                                          <div className="d-flex align-items-center">
+                                                <div className="font-ibm">
+                                                      <p className='ms-1 mb-0'>From:</p><DatePicker className='select bg-white' selected={startDate} onChange={(date) => {
+                                                            setStartDate(date)
+                                                      }} />
+                                                </div>
+                                                <div className="font-ibm ms-3">
+                                                      <p className='ms-1 mb-0'>To:</p><DatePicker className='select bg-white' selected={endDate} onChange={(date) => {
+                                                            setEndDate(date)
+                                                      }} />
+                                                </div>
+                                          </div>
+                                          {/* Expense Table */}
+                                          <h2 className='font-ibm h6 fw-bold mt-3'>Expenses</h2>
+                                          <div className="table-responsive">
+                                                <table style={{ fontSize: "13px" }} className="table table-bordered">
+                                                      <thead>
+                                                            <tr>
+                                                                  <th style={{ fontWeight: '400' }} scope="col" className='font-ibm'>Date</th>
+                                                                  <th style={{ fontWeight: '400' }} scope="col" className='font-ibm'>Type</th>
+                                                                  <th style={{ fontWeight: '400' }} scope="col" className='text-center font-ibm'>Name</th>
+                                                                  <th style={{ fontWeight: '400' }} scope="col" className='text-center font-ibm'>Cost</th>
+                                                            </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                            {
+                                                                  expenses.map((item, index) =>
+                                                                        index % 2 === 0 ?
+                                                                              <tr key={index} className='bg-white'>
+                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{new Date(item.date).toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}</th>
+                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.type}</th>
+                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.name}</th>
+                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.data.reduce((a, c) => a + c.amount, 0).toLocaleString()}</th>
+                                                                              </tr>
+                                                                              :
+                                                                              <tr key={index} className=''>
+                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{new Date(item.date).toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}</th>
+                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.type}</th>
+                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.name}</th>
+                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.data.reduce((a, c) => a + c.amount, 0).toLocaleString()}</th>
+                                                                              </tr>
+                                                                  )
+                                                            }
+                                                      </tbody>
+                                                </table>
+                                          </div>
                                     </div>
+                              }
 
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Entertainment cost' className='custom-input font-ibm bg-white' type='number' {...register("entertainment_cost",
-                                          )} />
-                                          <br />
-                                          {errors.entertainment_cost && <span className='text-danger fw-bold p-1 font-ibm'>*Entertainment Cost required</span>}
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Over Time Cost' className='custom-input font-ibm bg-white' type='number' {...register("overtime_cost",
-                                          )} />
-                                          <br />
-                                          {errors.overtime_cost && <span className='text-danger fw-bold p-1 font-ibm'>*Over Time Cost required</span>}
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Convenience Cost' className='custom-input font-ibm bg-white' type='number' {...register("convenience_cost",
-                                          )} />
-                                          <br />
-                                          {errors.convenience_cost && <span className='text-danger fw-bold p-1 font-ibm'>*Convenience Cost required</span>}
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Vendor Car Cost' className='custom-input font-ibm bg-white' type='number' {...register("vendor_car_cost",
-                                          )} />
-                                          <br />
-                                          {errors.vendor_car_cost && <span className='text-danger fw-bold p-1 font-ibm'>*Vendor Car Cost required</span>}
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Own Car Cost' className='custom-input font-ibm bg-white' type='number' {...register("own_car_cost",
-                                          )} />
-                                          <br />
-                                          {errors.own_car_cost && <span className='text-danger fw-bold p-1 font-ibm'>*Own Car Cost required</span>}
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Fuel Cost' className='custom-input font-ibm bg-white' type='number' {...register("fuel_cost",
-                                          )} />
-                                          <br />
-                                          {errors.fuel_cost && <span className='text-danger fw-bold p-1 font-ibm'>*Fuel cost required</span>}
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Maintenance Cost' className='custom-input font-ibm bg-white' type='number' {...register("maintenance_cost",
-                                          )} />
-                                          <br />
-                                          {errors.maintenance_cost && <span className='text-danger fw-bold p-1 font-ibm'>*Maintenance Cost required</span>}
-                                    </div>
-
-                                    <div className="form-group mb-3">
-                                          <input placeholder='Vehicle Cost' className='custom-input font-ibm bg-white' type='number' {...register("vehicle_cost",
-                                          )} />
-                                          <br />
-                                          {errors.vehicle_cost && <span className='text-danger fw-bold p-1 font-ibm'>*Vehicle Cost required</span>}
-                                    </div>
-
-                                    <button>Submit</button>
-                              </form> */}
                         </div>
                   </div>
+                  <ToastContainer autoClose={1200} />
             </section>
       );
 };

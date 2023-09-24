@@ -71,7 +71,7 @@ const GetPass = React.forwardRef(({ data }, ref) => {
                 </div>
             </div>
 
-            <p className="mt-3 fw-bold">আমি আমার ডেলিভারি চলাকালীন সময় আমার গাড়িতে কোনো প্রকার অবৈধ মালামাল এবং যাত্রী বহন করিবনা |</p>
+            <p className="mt-3 fw-bold font-bangla">আমি আমার ডেলিভারি চলাকালীন সময় আমার গাড়িতে কোনো প্রকার অবৈধ মালামাল এবং যাত্রী বহন করিবনা</p>
 
             <div className="mt-5 d-flex justify-content-between align-items-center">
                 <div className="col-md-6">
