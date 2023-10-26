@@ -94,20 +94,18 @@ const ExpenseTrack = () => {
             categoryTypeName === "Fixed Cost" ?
                   expenseData = {
                         email: user.email,
-                        date: new Date().toISOString().split('T')[0],
+                        date: date.toISOString().split('T')[0],
                         type: categoryTypeName,
                         name: "",
                         data: result
                   } :
                   expenseData = {
                         email: user.email,
-                        date: new Date().toISOString().split('T')[0],
+                        date: date.toISOString().split('T')[0],
                         type: categoryTypeName,
                         name: categoryName,
                         data: result
                   }
-
-            console.log(expenseData)
 
             const fetchData = async () => {
                   const response = await toast.promise(
