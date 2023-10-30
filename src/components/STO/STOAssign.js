@@ -66,7 +66,7 @@ const STOAssign = () => {
                         code: obj.Site,
                         name: obj["Receiving Site Name"],
                         sto: sto,
-                        sku: 1,
+                        sku: 0,
                         dc: obj.SPlt,
                         status: 'Pending'
                     };

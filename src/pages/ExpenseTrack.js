@@ -148,6 +148,7 @@ const ExpenseTrack = () => {
 
                         <div style={{ maxHeight: '100vh', overflow: 'auto' }} className="col-md-10 px-4 py-3 mx-auto d-block">
                               <h2 className="h5 font-ibm">Expense Tracker</h2>
+                              <p style={{ fontSize: '14px' }} className='text-danger'><i>Please input one type of cost per submit</i></p>
 
                               <div className="row">
                                     <div className="col-md-3">
@@ -192,56 +193,71 @@ const ExpenseTrack = () => {
                               </form>
 
                               {
-                                    expenses.length > 0 &&
-                                    <div style={{ backgroundColor: '#F8F8F0' }} className="mt-4 py-3 px-2 rounded shadow-sm">
+                                    expenses.length > 0 ?
+                                          <div style={{ backgroundColor: '#F8F8F0' }} className="mt-4 py-3 px-2 rounded shadow-sm">
 
-                                          <div className="d-flex align-items-center">
-                                                <div className="font-ibm">
-                                                      <p className='ms-1 mb-0'>From:</p><DatePicker className='select bg-white' selected={startDate} onChange={(date) => {
-                                                            setStartDate(date)
-                                                      }} />
+                                                <div className="d-flex align-items-center">
+                                                      <div className="font-ibm">
+                                                            <p className='ms-1 mb-0'>From:</p><DatePicker className='select bg-white' selected={startDate} onChange={(date) => {
+                                                                  setStartDate(date)
+                                                            }} />
+                                                      </div>
+                                                      <div className="font-ibm ms-3">
+                                                            <p className='ms-1 mb-0'>To:</p><DatePicker className='select bg-white' selected={endDate} onChange={(date) => {
+                                                                  setEndDate(date)
+                                                            }} />
+                                                      </div>
                                                 </div>
-                                                <div className="font-ibm ms-3">
-                                                      <p className='ms-1 mb-0'>To:</p><DatePicker className='select bg-white' selected={endDate} onChange={(date) => {
-                                                            setEndDate(date)
-                                                      }} />
+                                                {/* Expense Table */}
+                                                <h2 className='font-ibm h6 fw-bold mt-3'>Expenses</h2>
+                                                <div className="table-responsive">
+                                                      <table style={{ fontSize: "13px" }} className="table table-bordered">
+                                                            <thead>
+                                                                  <tr>
+                                                                        <th style={{ fontWeight: '400' }} scope="col" className='font-ibm'>Date</th>
+                                                                        <th style={{ fontWeight: '400' }} scope="col" className='font-ibm'>Type</th>
+                                                                        <th style={{ fontWeight: '400' }} scope="col" className='text-center font-ibm'>Name</th>
+                                                                        <th style={{ fontWeight: '400' }} scope="col" className='text-center font-ibm'>Cost</th>
+                                                                  </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                  {
+                                                                        expenses.map((item, index) =>
+                                                                              index % 2 === 0 ?
+                                                                                    <tr key={index} className='bg-white'>
+                                                                                          <th style={{ fontWeight: '400' }} className='font-ibm'>{new Date(item.date).toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}</th>
+                                                                                          <th style={{ fontWeight: '400' }} className='font-ibm'>{item.type}</th>
+                                                                                          <th style={{ fontWeight: '400' }} className='font-ibm'>
+                                                                                                {/* {item.name} <br /> */}
+                                                                                                {item.data.map((subItem, i) => <span key={i}>{subItem.name} <br /></span>)}
+                                                                                                <span className="fw-bold">Total Cost</span>
+                                                                                          </th>
+                                                                                          <th style={{ fontWeight: '400' }} className='font-ibm'>
+                                                                                                {item.data.map((subItem, i) => <span key={i}>{subItem.amount.toLocaleString()} <br /></span>)}
+                                                                                                <span className="fw-bold">{item.data.reduce((a, c) => a + c.amount, 0).toLocaleString()}</span>
+                                                                                          </th>
+                                                                                    </tr>
+                                                                                    :
+                                                                                    <tr key={index} className=''>
+                                                                                          <th style={{ fontWeight: '400' }} className='font-ibm'>{new Date(item.date).toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}</th>
+                                                                                          <th style={{ fontWeight: '400' }} className='font-ibm'>{item.type}</th>
+                                                                                          <th style={{ fontWeight: '400' }} className='font-ibm'>
+                                                                                                {/* {item.name} <br /> */}
+                                                                                                {item.data.map((subItem, i) => <span key={i}>{subItem.name} <br /></span>)}
+                                                                                                <span className="fw-bold">Total Cost</span>
+                                                                                          </th>
+                                                                                          <th style={{ fontWeight: '400' }} className='font-ibm'>
+                                                                                                {item.data.map((subItem, i) => <span key={i}>{subItem.amount.toLocaleString()} <br /></span>)}
+                                                                                                <span className="fw-bold">{item.data.reduce((a, c) => a + c.amount, 0).toLocaleString()}</span>
+                                                                                          </th>
+                                                                                    </tr>
+                                                                        )
+                                                                  }
+                                                            </tbody>
+                                                      </table>
                                                 </div>
-                                          </div>
-                                          {/* Expense Table */}
-                                          <h2 className='font-ibm h6 fw-bold mt-3'>Expenses</h2>
-                                          <div className="table-responsive">
-                                                <table style={{ fontSize: "13px" }} className="table table-bordered">
-                                                      <thead>
-                                                            <tr>
-                                                                  <th style={{ fontWeight: '400' }} scope="col" className='font-ibm'>Date</th>
-                                                                  <th style={{ fontWeight: '400' }} scope="col" className='font-ibm'>Type</th>
-                                                                  <th style={{ fontWeight: '400' }} scope="col" className='text-center font-ibm'>Name</th>
-                                                                  <th style={{ fontWeight: '400' }} scope="col" className='text-center font-ibm'>Cost</th>
-                                                            </tr>
-                                                      </thead>
-                                                      <tbody>
-                                                            {
-                                                                  expenses.map((item, index) =>
-                                                                        index % 2 === 0 ?
-                                                                              <tr key={index} className='bg-white'>
-                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{new Date(item.date).toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}</th>
-                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.type}</th>
-                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.name}</th>
-                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.data.reduce((a, c) => a + c.amount, 0).toLocaleString()}</th>
-                                                                              </tr>
-                                                                              :
-                                                                              <tr key={index} className=''>
-                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{new Date(item.date).toLocaleDateString('en-us', { year: 'numeric', month: 'long', day: 'numeric' })}</th>
-                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.type}</th>
-                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.name}</th>
-                                                                                    <th style={{ fontWeight: '400' }} className='font-ibm'>{item.data.reduce((a, c) => a + c.amount, 0).toLocaleString()}</th>
-                                                                              </tr>
-                                                                  )
-                                                            }
-                                                      </tbody>
-                                                </table>
-                                          </div>
-                                    </div>
+                                          </div> :
+                                          <p className='text-danger mt-5 font-ibm'>Either No Data Found or is loading. Please refresh <button onClick={() => window.location.reload()} className='btn btn-secondary font-ibm'>Refresh</button></p>
                               }
 
                         </div>
