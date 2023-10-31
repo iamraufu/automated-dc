@@ -36,43 +36,55 @@ const UploadDN = () => {
 
             const dnData = json.map(obj => (
                 {
-                    article: obj.Article,
-                    category: String(obj.Article).slice(0, 2),
-                    code: obj.Site,
-                    dc: obj.SPlt,
+                    // article: obj.Article,
+                    article: obj.Material,
+                    // category: String(obj.Article).slice(0, 2),
+                    category: String(obj.Material).slice(0, 2),
+                    // code: obj.Site,
+                    code: obj.Plant,
+                    // dc: obj.SPlt,
+                    dc: obj["Supplying Plant"],
                     name: obj["Receiving Site Name"],
                     product: obj["Article Description"],
-                    quantity: obj.Quantity,
+                    // quantity: obj.Quantity,
+                    quantity: obj["Order Quantity"],
                     sap_stock: obj["DC Present Stock"],
                     status: 'Pending',
-                    sto: obj["Purch.Doc."],
+                    // sto: obj["Purch.Doc."],
+                    sto: obj["Purchasing Document"],
+                    store_stock: obj["Store Present Stock"],
                     dn: obj["Delivery Doc."],
                     dn_quantity: obj["Delivery Pending"],
-                    amount: obj["Stock Tr. Value."],
-                    store_stock: obj["Store Present Stock"]
+                    // amount: obj["Stock Tr. Value."],
+                    amount: obj["Stock Transfer Value"],
                 }
             ));
 
             const dnData2 = json.reduce((result, obj) => {
-                const sto = obj["Purch.Doc."];
+                // const sto = obj["Purch.Doc."];
+                const sto = obj["Purchasing Document"];
                 const dn = obj["Delivery Doc."];
                 // const catCode = obj["Article"];
 
                 const existingItem = result.find(item => {
-                    return ('Article' in obj && item.sto === sto && item.dn === dn)
+                    // return ('Article' in obj && item.sto === sto && item.dn === dn)
+                    return ('Material' in obj && item.sto === sto && item.dn === dn)
                 });
 
                 if (existingItem) {
                     existingItem.sku += 1;
                 }
-                else if ('Article' in obj) {
+                // else if ('Article' in obj) {
+                else if ('Material' in obj) {
                     const item = {
-                        code: obj.Site,
+                        // code: obj.Site,
+                        code: obj.Plant,
                         name: obj["Receiving Site Name"],
                         sto: sto,
+                        sku: 0,
+                        // dc: obj.SPlt,
+                        dc: obj["Supplying Plant"],
                         dn: obj["Delivery Doc."],
-                        sku: 1,
-                        dc: obj.SPlt,
                         status: 'Delivering'
                     };
                     result.push(item);
@@ -86,7 +98,7 @@ const UploadDN = () => {
             setViewDn(filteredArray)
             setDn(filteredArray2)
 
-            const labels = ['article', 'category', 'code', 'dc', 'name', 'product', 'quantity', 'sap_stock', 'status', 'sto', 'dn','dn_quantity', 'amount', 'store_stock']
+            const labels = ['article', 'category', 'code', 'dc', 'name', 'product', 'quantity', 'sap_stock', 'status', 'sto', 'dn', 'dn_quantity', 'amount', 'store_stock']
             const dataLabel = filteredArray.length > 0 ? Object.keys(filteredArray[0]) : valid = false
 
             valid = labels.every((item, index) => (item === dataLabel[index]) ? true : false)

@@ -37,37 +37,48 @@ const STOAssign = () => {
 
             const stoData = json.map(obj => (
                 {
-                    article: obj.Article,
-                    category: String(obj.Article).slice(0, 2),
-                    code: obj.Site,
-                    dc: obj.SPlt,
+                    // article: obj.Article,
+                    article: obj.Material,
+                    // category: String(obj.Article).slice(0, 2),
+                    category: String(obj.Material).slice(0, 2),
+                    // code: obj.Site,
+                    code: obj.Plant,
+                    // dc: obj.SPlt,
+                    dc: obj["Supplying Plant"],
                     name: obj["Receiving Site Name"],
                     product: obj["Article Description"],
-                    quantity: obj.Quantity,
+                    // quantity: obj.Quantity,
+                    quantity: obj["Order Quantity"],
                     sap_stock: obj["DC Present Stock"],
                     status: 'Pending',
-                    sto: obj["Purch.Doc."],
+                    // sto: obj["Purch.Doc."],
+                    sto: obj["Purchasing Document"],
                     store_stock: obj["Store Present Stock"]
                 }
             ));
 
             const stoData2 = json.reduce((result, obj) => {
-                const sto = obj["Purch.Doc."];
+                const sto = obj["Purchasing Document"]
 
                 const existingItem = result.find(item => {
-                    return ('Article' in obj && item.sto === sto)
+                    // return ('Article' in obj && item.sto === sto)
+                    return ('Material' in obj && item.sto === sto)
                 });
 
                 if (existingItem) {
                     existingItem.sku += 1;
                 }
-                else if ('Article' in obj) {
+
+                // else if ('Article' in obj) {
+                else if ('Material' in obj) {
                     const item = {
-                        code: obj.Site,
+                        // code: obj.Site,
+                        code: obj.Plant,
                         name: obj["Receiving Site Name"],
                         sto: sto,
                         sku: 0,
-                        dc: obj.SPlt,
+                        // dc: obj.SPlt,
+                        dc: obj["Supplying Plant"],
                         status: 'Pending'
                     };
                     result.push(item);
@@ -85,7 +96,7 @@ const STOAssign = () => {
             const dataLabel = filteredArray.length > 0 ? Object.keys(filteredArray[0]) : valid = false
 
             valid = labels.every((item, index) => (item === dataLabel[index]) ? true : false)
-
+            
             if (!valid) {
                 document.getElementById('file-loading-spinner').style.display = 'none'
                 setFileUploadError("File Format Mismatch. Please Check again and upload")

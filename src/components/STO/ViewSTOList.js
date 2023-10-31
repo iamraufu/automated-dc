@@ -128,9 +128,13 @@ const ViewSTOList = ({ stoData }) => {
                         data.sku !== 0 && <div key={index} className="d-flex justify-content-between align-items-center my-3">
                             <div className="d-flex justify-content-center align-items-center col-md-6 font-ibm fw-bold">
 
-                                <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
+                                {/* <div className="sto-number">{parseInt(data.sto.toString().slice(0, 3))}</div>
                                 <div className="sto-number">{parseInt(data.sto.toString().slice(3, 6))}</div>
-                                <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div>
+                                <div className="sto-number">{parseInt(data.sto.toString().slice(6))}</div> */}
+
+                            <div className="sto-number">{data.sto.toString().slice(0, 3)}</div>
+                                <div className="sto-number">{data.sto.toString().slice(3, 6)}</div>
+                                <div className="sto-number">{data.sto.toString().slice(6)}</div>
 
                             </div>
                             {

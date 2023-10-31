@@ -486,7 +486,6 @@ const ZoneAssign = () => {
                                 }
                             </div>
                         }
-
                         <p className='font-ibm ms-3 mb-0'>Showing {viewSto.reduce((acc, curr) => acc + curr.sku, 0).toLocaleString()} SKU</p>
 
 
