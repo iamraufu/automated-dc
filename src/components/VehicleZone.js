@@ -289,7 +289,7 @@ const VehicleZone = () => {
         setToggle(curr => !curr)
     }
 
-    const pickerUpdate = (index, stoNumber, picker)=> {
+    const pickerUpdate = (index, stoNumber, picker) => {
         let thisStoData = vehicleData.find(data => data.sto === stoNumber)
 
         thisStoData = {
@@ -306,7 +306,7 @@ const VehicleZone = () => {
         handleUpdate()
     }
 
-    const sorterUpdate = (index, stoNumber, sorter)=>{
+    const sorterUpdate = (index, stoNumber, sorter) => {
         let thisStoData = vehicleData.find(data => data.sto === stoNumber)
 
         thisStoData = {
@@ -323,6 +323,90 @@ const VehicleZone = () => {
         handleUpdate()
     }
 
+    const updatePickingStartingTime = (index, stoNumber, time) => {
+        const currentDate = new Date();
+        const timeString = time;
+        const [hours, minutes] = timeString.split(':');
+        currentDate.setHours(hours, minutes, 0, 0);
+        const unixTimestamp = currentDate.getTime();
+
+        let thisStoData = vehicleData.find(data => data.sto === stoNumber)
+
+        thisStoData = {
+            ...thisStoData,
+            picking_starting_time: unixTimestamp
+        }
+
+        setVehicleData(prevArray => {
+            const newArray = [...prevArray];
+            newArray[index] = { ...newArray[index], ...thisStoData };
+            return newArray;
+        })
+    }
+
+    const updatePickingEndingTime = (index, stoNumber, time) => {
+        const currentDate = new Date();
+        const timeString = time;
+        const [hours, minutes] = timeString.split(':');
+        currentDate.setHours(hours, minutes, 0, 0);
+        const unixTimestamp = currentDate.getTime();
+
+        let thisStoData = vehicleData.find(data => data.sto === stoNumber)
+
+        thisStoData = {
+            ...thisStoData,
+            picking_ending_time: unixTimestamp
+        }
+
+        setVehicleData(prevArray => {
+            const newArray = [...prevArray];
+            newArray[index] = { ...newArray[index], ...thisStoData };
+            return newArray;
+        })
+    }
+
+    const updateSortingStartingTime = (index, stoNumber, time) => {
+        const currentDate = new Date();
+        const timeString = time;
+        const [hours, minutes] = timeString.split(':');
+        currentDate.setHours(hours, minutes, 0, 0);
+        const unixTimestamp = currentDate.getTime();
+
+        let thisStoData = vehicleData.find(data => data.sto === stoNumber)
+
+        thisStoData = {
+            ...thisStoData,
+            sorting_starting_time: unixTimestamp
+        }
+
+        setVehicleData(prevArray => {
+            const newArray = [...prevArray];
+            newArray[index] = { ...newArray[index], ...thisStoData };
+            return newArray;
+        })
+    }
+
+    const updateSortingEndingTime = (index, stoNumber, time) => {
+        const currentDate = new Date();
+        const timeString = time;
+        const [hours, minutes] = timeString.split(':');
+        currentDate.setHours(hours, minutes, 0, 0);
+        const unixTimestamp = currentDate.getTime();
+
+        let thisStoData = vehicleData.find(data => data.sto === stoNumber)
+
+        thisStoData = {
+            ...thisStoData,
+            sorting_ending_time: unixTimestamp
+        }
+
+        setVehicleData(prevArray => {
+            const newArray = [...prevArray];
+            newArray[index] = { ...newArray[index], ...thisStoData };
+            return newArray;
+        })
+    }
+
     return (
         <div>
             <div className="d-flex align-items-center">
@@ -333,6 +417,7 @@ const VehicleZone = () => {
                         setSelectedVehicleId(vehicleWiseData.find(item => item.vehicle === Number(vehicle))?._id)
                     }} />
                 </div>
+
                 <div className="font-ibm ms-3">
                     <p className='ms-1 mb-0'>To:</p><DatePicker className='select bg-white' selected={endDate} onChange={(date) => {
                         setEndDate(date)
@@ -362,7 +447,10 @@ const VehicleZone = () => {
             </div>
 
             <div className="">
-                <button className='btn btn-outline-dark btn-sm px-3 ms-auto d-block my-2 font-ibm' onClick={() => handleUpdate()}>{!toggle ? 'Edit' : 'View'}</button>
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                    <p className='font-ibm text-danger m-0'>You must have to start and end the picking and sorting time in the same day</p>
+                    <button className='btn btn-outline-dark btn-sm px-3 font-ibm' onClick={() => handleUpdate()}>{!toggle ? 'Edit' : 'View'}</button>
+                </div>
                 <div style={{ maxHeight: '600px' }} className="table-responsive mt-3">
                     <table style={{ fontSize: "13px" }} className="table table-bordered font-ibm bg-white">
                         <thead>
@@ -451,9 +539,9 @@ const VehicleZone = () => {
                                         <td className='text-center'>{item.name}</td>
                                         <td className='text-center'>
                                             <div className="d-flex justify-content-center align-items-center font-ibm fw-bold">
-                                                <div className="sto-number">{parseInt(item.sto.toString().slice(0, 3))}</div>
-                                                <div className="sto-number">{parseInt(item.sto.toString().slice(3, 6))}</div>
-                                                <div className="sto-number">{parseInt(item.sto.toString().slice(6))}</div>
+                                                <div className="sto-number">{(item.sto.toString().slice(0, 3))}</div>
+                                                <div className="sto-number">{(item.sto.toString().slice(3, 6))}</div>
+                                                <div className="sto-number">{(item.sto.toString().slice(6))}</div>
                                             </div>
                                         </td>
                                         <td className='text-center'>{item.sku}</td>
@@ -480,17 +568,19 @@ const VehicleZone = () => {
                                                                     </div>
                                                                 }
                                                             </div> :
-                                                            <select
-                                                                style={{ maxWidth: '150px', fontSize: '13px' }}
-                                                                onChange={(e) => handlePickerChange(index, item.sto, e.target.value)}
-                                                                className='select-picker' name="" id={`picker-${index}`}>
-                                                                <option className='font-ibm' value="" selected disabled>Select Picker</option>
-                                                                {
-                                                                    user.email &&
-                                                                    _.sortBy(user.pickers, 'name').map((picker, index) =>
-                                                                        <option key={index} value={picker.name}>{picker.name}</option>
-                                                                    )}
-                                                            </select>
+                                                            <>
+                                                                <select
+                                                                    style={{ maxWidth: '150px', fontSize: '13px' }}
+                                                                    onChange={(e) => handlePickerChange(index, item.sto, e.target.value)}
+                                                                    className='select-picker' name="" id={`picker-${index}`}>
+                                                                    <option className='font-ibm' value="" selected disabled>Select Picker</option>
+                                                                    {
+                                                                        user.email &&
+                                                                        _.sortBy(user.pickers, 'name').map((picker, index) =>
+                                                                            <option key={index} value={picker.name}>{picker.name}</option>
+                                                                        )}
+                                                                </select>
+                                                            </>
                                                     }
                                                 </td>
                                                 <td className='text-center'>
@@ -535,7 +625,15 @@ const VehicleZone = () => {
                                             toggle &&
                                             <>
                                                 <td className='text-center'>
-                                                {item.picker && <p style={{ border: '2px solid #0C4C9C', borderRadius: '4px', width: '150px', color: '#0C4C9C' }} className='mx-auto d-block m-0 p-1 fw-bold'>{item.picker}{item.picking_ending_time ? ' Picked' : ' is Picking'}</p>}
+                                                    {item.picker && <p style={{ border: '2px solid #0C4C9C', borderRadius: '4px', width: '150px', color: '#0C4C9C' }} className='mx-auto d-block m-0 p-1 fw-bold'>{item.picker}{item.picking_ending_time ? ' Picked' : ' is Picking'}</p>}
+                                                    {
+                                                        item.picking_starting_time &&
+                                                        <p className='m-0 pt-1 fw-bold'>Started at {moment(item.picking_starting_time).format('LTS')}</p>
+                                                    }
+                                                    {
+                                                        item.picking_ending_time &&
+                                                        <p className='m-0 pt-1 fw-bold'>Ended at {moment(item.picking_ending_time).format('LTS')}</p>
+                                                    }
                                                     <select
                                                         style={{ maxWidth: '150px', fontSize: '13px' }}
                                                         onChange={(e) => pickerUpdate(index, item.sto, e.target.value)}
@@ -547,10 +645,31 @@ const VehicleZone = () => {
                                                                 <option key={index} value={picker.name}>{picker.name}</option>
                                                             )}
                                                     </select>
-
+                                                    <br />
+                                                    <span className='font-ibm mt-2'>Starting Time:</span>
+                                                    <input type="time" className='mt-2 border rounded ms-1 border-secondary-subtle border-2' onChangeCapture={(e) => {
+                                                        updatePickingStartingTime(index, item.sto, e.target.value)
+                                                    }
+                                                    }
+                                                    />
+                                                    <br />
+                                                    <span className='font-ibm mt-2'>Ending Time:</span>
+                                                    <input type="time" className='mt-2 border rounded ms-1 border-secondary-subtle border-2' onChangeCapture={(e) => {
+                                                        updatePickingEndingTime(index, item.sto, e.target.value)
+                                                    }
+                                                    }
+                                                    />
                                                 </td>
                                                 <td className='text-center'>
-                                                {item.sorter && <p style={{ border: '2px solid #0C4C9C', borderRadius: '4px', width: '150px', color: '#0C4C9C' }} className='m-0 p-1 mx-auto d-block fw-bold'>{item.sorter} {item.sorting_ending_time ? " Sorted" : " is Sorting"}</p>}
+                                                    {item.sorter && <p style={{ border: '2px solid #0C4C9C', borderRadius: '4px', width: '150px', color: '#0C4C9C' }} className='m-0 p-1 mx-auto d-block fw-bold'>{item.sorter} {item.sorting_ending_time ? " Sorted" : " is Sorting"}</p>}
+                                                    {
+                                                        item.sorting_starting_time &&
+                                                        <p className='m-0 pt-1 fw-bold'>Started at {moment(item.sorting_starting_time).format('LTS')}</p>
+                                                    }
+                                                    {
+                                                        item.sorting_ending_time &&
+                                                        <p className='m-0 pt-1 fw-bold'>Ended at {moment(item.sorting_ending_time).format('LTS')}</p>
+                                                    }
                                                     <select
                                                         style={{ maxWidth: '150px', fontSize: '13px' }}
                                                         onChange={(e) => sorterUpdate(index, item.sto, e.target.value)}
@@ -562,6 +681,20 @@ const VehicleZone = () => {
                                                                 <option key={index} value={sorter.name}>{sorter.name}</option>
                                                             )}
                                                     </select>
+                                                    <br />
+                                                    <span className='font-ibm mt-2'>Starting Time:</span>
+                                                    <input type="time" className='mt-2 border rounded ms-1 border-secondary-subtle border-2' onChangeCapture={(e) => {
+                                                        updateSortingStartingTime(index, item.sto, e.target.value)
+                                                    }
+                                                    }
+                                                    />
+                                                    <br />
+                                                    <span className='font-ibm mt-2'>Ending Time:</span>
+                                                    <input type="time" className='mt-2 border rounded ms-1 border-secondary-subtle border-2' onChangeCapture={(e) => {
+                                                        updateSortingEndingTime(index, item.sto, e.target.value)
+                                                    }
+                                                    }
+                                                    />
                                                 </td>
                                             </>
                                         }

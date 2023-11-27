@@ -192,24 +192,27 @@ const ExpenseTrack = () => {
                                     <button className='btn btn-primary px-4 font-ibm'>Submit</button>
                               </form>
 
-                              {
-                                    expenses.length > 0 ?
-                                          <div style={{ backgroundColor: '#F8F8F0' }} className="mt-4 py-3 px-2 rounded shadow-sm">
 
-                                                <div className="d-flex align-items-center">
-                                                      <div className="font-ibm">
-                                                            <p className='ms-1 mb-0'>From:</p><DatePicker className='select bg-white' selected={startDate} onChange={(date) => {
-                                                                  setStartDate(date)
-                                                            }} />
-                                                      </div>
-                                                      <div className="font-ibm ms-3">
-                                                            <p className='ms-1 mb-0'>To:</p><DatePicker className='select bg-white' selected={endDate} onChange={(date) => {
-                                                                  setEndDate(date)
-                                                            }} />
-                                                      </div>
-                                                </div>
-                                                {/* Expense Table */}
-                                                <h2 className='font-ibm h6 fw-bold mt-3'>Expenses</h2>
+                              <div style={{ backgroundColor: '#F8F8F0' }} className="mt-4 py-3 px-2 rounded shadow-sm">
+
+                                    <div className="d-flex align-items-center">
+                                          <div className="font-ibm">
+                                                <p className='ms-1 mb-0'>From:</p><DatePicker className='select bg-white' selected={startDate} onChange={(date) => {
+                                                      setStartDate(date)
+                                                }} />
+                                          </div>
+                                          <div className="font-ibm ms-3">
+                                                <p className='ms-1 mb-0'>To:</p><DatePicker className='select bg-white' selected={endDate} onChange={(date) => {
+                                                      setEndDate(date)
+                                                }} />
+                                          </div>
+                                    </div>
+
+
+                                    {/* Expense Table */}
+                                    <h2 className='font-ibm h6 fw-bold mt-3'>Expenses</h2>
+                                    {
+                                          expenses.length > 0 ?
                                                 <div className="table-responsive">
                                                       <table style={{ fontSize: "13px" }} className="table table-bordered">
                                                             <thead>
@@ -256,9 +259,10 @@ const ExpenseTrack = () => {
                                                             </tbody>
                                                       </table>
                                                 </div>
-                                          </div> :
-                                          <p className='text-danger mt-5 font-ibm'>Either No Data Found or is loading. Please refresh <button onClick={() => window.location.reload()} className='btn btn-secondary font-ibm'>Refresh</button></p>
-                              }
+                                                :
+                                                <p className='text-danger my-2 font-ibm'>Either No Data Found or is loading. Please refresh <button onClick={() => window.location.reload()} className='btn btn-secondary font-ibm'>Refresh</button></p>
+                                    }
+                              </div>
 
                         </div>
                   </div>

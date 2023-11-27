@@ -16,6 +16,7 @@ import PoData from './components/PoData';
 import ZoneAssign from './pages/ZoneAssign';
 import KPI from './pages/KPI';
 import ExpenseTrack from './pages/ExpenseTrack';
+import STOStatus from './pages/STOStatus';
 // import PickerDate from './pages/PickerDate';
 // import STOAssign from './pages/STOAssign';
 
@@ -33,6 +34,7 @@ function App() {
           <ZoneAssign />
           } />
           <Route path='/attendance' element={<Attendance />} />
+          <Route path='/sto-status' element={<STOStatus />} />
           <Route path='/picker' element={<Picker />} />
           <Route path='/picker-details' element={<PickerDetails />} />
           <Route path='/expense-tracker' element={<ExpenseTrack />} />

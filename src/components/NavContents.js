@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../images/logo.svg'
 import picker from '../images/picker.svg'
+// import stoIcon from '../images/excel.png'
 import vehicle from '../images/vehicle.svg'
 import zone from '../images/zone.svg'
 // import ticket from '../images/ticket.svg'
@@ -38,6 +39,15 @@ const NavContents = () => {
                 <div className="mt-5 mx-auto d-block">
                     <img width={34} src={stoassign} className='mx-auto d-block' alt="picker" />
                     <h2 className='sidebar-title text-center pt-1'>STO Assign</h2>
+                </div>
+            </NavLink> */}
+
+            {/* <NavLink to='/sto-status' className='text-decoration-none' style={({ isActive }) => (
+                isActive ? activeStyles : defaultStyles
+            )}>
+                <div className="mt-5 mx-auto d-block">
+                    <img width={34} src={stoIcon} className='mx-auto d-block' alt="zone" />
+                    <h2 className='sidebar-title text-center pt-1'>STO Status</h2>
                 </div>
             </NavLink> */}
 
@@ -129,9 +139,11 @@ const NavContents = () => {
                 </NavLink>
             }
 
-            <div style={{ cursor: "pointer", 
-            // position: "absolute", bottom: '0', 
-            padding: "1rem 2rem" }} onClick={() => logOut()} className="mt-5">
+            <div style={{
+                cursor: "pointer",
+                // position: "absolute", bottom: '0', 
+                padding: "0rem 2rem"
+            }} onClick={() => logOut()} className="mt-5">
                 <img src={logout} alt="log out" className='mx-auto d-block' width={34} />
                 <h2 className='sidebar-title text-center'>Logout</h2>
             </div>
