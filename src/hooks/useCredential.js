@@ -4,11 +4,11 @@ const useCredential = () => {
 
     const id = localStorage.getItem('uId')
     const [user, setUser] = useState({});
-    const [tickets, setTickets] = useState([])
+    // const [tickets, setTickets] = useState([])
     // const [pickerTickets, setPickerTickets] = useState([])
     // const [sorterTickets, setSorterTickets] = useState([])
     // const [vehicleTickets, setVehicleTickets] = useState([])
-    const [notice, setNotice] = useState([])
+    // const [notice, setNotice] = useState([])
     const [sto, setSto] = useState([])
     const [viewSto, setViewSto] = useState([])
     const [dn, setDn] = useState([])
@@ -19,6 +19,7 @@ const useCredential = () => {
     const [startDate, setStartDate] = useState(new Date()); // new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
     const [endDate, setEndDate] = useState(new Date());
     const [expenses, setExpenses] = useState([])
+    const [vehicleWiseData, setVehicleWiseData] = useState([])
 
     // getting userInfo from localStorage id and backend API
     const userData = () => {
@@ -59,18 +60,18 @@ const useCredential = () => {
     // }, [])
 
     // notice
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`https://shwapnodc.onrender.com/notice`);
-                const data = await response.json();
-                setNotice(data.notice);
-            } catch (error) {
-                fetchData();
-            }
-        };
-        fetchData();
-    }, [])
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await fetch(`https://shwapnodc.onrender.com/notice`);
+    //             const data = await response.json();
+    //             setNotice(data.notice);
+    //         } catch (error) {
+    //             fetchData();
+    //         }
+    //     };
+    //     fetchData();
+    // }, [])
 
     // vehicle management
     // useEffect(() => {
@@ -135,30 +136,30 @@ const useCredential = () => {
     }
 
     // expenses
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`https://shwapnodc.onrender.com/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
-                const data = await response.json()
-                setExpenses(data.expenses);
-            } catch (error) {
-                fetchData();
-            }
-        };
-        fetchData();
-    }, [user.email, startDate, endDate])
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await fetch(`https://shwapnodc.onrender.com/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
+    //             const data = await response.json()
+    //             setExpenses(data.expenses);
+    //         } catch (error) {
+    //             fetchData();
+    //         }
+    //     };
+    //     fetchData();
+    // }, [user.email, startDate, endDate])
 
     return {
         user,
         setUser,
-        tickets,
-        setTickets,
+        // tickets,
+        // setTickets,
         sto,
         setSto,
         dn, 
         setDn,
-        notice,
-        setNotice,
+        // notice,
+        // setNotice,
         // pickerTickets,
         // sorterTickets,
         // vehicleTickets,
@@ -178,6 +179,8 @@ const useCredential = () => {
         setAssignedSto,
         expenses, 
         setExpenses,
+        vehicleWiseData, 
+        setVehicleWiseData,
         logOut
     }
 };

@@ -17,6 +17,7 @@ import ZoneAssign from './pages/ZoneAssign';
 import KPI from './pages/KPI';
 import ExpenseTrack from './pages/ExpenseTrack';
 import STOStatus from './pages/STOStatus';
+import GatePass from './pages/GatePass';
 // import PickerDate from './pages/PickerDate';
 // import STOAssign from './pages/STOAssign';
 
@@ -42,6 +43,7 @@ function App() {
           {/* <Route path='/picker-date/:date' element={<PickerDate />} /> */}
           <Route path='/zone-assign' element={<ZoneAssign />} />
           <Route path='/vehicle-assign' element={<VehicleAssign />} />
+          <Route path='/gate-pass' element={<GatePass />} />
           <Route path='/kpi' element={<KPI />} />
           <Route path='/tickets' element={<Tickets />} />
           <Route path='/notice' element={<Notice />} />

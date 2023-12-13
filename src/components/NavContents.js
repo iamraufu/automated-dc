@@ -9,6 +9,7 @@ import kpi from '../images/kpi.svg'
 // import taka from '../images/taka.svg'
 // import stoassign from '../images/stoassign.svg'
 import noticeIcon from '../images/notice_red.svg'
+import printIcon from '../images/printCyan.svg'
 import expenseIcon from '../images/expense.svg'
 import { NavLink } from 'react-router-dom';
 import logout from '../images/logout.svg'
@@ -55,7 +56,7 @@ const NavContents = () => {
                 isActive ? activeStyles : defaultStyles
             )}>
                 <div className="mt-5 mx-auto d-block">
-                    <img width={34} src={zone} className='mx-auto d-block' alt="zone" />
+                    <img width={30} src={zone} className='mx-auto d-block' alt="zone" />
                     <h2 className='sidebar-title text-center pt-1'>Zone</h2>
                 </div>
             </NavLink>
@@ -75,6 +76,15 @@ const NavContents = () => {
                 <div className="mt-5 mx-auto d-block">
                     <img width={34} src={vehicle} className='mx-auto d-block' alt="vehicle" />
                     <h2 className='sidebar-title text-center pt-1'>Vehicle Assign</h2>
+                </div>
+            </NavLink>
+
+            <NavLink to='/gate-pass' className='text-decoration-none' style={({ isActive }) => (
+                isActive ? activeStyles : defaultStyles
+            )}>
+                <div className="mt-5 mx-auto d-block">
+                    <img width={30} src={printIcon} className='mx-auto d-block' alt="vehicle" />
+                    <h2 className='sidebar-title text-center pt-1'>Gate Pass</h2>
                 </div>
             </NavLink>
 
@@ -100,7 +110,7 @@ const NavContents = () => {
                 isActive ? activeStyles : defaultStyles
             )}>
                 <div className="mt-5 mx-auto d-block">
-                    <img width={32} src={expenseIcon} className='mx-auto d-block' alt="Expenses" />
+                    <img width={30} src={expenseIcon} className='mx-auto d-block' alt="Expenses" />
                     <h2 className='sidebar-title text-center pt-1'>Expenses</h2>
                 </div>
             </NavLink>
@@ -144,7 +154,7 @@ const NavContents = () => {
                 // position: "absolute", bottom: '0', 
                 padding: "0rem 2rem"
             }} onClick={() => logOut()} className="mt-5">
-                <img src={logout} alt="log out" className='mx-auto d-block' width={34} />
+                <img src={logout} alt="log out" className='mx-auto d-block' width={30} />
                 <h2 className='sidebar-title text-center'>Logout</h2>
             </div>
         </div>

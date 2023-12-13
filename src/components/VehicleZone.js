@@ -10,9 +10,8 @@ import moment from 'moment/moment';
 
 const VehicleZone = () => {
 
-    const { user, startDate, setStartDate, endDate, setEndDate } = useAuth()
+    const { user, startDate, setStartDate, endDate, setEndDate, vehicleWiseData, setVehicleWiseData } = useAuth()
     const [vehicle, setVehicle] = useState()
-    const [vehicleWiseData, setVehicleWiseData] = useState([])
     const [vehicleData, setVehicleData] = useState([])
     const [selectedVehicleId, setSelectedVehicleId] = useState("")
     const [flag, setFlag] = useState(0)
@@ -37,7 +36,7 @@ const VehicleZone = () => {
             }
         };
         fetchData();
-    }, [user.email, startDate, endDate])
+    }, [user.email, startDate, endDate, setVehicleWiseData])
 
     useEffect(() => {
         vehicle && setVehicleData(vehicleWiseData.find(item => `${item.zone}-${item.vehicle}` === vehicle)?.stoData)
@@ -283,7 +282,7 @@ const VehicleZone = () => {
             }
         }
         flag === 1 && fetchData()
-    }, [vehicleData, selectedVehicleId, startDate, endDate, user.email, flag])
+    }, [vehicleData, selectedVehicleId, startDate, endDate, user.email, flag, setVehicleWiseData])
 
     const handleUpdate = () => {
         setToggle(curr => !curr)
