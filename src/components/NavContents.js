@@ -8,7 +8,7 @@ import zone from '../images/zone.svg'
 import kpi from '../images/kpi.svg'
 // import taka from '../images/taka.svg'
 // import stoassign from '../images/stoassign.svg'
-import noticeIcon from '../images/notice_red.svg'
+// import noticeIcon from '../images/notice_red.svg'
 import printIcon from '../images/printCyan.svg'
 import expenseIcon from '../images/expense.svg'
 import { NavLink } from 'react-router-dom';
@@ -17,7 +17,7 @@ import useAuth from '../hooks/useAuth';
 
 const NavContents = () => {
 
-    const { user, notice, logOut } = useAuth();
+    const { logOut } = useAuth();
 
     const activeStyles = {
         color: "#10BBC2",
@@ -124,7 +124,7 @@ const NavContents = () => {
                 </div>
             </NavLink> */}
 
-            {
+            {/* {
                 user.role === 0 &&
                 <NavLink to='/notice' className='text-decoration-none' style={({ isActive }) => (
                     isActive ? activeStyles : defaultStyles
@@ -147,7 +147,7 @@ const NavContents = () => {
                         }
                     </div>
                 </NavLink>
-            }
+            } */}
 
             <div style={{
                 cursor: "pointer",
