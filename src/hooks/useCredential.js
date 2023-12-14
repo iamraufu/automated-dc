@@ -136,18 +136,18 @@ const useCredential = () => {
     }
 
     // expenses
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await fetch(`https://shwapnodc.onrender.com/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
-    //             const data = await response.json()
-    //             setExpenses(data.expenses);
-    //         } catch (error) {
-    //             fetchData();
-    //         }
-    //     };
-    //     fetchData();
-    // }, [user.email, startDate, endDate])
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`https://shwapnodc.onrender.com/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
+                const data = await response.json()
+                setExpenses(data.expenses);
+            } catch (error) {
+                fetchData();
+            }
+        };
+        fetchData();
+    }, [user.email, startDate, endDate])
 
     return {
         user,

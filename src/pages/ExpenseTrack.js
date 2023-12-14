@@ -13,6 +13,8 @@ const ExpenseTrack = () => {
       const [categoryType, setCategoryType] = useState([])
       const [categoryName, setCategoryName] = useState("Picker")
       const [filteredExpenseCategory, setFilteredExpenseCategory] = useState({})
+      const [selectedPicker, setSelectedPicker] = useState("")
+      const [selectedSorter, setSelectedSorter] = useState("")
       const { user, expenses, setExpenses, startDate, endDate, setStartDate, setEndDate } = useAuth()
 
       const expenseCategoriesData =
@@ -22,19 +24,19 @@ const ExpenseTrack = () => {
                         categories: [
                               {
                                     name: "Picker",
-                                    expenses: ["Picker Cost", "Picker Over time Cost", "Picker Convenience Cost"]
+                                    expenses: ["Picker Cost", "Picker Over time Cost", "Picker Entertainment Cost"]
                               },
                               {
                                     name: "Sorter",
-                                    expenses: ["Sorter Cost", "Sorter Over time Cost", "Sorter Convenience Cost"]
+                                    expenses: ["Sorter Cost", "Sorter Over time Cost", "Sorter Entertainment Cost"]
                               },
                               {
                                     name: "Delivery",
-                                    expenses: ["Entertainment Cost"]
+                                    expenses: ["Entertainment Cost", "Labor Cost", "Convenience Cost"]
                               },
                               {
                                     name: "Vehicle",
-                                    expenses: ["Vendor Car Cost", "Own Car Cost", "Fuel Cost", "Maintenance Cost", "Vehicle Cost", "Driver Mobile Expense", "Driver Salary Expense"]
+                                    expenses: ["Vehicle Details", "Outlet Code", "Vendor Car Cost", "Own Car Cost", "Fuel Cost", "Maintenance Cost", "Vehicle Cost", "Driver Mobile Expense", "Driver Salary Expense"]
                               }
                         ]
                   },
@@ -83,29 +85,26 @@ const ExpenseTrack = () => {
                   }
             }
 
-            // const expenseData = {
-            //       email: user.email,
-            //       date: new Date().toISOString().split('T')[0],
-            //       type: categoryTypeName,
-            //       name: categoryName,
-            //       data: result
-            // }
-
-            categoryTypeName === "Fixed Cost" ?
+            if (categoryTypeName === "Fixed Cost") {
                   expenseData = {
                         email: user.email,
                         date: date.toISOString().split('T')[0],
                         type: categoryTypeName,
                         name: "",
                         data: result
-                  } :
+                  }
+            }
+            else {
                   expenseData = {
                         email: user.email,
                         date: date.toISOString().split('T')[0],
                         type: categoryTypeName,
                         name: categoryName,
+                        picker: selectedPicker,
+                        sorter: selectedSorter,
                         data: result
                   }
+            }
 
             const fetchData = async () => {
                   const response = await toast.promise(
@@ -124,6 +123,7 @@ const ExpenseTrack = () => {
 
                   if (result.status === true) {
                         document.getElementById('expense_form').reset()
+                        window.location.reload()
                         const fetchData = async () => {
                               try {
                                     const response = await fetch(`https://shwapnodc.onrender.com/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
@@ -176,6 +176,38 @@ const ExpenseTrack = () => {
                                                 </select>
                                           </div>
                                     }
+
+                                    {
+                                          categoryName === 'Picker' &&
+                                          <div className="mt-3">
+                                                <span className='font-ibm'>Picker Name: </span>
+                                                <select onChange={(e) => {
+                                                      setSelectedPicker(e.target.value)
+                                                      document.getElementById('expense_form').reset()
+                                                }} name="" id="" className='select bg-white shadow-sm font-ibm' defaultValue="">
+                                                      <option value="" disabled>Select Picker</option>
+                                                      {
+                                                            user.pickers.map((picker, index) => <option key={index} value={picker.name}>{picker.name}</option>)
+                                                      }
+                                                </select>
+                                          </div>
+                                    }
+
+                                    {
+                                          categoryName === 'Sorter' &&
+                                          <div className="mt-3">
+                                                <span className='font-ibm'>Sorter Name: </span>
+                                                <select onChange={(e) => {
+                                                      setSelectedSorter(e.target.value)
+                                                      document.getElementById('expense_form').reset()
+                                                }} name="" id="" className='select bg-white shadow-sm font-ibm' defaultValue="">
+                                                      <option value="" disabled>Select Sorter</option>
+                                                      {
+                                                            user.sorters.map((sorter, index) => <option key={index} value={sorter.name}>{sorter.name}</option>)
+                                                      }
+                                                </select>
+                                          </div>
+                                    }
                               </div>
 
                               <form id='expense_form' onSubmit={handleSubmit(onSubmit)} className='mt-3'>
@@ -184,7 +216,7 @@ const ExpenseTrack = () => {
                                           filteredExpenseCategory?.expenses &&
                                           filteredExpenseCategory.expenses.map((item, index) =>
                                                 <div key={index} className="form-group mb-3">
-                                                      <input placeholder={`${item}`} className='custom-input font-ibm bg-white' type='number' {...register(`${item.toLowerCase().replace(/\s/g, '_')}`,
+                                                      <input placeholder={`${item}`} className='custom-input font-ibm bg-white' type='text' {...register(`${item.toLowerCase().replace(/\s/g, '_')}`,
                                                       )} />
                                                 </div>
                                           )
@@ -236,7 +268,7 @@ const ExpenseTrack = () => {
                                                                                                 <span className="fw-bold">Total Cost</span>
                                                                                           </th>
                                                                                           <th style={{ fontWeight: '400' }} className='font-ibm'>
-                                                                                                {item.data.map((subItem, i) => <span key={i}>{subItem.amount.toLocaleString()} <br /></span>)}
+                                                                                                {item.data.map((subItem, i) => <span key={i}>{Number(subItem.amount).toLocaleString()} <br /></span>)}
                                                                                                 <span className="fw-bold">{item.data.reduce((a, c) => a + c.amount, 0).toLocaleString()}</span>
                                                                                           </th>
                                                                                     </tr>
@@ -251,7 +283,7 @@ const ExpenseTrack = () => {
                                                                                           </th>
                                                                                           <th style={{ fontWeight: '400' }} className='font-ibm'>
                                                                                                 {item.data.map((subItem, i) => <span key={i}>{subItem.amount.toLocaleString()} <br /></span>)}
-                                                                                                <span className="fw-bold">{item.data.reduce((a, c) => a + c.amount, 0).toLocaleString()}</span>
+                                                                                                <span className="fw-bold">{Number(item.data.reduce((a, c) => a + Number(c.amount), 0)).toLocaleString()}</span>
                                                                                           </th>
                                                                                     </tr>
                                                                         )
