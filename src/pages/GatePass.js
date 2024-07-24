@@ -18,7 +18,7 @@ const GatePass = () => {
       useEffect(() => {
             const fetchData = async () => {
                   const response = await toast.promise(
-                        fetch(`https://shwapnodc.onrender.com/gate-pass-email/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                        fetch(`http://localhost:8000/gate-pass-email/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                         {
                               pending: 'Fetching the latest data...',
                               success: 'Latest Data Loaded',

@@ -25,7 +25,7 @@ const useCredential = () => {
     const userData = () => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://shwapnodc.onrender.com/user/${id}`);
+                const response = await fetch(`http://localhost:8000/user/${id}`);
                 const result = await response.json();
                 setUser(result.user)
             } catch (error) {
@@ -49,7 +49,7 @@ const useCredential = () => {
     // useEffect(() => {
     //     const fetchData = async () => {
     //         try {
-    //             const response = await fetch(`https://shwapnodc.onrender.com/tickets`);
+    //             const response = await fetch(`http://localhost:8000/tickets`);
     //             const data = await response.json();
     //             setTickets(data.tickets);
     //         } catch (error) {
@@ -63,7 +63,7 @@ const useCredential = () => {
     // useEffect(() => {
     //     const fetchData = async () => {
     //         try {
-    //             const response = await fetch(`https://shwapnodc.onrender.com/notice`);
+    //             const response = await fetch(`http://localhost:8000/notice`);
     //             const data = await response.json();
     //             setNotice(data.notice);
     //         } catch (error) {
@@ -77,7 +77,7 @@ const useCredential = () => {
     // useEffect(() => {
     //     const fetchData = async () => {
     //         try {
-    //             const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Vehicle Management`);
+    //             const response = await fetch(`http://localhost:8000/categorized-tickets/Vehicle Management`);
     //             const data = await response.json();
     //             setVehicleTickets(data.tickets);
     //         } catch (error) {
@@ -91,7 +91,7 @@ const useCredential = () => {
     // useEffect(() => {
     //     const fetchData = async () => {
     //         try {
-    //             const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Picker Management`);
+    //             const response = await fetch(`http://localhost:8000/categorized-tickets/Picker Management`);
     //             const data = await response.json();
     //             setPickerTickets(data.tickets);
     //         } catch (error) {
@@ -105,7 +105,7 @@ const useCredential = () => {
     // useEffect(() => {
     //     const fetchData = async () => {
     //         try {
-    //             const response = await fetch(`https://shwapnodc.onrender.com/categorized-tickets/Sorter Management`);
+    //             const response = await fetch(`http://localhost:8000/categorized-tickets/Sorter Management`);
     //             const data = await response.json();
     //             setSorterTickets(data.tickets);
     //         } catch (error) {
@@ -118,7 +118,7 @@ const useCredential = () => {
     // sto by email
     // useEffect(() => {
     //     if (user.email) {
-    //         fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}`)
+    //         fetch(`http://localhost:8000/sto-email/${user.email}`)
     //             .then(res => res.json())
     //             .then(data => {
     //                 if (data.status === true) {
@@ -139,7 +139,7 @@ const useCredential = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`https://shwapnodc.onrender.com/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
+                const response = await fetch(`http://localhost:8000/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
                 const data = await response.json()
                 setExpenses(data.expenses);
             } catch (error) {

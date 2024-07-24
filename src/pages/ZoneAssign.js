@@ -26,7 +26,7 @@ const ZoneAssign = () => {
     const [outletZones, setOutletZones] = useState([])
 
     useEffect(() => {
-        fetch(`https://shwapnodc.onrender.com/outlet-zones/${user.email}`)
+        fetch(`http://localhost:8000/outlet-zones/${user.email}`)
             .then(response => response.json())
             .then(result => result.status && setOutletZones(result.outletZones.data))
     }, [user.email])
@@ -38,7 +38,7 @@ const ZoneAssign = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category-code/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}/${outletZones.filter(outlet => outlet.zone === zone).map(item => item.code)}`),
+                fetch(`http://localhost:8000/sto-email-date-range-category-code/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}/${outletZones.filter(outlet => outlet.zone === zone).map(item => item.code)}`),
                 {
                     pending: 'Fetching the latest data...',
                     success: 'Zone Wise Data Loaded',
@@ -85,7 +85,7 @@ const ZoneAssign = () => {
     // useEffect(() => {
     //     const fetchData = async () => {
     //         const response = await toast.promise(
-    //             fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+    //             fetch(`http://localhost:8000/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
     //             {
     //                 pending: 'Fetching the latest data...',
     //                 success: 'Zone Wise Data Loaded',
@@ -132,7 +132,7 @@ const ZoneAssign = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+            const response = await fetch(`http://localhost:8000/counts/${user.email}`)
             const result = await response.json();
             if (result.status === true) {
                 setCounts(result.counts)
@@ -218,12 +218,12 @@ const ZoneAssign = () => {
             zone
         }
 
-        fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}/${items.map(item => item.sto)}`)
+        fetch(`http://localhost:8000/sto-email/${user.email}/${items.map(item => item.sto)}`)
             .then(response => response.json())
             .then(result => result.status && updateCount(result.sto.reduce((a, c) => a + c.quantity, 0)))
 
         const updateCount = async (productCount) => {
-            const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+            const response = await fetch(`http://localhost:8000/counts/${user.email}`)
             const result = await response.json()
 
             if (result.status === true) {
@@ -241,7 +241,7 @@ const ZoneAssign = () => {
         }
 
         const handleCounts = details => {
-            fetch('https://shwapnodc.onrender.com/counts', {
+            fetch('http://localhost:8000/counts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(details)
@@ -263,8 +263,8 @@ const ZoneAssign = () => {
 
         const updateStoStatus = async () => {
             const response = await toast.promise(
-                // fetch(`https://shwapnodc.onrender.com/update-products-status/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${zoneOutletArray.map(item => item.sto)}/${productCategory.map(item => item)}/${zoneOutletArray.map(item => item.code)}`),
-                fetch(`https://shwapnodc.onrender.com/update-sto-status/${zoneOutletArray.map(item => item.sto)}`),
+                // fetch(`http://localhost:8000/update-products-status/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${zoneOutletArray.map(item => item.sto)}/${productCategory.map(item => item)}/${zoneOutletArray.map(item => item.code)}`),
+                fetch(`http://localhost:8000/update-sto-status/${zoneOutletArray.map(item => item.sto)}`),
                 {
                     pending: 'Please wait. Status Updating',
                     success: 'SKU Status Updated Successfully',
@@ -277,7 +277,7 @@ const ZoneAssign = () => {
 
         const fetchData = async () => {
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/vehicle-wise-sto`, {
+                fetch(`http://localhost:8000/vehicle-wise-sto`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(vehicleDetails)
@@ -293,7 +293,7 @@ const ZoneAssign = () => {
             if (result.status === true) {
                 // const fetchData = async () => {
                 //     const response = await toast.promise(
-                //         fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+                //         fetch(`http://localhost:8000/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
                 //         {
                 //             pending: 'Fetching the latest data...',
                 //             success: 'Latest data updated',
@@ -331,7 +331,7 @@ const ZoneAssign = () => {
                 //         setSelectedZone([])
                 //         setZoneOutletArray([])
                 //         const fetchData = async () => {
-                //             const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+                //             const response = await fetch(`http://localhost:8000/counts/${user.email}`)
                 //             const result = await response.json();
                 //             if (result.status === true) {
                 //                 setCounts(result.counts)
@@ -349,7 +349,7 @@ const ZoneAssign = () => {
                 // productCategory.length && fetchData();
                 const fetchData = async () => {
                     const response = await toast.promise(
-                        fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category-code/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}/${outletZones.filter(outlet => outlet.zone === zone).map(item => item.code)}`),
+                        fetch(`http://localhost:8000/sto-email-date-range-category-code/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}/${outletZones.filter(outlet => outlet.zone === zone).map(item => item.code)}`),
                         {
                             pending: 'Fetching the latest data...',
                             success: 'Zone Wise Data Loaded',
@@ -386,7 +386,7 @@ const ZoneAssign = () => {
                         setSelectedZone([])
                         setZoneOutletArray([])
                         const fetchData = async () => {
-                            const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+                            const response = await fetch(`http://localhost:8000/counts/${user.email}`)
                             const result = await response.json();
                             if (result.status === true) {
                                 setCounts(result.counts)

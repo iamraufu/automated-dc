@@ -20,7 +20,7 @@ const VehicleZone = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                fetch(`http://localhost:8000/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                 {
                     pending: 'Fetching the latest data...',
                     success: 'Zone Wise Data Loaded',
@@ -143,7 +143,7 @@ const VehicleZone = () => {
     // }
 
     // const updatePickerSorter = (person) => {
-    //     fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
+    //     fetch(`http://localhost:8000/user/${user._id}`, {
     //         method: 'PATCH',
     //         headers: { 'Content-Type': 'application/json' },
     //         body: JSON.stringify(person)
@@ -196,7 +196,7 @@ const VehicleZone = () => {
     //         const details = {
     //             stoData: vehicleData
     //         }
-    //         fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+    //         fetch(`http://localhost:8000/vehicleWiseData/${selectedVehicleId}`, {
     //             method: 'PATCH',
     //             headers: { 'Content-Type': 'application/json' },
     //             body: JSON.stringify(details)
@@ -218,7 +218,7 @@ const VehicleZone = () => {
     //                     btn.disabled = false
     //                     btn.innerText = 'Save and Submit'
     //                     const fetchData = async () => {
-    //                         const response = await fetch(`https://shwapnodc.onrender.com/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
+    //                         const response = await fetch(`http://localhost:8000/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
     //                         const result = await response.json();
     //                         if (result.status === true) {
     //                             setVehicleWiseData(result.vehicleWiseData)
@@ -260,7 +260,7 @@ const VehicleZone = () => {
             const details = {
                 stoData: vehicleData
             }
-            const response = await fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+            const response = await fetch(`http://localhost:8000/vehicleWiseData/${selectedVehicleId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(details)
@@ -268,7 +268,7 @@ const VehicleZone = () => {
             const result = await response.json()
             if (result.status) {
                 const fetchData = async () => {
-                    const response = await fetch(`https://shwapnodc.onrender.com/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
+                    const response = await fetch(`http://localhost:8000/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
                     const result = await response.json();
                     if (result.status === true) {
                         setFlag(0)

@@ -16,7 +16,7 @@ const ViewSTOList = ({ stoData }) => {
     }
 
     const updateCount = async () => {
-        const response = await fetch(`https://shwapnodc.onrender.com/counts/${user.email}`)
+        const response = await fetch(`http://localhost:8000/counts/${user.email}`)
         const result = await response.json()
 
         if (result.status === true) {
@@ -44,7 +44,7 @@ const ViewSTOList = ({ stoData }) => {
     }
 
     const handleCounts = details => {
-        fetch('https://shwapnodc.onrender.com/counts', {
+        fetch('http://localhost:8000/counts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
@@ -71,7 +71,7 @@ const ViewSTOList = ({ stoData }) => {
             stoData: viewSto,
             date: new Date().toISOString().split('T')[0]
         }
-        fetch('https://shwapnodc.onrender.com/sto', {
+        fetch('http://localhost:8000/sto', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)

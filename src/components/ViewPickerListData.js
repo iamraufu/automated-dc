@@ -21,7 +21,7 @@ const ViewPickerListData = ({ pickerData }) => {
                   email: user.email
             }
 
-            // const response = await toast.promise(fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
+            // const response = await toast.promise(fetch(`http://localhost:8000/user/${user._id}`, {
             //       method: 'PATCH',
             //       headers: { 'Content-Type': 'application/json' },
             //       body: JSON.stringify(details)
@@ -38,7 +38,7 @@ const ViewPickerListData = ({ pickerData }) => {
             //       document.getElementById('picker-file-spinner').style.display = 'none'
             // }
             // 
-            fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
+            fetch(`http://localhost:8000/user/${user._id}`, {
                   method: 'PATCH',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(details)

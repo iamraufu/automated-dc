@@ -23,7 +23,7 @@ const UploadedSTO = () => {
             setFlag(1)
             setFlag2(1)
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
+                fetch(`http://localhost:8000/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`),
                 {
                     pending: 'Fetching the latest data...',
                     success: 'Latest data updated',
@@ -67,7 +67,7 @@ const UploadedSTO = () => {
             }
 
             // try {
-            //     const response = await fetch(`https://shwapnodc.onrender.com/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`);
+            //     const response = await fetch(`http://localhost:8000/sto-email-date-range-category/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}/${productCategory}`);
             //     const result = await response.json();
             //     if (result.status === true) {
             //         setFlag(0)

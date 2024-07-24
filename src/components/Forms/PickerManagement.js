@@ -31,7 +31,7 @@ const PickerManagement = () => {
             status: "Pending",
             comments: []
         }
-        fetch('https://shwapnodc.onrender.com/ticket', {
+        fetch('http://localhost:8000/ticket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)

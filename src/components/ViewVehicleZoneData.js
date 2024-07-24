@@ -20,7 +20,7 @@ const ViewVehicleZoneData = ({ vehicleData }) => {
             email: user.email
         }
 
-        // const response = await toast.promise(fetch('https://shwapnodc.onrender.com/outlet-zones', {
+        // const response = await toast.promise(fetch('http://localhost:8000/outlet-zones', {
         //     method: 'POST',
         //     headers: { 'Content-Type': 'application/json' },
         //     body: JSON.stringify(details)
@@ -37,7 +37,7 @@ const ViewVehicleZoneData = ({ vehicleData }) => {
         //     document.getElementById('submit_vehicle-file-spinner').style.display = 'none'
         // }
 
-        fetch('https://shwapnodc.onrender.com/outlet-zones', {
+        fetch('http://localhost:8000/outlet-zones', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)

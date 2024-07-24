@@ -39,7 +39,7 @@ const VehicleAssign = () => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                fetch(`http://localhost:8000/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                 {
                     pending: 'Fetching the latest data...',
                     success: 'Vehicle Number Loaded',
@@ -67,7 +67,7 @@ const VehicleAssign = () => {
             const details = {
                 stoData: vehicleData
             }
-            const response = await fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+            const response = await fetch(`http://localhost:8000/vehicleWiseData/${selectedVehicleId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(details)
@@ -76,7 +76,7 @@ const VehicleAssign = () => {
             if (result.status) {
                 const fetchData = async () => {
                     console.log(startDate.toISOString().split('T')[0])
-                    const response = await fetch(`https://shwapnodc.onrender.com/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
+                    const response = await fetch(`http://localhost:8000/zoneWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`)
                     const result = await response.json();
                     if (result.status === true) {
                         setFlag(0)
@@ -240,7 +240,7 @@ const VehicleAssign = () => {
             //     }
         }
         const response = await toast.promise(
-            fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+            fetch(`http://localhost:8000/vehicleWiseData/${selectedVehicleId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(details)
@@ -255,7 +255,7 @@ const VehicleAssign = () => {
         if (result.status) {
             const fetchData = async () => {
                 const response = await toast.promise(
-                    fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                    fetch(`http://localhost:8000/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                     {
                         pending: 'Fetching the latest data...',
                         success: 'Vehicle Number Loaded',
@@ -288,7 +288,7 @@ const VehicleAssign = () => {
             dnData: viewDn,
             date: new Date().toISOString().split('T')[0]
         }
-        fetch('https://shwapnodc.onrender.com/dn', {
+        fetch('http://localhost:8000/dn', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)
@@ -347,7 +347,7 @@ const VehicleAssign = () => {
     //         }
 
     //     const response = await toast.promise(
-    //         fetch(`https://shwapnodc.onrender.com/vehicleWiseData/${selectedVehicleId}`, {
+    //         fetch(`http://localhost:8000/vehicleWiseData/${selectedVehicleId}`, {
     //             method: 'PATCH',
     //             headers: { 'Content-Type': 'application/json' },
     //             body: JSON.stringify(details)
@@ -362,7 +362,7 @@ const VehicleAssign = () => {
     //     if (result.status) {
     //         const fetchData = async () => {
     //             const response = await toast.promise(
-    //                 fetch(`https://shwapnodc.onrender.com/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+    //                 fetch(`http://localhost:8000/vehicleWiseData-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
     //                 {
     //                     pending: 'Fetching the latest data...',
     //                     success: 'Vehicle Number Loaded',
@@ -430,7 +430,7 @@ const VehicleAssign = () => {
         else {
             setGatePassError("")
             const response = await toast.promise(
-                fetch(`https://shwapnodc.onrender.com/gate-pass`, {
+                fetch(`http://localhost:8000/gate-pass`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
@@ -636,7 +636,7 @@ const VehicleAssign = () => {
                                     <th scope="col" className='text-center'>Delivery Man</th>
                                     <th scope="col" className='text-center'>Delivery Man Number</th>
                                     <th scope="col" className='text-center'>Distance Covered (KM)</th>
-                                    {!toggle && <th scope="col" className='text-center'>Print</th>}
+                                    {/* {!toggle && <th scope="col" className='text-center'>Print</th>} */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -718,11 +718,11 @@ const VehicleAssign = () => {
                                                         print(vehicle)
                                                     }}
                                                     style={{ cursor: 'pointer' }} src={downloadIcon} width={25} className='mx-auto d-block img-fluid' alt="download get pass" /> */}
-                                                            <ReactToPrint
+                                                            {/* <ReactToPrint
                                                                 onBeforeGetContent={() => handleOnBeforeGetContent(vehicle)}
                                                                 trigger={() => <img style={{ cursor: 'pointer' }} src={printIcon} width={25} className='mx-auto d-block img-fluid' alt="download get pass" />}
                                                                 content={() => componentRef.current}
-                                                            />
+                                                            /> */}
                                                         </td>
                                                     </>
                                                 }

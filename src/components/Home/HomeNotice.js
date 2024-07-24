@@ -18,7 +18,7 @@ const HomeNotice = () => {
             status: 0
         }
 
-        fetch('https://shwapnodc.onrender.com/notice', {
+        fetch('http://localhost:8000/notice', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(details)

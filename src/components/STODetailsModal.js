@@ -9,12 +9,12 @@ const STODetailsModal = ({ data }) => {
 
     useEffect(() => {
         const fetchData = async() => {
-            const response = await fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}/${sto}`)
+            const response = await fetch(`http://localhost:8000/sto-email/${user.email}/${sto}`)
             const result = await response.json()
             setProducts(result.sto)
         }
         sto && fetchData()
-        // fetch(`https://shwapnodc.onrender.com/sto-email/${user.email}/${sto}`)
+        // fetch(`http://localhost:8000/sto-email/${user.email}/${sto}`)
         //     .then(response => response.json())
         //     .then(result => setProducts(result.sto))
     }, [user.email, sto])

@@ -103,7 +103,7 @@ const ZoneSelect = () => {
     }
 
     const updatePickerSorter = (person) => {
-        fetch(`https://shwapnodc.onrender.com/user/${user._id}`, {
+        fetch(`http://localhost:8000/user/${user._id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(person)

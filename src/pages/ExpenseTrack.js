@@ -108,7 +108,7 @@ const ExpenseTrack = () => {
 
             const fetchData = async () => {
                   const response = await toast.promise(
-                        fetch(`https://shwapnodc.onrender.com/expense`, {
+                        fetch(`http://localhost:8000/expense`, {
                               method: 'POST',
                               headers: { 'Content-Type': 'application/json' },
                               body: JSON.stringify(expenseData)
@@ -126,7 +126,7 @@ const ExpenseTrack = () => {
                         window.location.reload()
                         const fetchData = async () => {
                               try {
-                                    const response = await fetch(`https://shwapnodc.onrender.com/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
+                                    const response = await fetch(`http://localhost:8000/expenses/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`);
                                     const data = await response.json();
                                     setExpenses(data.expenses);
                               } catch (error) {

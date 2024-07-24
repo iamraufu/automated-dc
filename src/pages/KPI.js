@@ -30,7 +30,7 @@ const KPI = () => {
         try {
             const fetchData = async () => {
                 const response = await toast.promise(
-                    fetch(`https://shwapnodc.onrender.com/picker-kpi/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                    fetch(`http://localhost:8000/picker-kpi/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                     {
                         pending: "Fetching Picker KPI",
                         success: "Picker KPI Loaded",
@@ -51,7 +51,7 @@ const KPI = () => {
         try {
             const fetchData = async () => {
                 const response = await toast.promise(
-                    fetch(`https://shwapnodc.onrender.com/sorter-kpi/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                    fetch(`http://localhost:8000/sorter-kpi/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                     {
                         pending: "Fetching Sorter KPI",
                         success: "Sorter KPI Loaded",
@@ -121,7 +121,7 @@ const KPI = () => {
     //         setVehicleData([])
     //         const fetchData = async () => {
     //             const response = await toast.promise(
-    //                 fetch(`https://shwapnodc.onrender.com/vehicleHistoryData`, {
+    //                 fetch(`http://localhost:8000/vehicleHistoryData`, {
     //                     method: "POST",
     //                     headers: {
     //                         "Content-Type": "application/json"

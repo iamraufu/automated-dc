@@ -13,7 +13,7 @@ const STOStatus = () => {
             const fetchData = async () => {
                   try {
                         const response = await toast.promise(
-                              fetch(`https://shwapnodc.onrender.com/sto-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
+                              fetch(`http://localhost:8000/sto-email-date-range/${user.email}/${startDate.toISOString().split('T')[0]}/${endDate.toISOString().split('T')[0]}`),
                               {
                                     pending: 'Fetching the pending STO...',
                                     success: 'Pending STO Data Loaded',
